@@ -1,13 +1,13 @@
-package com.example.networking;
+package com.example.networking.social;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class NetworkingApplication {
+public class SocialApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(NetworkingApplication.class, args);
+		SpringApplication.run(SocialApplication.class, args);
 	}
 
 }
