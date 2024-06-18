@@ -1,0 +1,121 @@
+.App {
+  font-family: "Kanit", sans-serif;
+}
+/* =============== header =============== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 40px;
+}
+
+.logo {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.logo span {
+  color: tomato;
+}
+
+nav a {
+  margin: 0 20px;
+  text-decoration: none;
+  color: black;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+nav a.active {
+  color: tomato;
+}
+nav a:hover {
+  color: tomato;
+}
+/* ============= noti =============*/
+.content {
+  display: flex;
+  padding: 30px;
+}
+
+.notifications {
+  width: 70%;
+  margin-right: 20px;
+}
+
+.notifications__tabs {
+  display: flex;
+}
+
+.notifications__tabs button {
+  /* flex: 1; */
+  padding: 10px 70px;
+  border: none;
+  margin: 0px 5px;
+  border-radius: 10px;
+  background-color: #e5e5e5;
+  cursor: pointer;
+  font-size: 15px;
+}
+.notifications__tabs button:hover {
+  background-color: tomato;
+  color: white;
+}
+.notifications__tabs button.active {
+  background-color: tomato;
+  color: white;
+}
+
+.notifications-list {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid gray;
+  border-radius: 20px;
+  height: 80%;
+}
+
+.notification {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  border-bottom: 1px solid #f1f1f1;
+}
+.notification:hover {
+  background-color: #e5e5e5;
+}
+.notification p {
+  margin: 0;
+}
+
+.notification__job-view,
+.more-options {
+  background: none;
+  border: none;
+  color: tomato;
+  cursor: pointer;
+}
+/* ================ side ================ */
+.sidebar {
+  border-left: 1px solid #ddd;
+  padding-left: 20px;
+}
+
+.company-info ul {
+  list-style: none;
+  padding: 0;
+}
+
+.company-info ul li {
+  margin-bottom: 10px;
+}
+
+.company-info ul li a {
+  text-decoration: none;
+  color: #333;
+}
+
+.social-links a {
+  display: block;
+  margin-top: 10px;
+  text-decoration: none;
+  color: tomato;
+}
