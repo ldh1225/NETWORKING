@@ -19,7 +19,7 @@ const Sidebar = () => {
             <a href="#">개인정보와 약관</a>
           </li>
           <li>
-            <a href="#">광고!!</a>
+            <a href="#">광고</a>
           </li>
         </ul>
       </div>
