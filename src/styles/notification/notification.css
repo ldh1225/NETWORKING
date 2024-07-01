@@ -1,7 +1,3 @@
-.App {
-  font-family: "Kanit", sans-serif;
-}
-
 /* ============= noti =============*/
 .content {
   display: flex;
@@ -63,59 +59,4 @@
   border: none;
   color: tomato;
   cursor: pointer;
-}
-
-/* ================ side ================ */
-.sidebar {
-  border-left: 1px solid #ddd;
-  padding-left: 20px;
-}
-
-.company-info ul {
-  list-style: none;
-  padding: 0;
-}
-
-.company-info ul li {
-  margin-bottom: 10px;
-}
-
-.company-info ul li a {
-  text-decoration: none;
-  color: #333;
-}
-
-.social-links a {
-  display: block;
-  margin-top: 10px;
-  text-decoration: none;
-  color: tomato;
-}
-
-/* =================  toggle btn ================ */
-
-.options-menu {
-  position: absolute;
-  top: 25px;
-  right: 0;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  margin-top: 10px;
-  z-index: 10;
-}
-
-.options-menu button {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  background: none;
-  border: none;
-  text-align: left;
-  cursor: pointer;
-}
-
-.options-menu button:hover {
-  background-color: #e5e5e5;
 }

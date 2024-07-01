@@ -1,8 +1,8 @@
 import React from "react";
-import Header from "./components/Header/Header";
+import Header from "./components/Header";
 import Notifications from "./components/Notifications";
 import Sidebar from "./components/Sidebar";
-import "./App.css";
+import "./styles/notification/App.css";
 
 function App() {
   return (

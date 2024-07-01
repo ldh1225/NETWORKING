@@ -1,5 +1,6 @@
 import React from "react";
 import ad from "../assets/images/ad.png";
+import "../styles/notification/sidebar.css";
 
 const Sidebar = () => {
   return (
