@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Sidebar from "../components/Notification/Sidebar";
-import "../styles/notification/notification.css";
+import "../styles/Notification/notification.css";
 
 const Notifications = () => {
   const [activeMenu, setActiveMenu] = useState(null);

@@ -1,20 +1,27 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Footer from "./components/Footer";
 import Header from "./components/Header";
-import Notification from "./pages/Notification";
-import "./styles/notification/App.css";
+import Chat from "./pages/Chat";
+import Social from "./pages/Social";
+import Notifications from "./pages/Notification";
+import Joblist from "./pages/Joblist";
 
 function App() {
   return (
-    <Router>
-      <div className="App">
+    <div className="App">
+      <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/notification" element={<Notification />} />
-          <Route path="/" element={<Notification />} />
+          <Route path="/" element={<Social />} />
+          <Route path="/chat" element={<Chat />} />
+          <Route path="/joblist" element={<Joblist />} />
+          {/* <Route path="/member" element={<Member />} /> */}
+          <Route path="/notifications" element={<Notifications />} />
         </Routes>
-      </div>
-    </Router>
+        <Footer />
+      </BrowserRouter>
+    </div>
   );
 }
 
