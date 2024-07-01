@@ -1,18 +1,20 @@
 import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Notifications from "./pages/Notifications";
-import Sidebar from "./components/Sidebar";
 import "./styles/notification/App.css";
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <div className="content">
-        <Notifications />
-        <Sidebar />
+    <Router>
+      <div className="App">
+        <Header />
+        <Routes>
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/" element={<Notifications />} />
+        </Routes>
       </div>
-    </div>
+    </Router>
   );
 }
 
