@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./components/Header";
-import Notifications from "./components/Notifications";
+import Notifications from "./pages/Notifications";
 import Sidebar from "./components/Sidebar";
 import "./styles/notification/App.css";
 

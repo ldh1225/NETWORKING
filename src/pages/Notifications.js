@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../styles/notification/notification.css";
-import "../styles/notification/togglebtn.css";
 
 const Notifications = () => {
   const [activeMenu, setActiveMenu] = useState(null);
