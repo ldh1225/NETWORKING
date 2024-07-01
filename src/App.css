@@ -1,36 +1,7 @@
 .App {
   font-family: "Kanit", sans-serif;
 }
-/* =============== header =============== */
-.header {
-  display: flex;
-  justify-content: space-between;
-  padding: 30px 40px;
-}
 
-.logo {
-  font-size: 30px;
-  font-weight: 600;
-}
-
-.logo span {
-  color: tomato;
-}
-
-nav a {
-  margin: 0 20px;
-  text-decoration: none;
-  color: black;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-nav a.active {
-  color: tomato;
-}
-nav a:hover {
-  color: tomato;
-}
 /* ============= noti =============*/
 .content {
   display: flex;
@@ -93,6 +64,7 @@ nav a:hover {
   color: tomato;
   cursor: pointer;
 }
+
 /* ================ side ================ */
 .sidebar {
   border-left: 1px solid #ddd;
@@ -119,6 +91,7 @@ nav a:hover {
   text-decoration: none;
   color: tomato;
 }
+
 /* =================  toggle btn ================ */
 
 .options-menu {
