@@ -1,9 +1,10 @@
 /* ============= noti =============*/
 .notifications-page {
-  display: flex;
   padding: 30px;
 }
-
+.notification-main {
+  display: flex;
+}
 .notifications {
   flex: 1;
 }
