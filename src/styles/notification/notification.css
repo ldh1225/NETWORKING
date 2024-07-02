@@ -1,6 +1,6 @@
 /* ============= noti =============*/
 .notifications-page {
-  padding: 30px;
+  padding: 40px;
 }
 .notification-main {
   display: flex;
@@ -11,7 +11,7 @@
 
 .notifications {
   width: 70%;
-  margin-right: 30px;
+  margin-right: 40px;
 }
 
 .notifications__tabs {
