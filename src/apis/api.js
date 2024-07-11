@@ -1,6 +1,19 @@
-import axios from 'axios';
+import axios from "axios";
+import Cookies from "js-cookie";
 
-// axios 객체 생성
-const api = axios.create();
+const api = axios.create({
+  baseURL: "http://localhost:8080", // 서버의 baseURL
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+api.interceptors.request.use((config) => {
+  const token = Cookies.get("accessToken");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 export default api;

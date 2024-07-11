@@ -3,7 +3,7 @@ import { LoginContext } from "../../../contexts/LoginContextProvider";
 import "./LoginForm.css";
 
 const LoginForm = () => {
-  const { login } = useContext(LoginContext);
+  const { login, userInfo } = useContext(LoginContext);
 
   const onLogin = (e) => {
     e.preventDefault();
@@ -19,9 +19,15 @@ const LoginForm = () => {
     <div className="form">
       <h2 className="login-title">Login</h2>
 
+      {userInfo && (
+        <div className="user-info">
+          <p>Logged in as: {userInfo.userId}</p>
+        </div>
+      )}
+
       <form className="login-form" onSubmit={(e) => onLogin(e)}>
         <div>
-          <label htmlFor="name">username</label>
+          <label htmlFor="username">username</label>
           <input
             type="text"
             id="username"
@@ -39,7 +45,7 @@ const LoginForm = () => {
           <label htmlFor="password">password</label>
           <input
             type="password"
-            id="passowrd"
+            id="password"
             placeholder="password"
             name="password"
             autoComplete="password"

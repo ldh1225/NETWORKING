@@ -5,12 +5,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,6 +21,8 @@ import com.example.networking.dto.Users;
 import com.example.networking.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
+
+@CrossOrigin(origins = "http://localhost:3000")
 
 /**
  *    👨‍💻 회원 정보
@@ -43,43 +47,39 @@ public class UserController {
     @Secured("ROLE_USER")           // USER 권한 설정
     @GetMapping("/info")
     public ResponseEntity<?> userInfo(@AuthenticationPrincipal CustomUser customUser) {
-        
-        log.info("::::: customUser :::::");
-        log.info("customUser : "+ customUser);
+    log.info("customUser: " + customUser);
+    Users user = customUser.getUser();
+    log.info("user: " + user);
 
-        Users user = customUser.getUser();
-        log.info("user : " + user);
-
-        // 인증된 사용자 정보 
-        if( user != null )
-            return new ResponseEntity<>(user, HttpStatus.OK);
-
-        // 인증 되지 않음
-        return new ResponseEntity<>("UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
+    if (user != null) {
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    return new ResponseEntity<>("UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
+}
 
-    /**
+   /**
      * 회원가입
-     * @param entity
+     * @param user
      * @return
      * @throws Exception
      */
     @PostMapping("")
-    public ResponseEntity<?> join(@RequestBody Users user) throws Exception {
+    public ResponseEntity<?> join(@RequestBody Users user, @RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws Exception {
         log.info("[POST] - /users");
+        log.info("Authorization Header: " + authorizationHeader);
+        
         int result = userService.insert(user);
 
-        if( result > 0 ) {
+        if (result > 0) {
             log.info("회원가입 성공! - SUCCESS");
-            return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
-        }
-        else {
+            return new ResponseEntity<>("SUCCESS", HttpStatus.CREATED);  // 201 Created 상태 코드 반환
+        } else {
             log.info("회원가입 실패! - FAIL");
             return new ResponseEntity<>("FAIL", HttpStatus.BAD_REQUEST);
         } 
     }
-
+    
     /**
      * 회원 정보 수정
      * @param user
@@ -88,8 +88,10 @@ public class UserController {
      */
     @Secured("ROLE_USER")           // USER 권한 설정
     @PutMapping("")
-    public ResponseEntity<?> update(@RequestBody Users user) throws Exception {
+    public ResponseEntity<?> update(@RequestBody Users user, @RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws Exception {
         log.info("[PUT] - /users");
+        log.info("Authorization Header: " + authorizationHeader);
+
         int result = userService.update(user);
 
         if( result > 0 ) {
@@ -110,8 +112,9 @@ public class UserController {
      */
     @Secured("ROLE_USER")          //  USER 권한 설정
     @DeleteMapping("/{userId}")
-    public ResponseEntity<?> destroy(@PathVariable("userId") String userId) throws Exception {
+    public ResponseEntity<?> destroy(@PathVariable("userId") String userId, @RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws Exception {
         log.info("[DELETE] - /users/{userId}");
+        log.info("Authorization Header: " + authorizationHeader);
 
         int result = userService.delete(userId);
 
@@ -123,6 +126,6 @@ public class UserController {
             log.info("회원삭제 실패! - FAIL");
             return new ResponseEntity<>("FAIL", HttpStatus.BAD_REQUEST);
         }
-        
     }
 }
+

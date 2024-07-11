@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../components/Login/Header/Header";
 import JoinForm from "../components/Login/Join/JoinForm";
 import * as auth from "../apis/auth";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +18,11 @@ const Join = () => {
     } catch (error) {
       console.error(`${error}`);
       console.error(`회원가입 요청 중 에러가 발생하였습니다.`);
+      Swal.alert(
+        "회원가입 실패",
+        "회원가입 중 에러가 발생하였습니다.",
+        "error"
+      );
       return;
     }
 
@@ -27,7 +31,8 @@ const Join = () => {
     console.log(`data : ${data}`);
     console.log(`status : ${status}`);
 
-    if (status === 200) {
+    if (status === 201) {
+      // 회원가입 성공 시 201 상태 코드 확인
       console.log(`회원가입 성공!`);
       Swal.alert(
         "회원가입 성공",
@@ -37,11 +42,8 @@ const Join = () => {
           navigate("/login");
         }
       );
-      // alert(`회원가입 성공!`)
-      // navigate("/login")
     } else {
       console.log(`회원가입 실패!`);
-      // alert(`회원가입에 실패하였습니다.`)
       Swal.alert("회원가입 실패", "회원가입에 실패하였습니다.", "error");
     }
   };
