@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/Job/Banner.css";
 
+import slide1 from "../../assets/images/slide1.png";
+import slide2 from "../../assets/images/slide2.png";
+import slide3 from "../../assets/images/slide3.png";
+
 const Banner = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const slides = [
-    "https://via.placeholder.com/1200x300?text=Slide+1",
-    "https://via.placeholder.com/1200x300?text=Slide+2",
-    "https://via.placeholder.com/1200x300?text=Slide+3",
-  ];
+  const slides = [slide1, slide2, slide3];
 
   const nextSlide = () => {
     setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);

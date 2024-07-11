@@ -20,7 +20,8 @@ public class SaraminApiService {
 
     public String getExternalData() {
         try {
-            String apiURL = "https://oapi.saramin.co.kr/job-search?access-key=" + accessKey + "&keywords=it&bbs_gb=1&sr=directhire&job_type=4&edu_lv=&loc_cd=101000&fields=posting-date+expiration-date+keyword-code&start=1&count=10&job_mid_cd=2&job_cd=2232";
+            String apiURL = "https://oapi.saramin.co.kr/job-search?access-key=" + accessKey 
+            + "&keywords=it&bbs_gb=1&sr=directhire&job_type=4&edu_lv=&loc_cd=101000&fields=posting-date+expiration-date+keyword-code&start=1&count=30&job_mid_cd=2&job_cd=2232";
 
             URL url = new URL(apiURL);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -44,7 +45,6 @@ public class SaraminApiService {
             br.close();
             logger.info("API Response: " + response.toString());
 
-            // JSON 문자열을 JSON 객체로 변환하여 반환
             ObjectMapper mapper = new ObjectMapper();
             JsonNode jsonNode = mapper.readTree(response.toString());
             return jsonNode.toString();
