@@ -16,7 +16,7 @@ public class SecurityConfig {
             .cors().and().csrf().disable()
             .authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
-                    .requestMatchers("/api/**").permitAll() // /api 경로에 대한 접근 허용
+                    .requestMatchers("/api/**").permitAll() 
                     .anyRequest().authenticated()
             );
         return http.build();
