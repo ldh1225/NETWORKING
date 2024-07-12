@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
-import "../../styles/Job/Job.css"; 
+import "../../styles/Job/Job.css";
 
 Modal.setAppElement('#root');
 
@@ -9,13 +9,26 @@ const Job = () => {
     const [jobs, setJobs] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalUrl, setModalUrl] = useState('');
+    const [dropdowns, setDropdowns] = useState({
+        region: false,
+        jobType: false,
+        experience: false,
+        education: false
+    });
 
     const [filters, setFilters] = useState({
-        region: '',
-        jobType: '',
-        experience: '',
-        education: '',
+        region: [],
+        jobType: [],
+        experience: [],
+        education: [],
         search: ''
+    });
+
+    const [tempFilters, setTempFilters] = useState({
+        region: [],
+        jobType: [],
+        experience: [],
+        education: []
     });
 
     useEffect(() => {
@@ -67,54 +80,136 @@ const Job = () => {
 
     const handleFilterChange = (e) => {
         const { name, value } = e.target;
-        setFilters({
-            ...filters,
-            [name]: value
+        setTempFilters(prevFilters => {
+            const updatedFilter = [...prevFilters[name]];
+            if (updatedFilter.includes(value)) {
+                updatedFilter.splice(updatedFilter.indexOf(value), 1);
+            } else {
+                updatedFilter.push(value);
+            }
+            return {
+                ...prevFilters,
+                [name]: updatedFilter
+            };
         });
+    };
+
+    const toggleDropdown = (name) => {
+        setDropdowns({
+            region: false,
+            jobType: false,
+            experience: false,
+            education: false,
+            [name]: !dropdowns[name]
+        });
+        setTempFilters(filters); 
+    };
+
+    const applyFilters = (name) => {
+        setFilters(tempFilters);
+        toggleDropdown(name);
+    };
+
+    const resetFilters = (name) => {
+        setFilters(prevFilters => ({
+            ...prevFilters,
+            [name]: []
+        }));
+        setTempFilters(prevTempFilters => ({
+            ...prevTempFilters,
+            [name]: []
+        }));
     };
 
     const filteredJobs = jobs.filter(job => {
         return (
-            (filters.region === '' || job.position.location.name.includes(filters.region)) &&
-            (filters.jobType === '' || job.position.title.includes(filters.jobType)) &&
-            (filters.experience === '' || job.position["experience-level"].name.includes(filters.experience)) &&
-            (filters.education === '' || job.position["required-education-level"].name.includes(filters.education)) &&
+            (filters.region.length === 0 || filters.region.some(region => job.position.location.name.includes(region))) &&
+            (filters.jobType.length === 0 || filters.jobType.some(jobType => job.position.title.includes(jobType))) &&
+            (filters.experience.length === 0 || filters.experience.some(experience => job.position["experience-level"].name.includes(experience))) &&
+            (filters.education.length === 0 || filters.education.some(education => job.position["required-education-level"].name.includes(education))) &&
             (filters.search === '' || job.position.title.includes(filters.search) || job.company.detail.name.includes(filters.search))
         );
     });
 
+    const getFilterCount = (filterName) => filters[filterName].length;
+
     return (
         <div>
-            <div className="filter-container">
-                <select name="region" onChange={handleFilterChange}>
-                    <option value="">지역별</option>
-                    <option value="서울">서울</option>
-                    <option value="경기">경기</option>
-                    <option value="인천">인천</option>
-                </select>
-                <select name="jobType" onChange={handleFilterChange}>
-                    <option value="">산업별</option>
-                    <option value="개발">개발</option>
-                    <option value="디자인">디자인</option>
-                    <option value="마케팅">마케팅</option>
-                </select>
-                <select name="experience" onChange={handleFilterChange}>
-                    <option value="">경력</option>
-                    <option value="신입">신입</option>
-                    <option value="경력">경력</option>
-                </select>
-                <select name="education" onChange={handleFilterChange}>
-                    <option value="">학력</option>
-                    <option value="고졸">고졸</option>
-                    <option value="대졸">대졸</option>
-                </select>
-                <input 
-                    type="text" 
-                    name="search" 
-                    placeholder="제목, 회사명 검색" 
-                    onChange={handleFilterChange} 
-                />
-                <button onClick={() => setFilters({ region: '', jobType: '', experience: '', education: '', search: '' })}>검색</button>
+            <div className="filter-search">
+                <div className="filter-container">
+                    <div className="filter-group">
+                        <button onClick={() => toggleDropdown('region')}>
+                            지역별 {getFilterCount('region') > 0 && `(${getFilterCount('region')})`}
+                        </button>
+                        {dropdowns.region && (
+                            <div className="dropdown">
+                                <label><input type="checkbox" name="region" value="서울전체" onChange={handleFilterChange} checked={tempFilters.region.includes('서울전체')} /> 서울전체</label>
+                                <label><input type="checkbox" name="region" value="강남구" onChange={handleFilterChange} checked={tempFilters.region.includes('강남구')} /> 강남구</label>
+                                <label><input type="checkbox" name="region" value="강동구" onChange={handleFilterChange} checked={tempFilters.region.includes('강동구')} /> 강동구</label>
+                                <div className="dropdown-buttons">
+                                    <button onClick={() => applyFilters('region')}>적용하기</button>
+                                    <button onClick={() => resetFilters('region')}>초기화</button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                    <div className="filter-group">
+                        <button onClick={() => toggleDropdown('jobType')}>
+                            산업별 {getFilterCount('jobType') > 0 && `(${getFilterCount('jobType')})`}
+                        </button>
+                        {dropdowns.jobType && (
+                            <div className="dropdown">
+                                <label><input type="checkbox" name="jobType" value="개발" onChange={handleFilterChange} checked={tempFilters.jobType.includes('개발')} /> 개발</label>
+                                <label><input type="checkbox" name="jobType" value="디자인" onChange={handleFilterChange} checked={tempFilters.jobType.includes('디자인')} /> 디자인</label>
+                                <label><input type="checkbox" name="jobType" value="마케팅" onChange={handleFilterChange} checked={tempFilters.jobType.includes('마케팅')} /> 마케팅</label>
+                                <div className="dropdown-buttons">
+                                    <button onClick={() => applyFilters('jobType')}>적용하기</button>
+                                    <button onClick={() => resetFilters('jobType')}>초기화</button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                    <div className="filter-group">
+                        <button onClick={() => toggleDropdown('experience')}>
+                            경력 {getFilterCount('experience') > 0 && `(${getFilterCount('experience')})`}
+                        </button>
+                        {dropdowns.experience && (
+                            <div className="dropdown">
+                                <label><input type="checkbox" name="experience" value="신입" onChange={handleFilterChange} checked={tempFilters.experience.includes('신입')} /> 신입</label>
+                                <label><input type="checkbox" name="experience" value="경력" onChange={handleFilterChange} checked={tempFilters.experience.includes('경력')} /> 경력</label>
+                                <label><input type="checkbox" name="experience" value="신입/경력" onChange={handleFilterChange} checked={tempFilters.experience.includes('신입/경력')} /> 신입/경력</label>
+                                <label><input type="checkbox" name="experience" value="경력무관" onChange={handleFilterChange} checked={tempFilters.experience.includes('경력무관')} /> 경력무관</label>
+                                <div className="dropdown-buttons">
+                                    <button onClick={() => applyFilters('experience')}>적용하기</button>
+                                    <button onClick={() => resetFilters('experience')}>초기화</button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                    <div className="filter-group">
+                        <button onClick={() => toggleDropdown('education')}>
+                            학력 {getFilterCount('education') > 0 && `(${getFilterCount('education')})`}
+                        </button>
+                        {dropdowns.education && (
+                            <div className="dropdown">
+                                <label><input type="checkbox" name="education" value="학력무관" onChange={handleFilterChange} checked={tempFilters.education.includes('학력무관')} /> 학력무관</label>
+                                <label><input type="checkbox" name="education" value="고등학교졸업" onChange={handleFilterChange} checked={tempFilters.education.includes('고등학교졸업')} /> 고등학교졸업</label>
+                                <label><input type="checkbox" name="education" value="대학졸업(2,3년)" onChange={handleFilterChange} checked={tempFilters.education.includes('대학졸업(2,3년)')} /> 대학졸업(2,3년)</label>
+                                <label><input type="checkbox" name="education" value="대학졸업(4년)" onChange={handleFilterChange} checked={tempFilters.education.includes('대학졸업(4년)')} /> 대학졸업(4년)</label>
+                                <label><input type="checkbox" name="education" value="석사졸업" onChange={handleFilterChange} checked={tempFilters.education.includes('석사졸업')} /> 석사졸업</label>
+                                <label><input type="checkbox" name="education" value="박사졸업" onChange={handleFilterChange} checked={tempFilters.education.includes('박사졸업')} /> 박사졸업</label>
+                                <div className="dropdown-buttons">
+                                    <button onClick={() => applyFilters('education')}>적용하기</button>
+                                    <button onClick={() => resetFilters('education')}>초기화</button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+                <div className="search-container">
+                    <input type="text" name="search" placeholder="제목, 회사명 검색" onChange={handleFilterChange} />
+                    <button onClick={() => setFilters({ region: [], jobType: [], experience: [], education: [], search: '' })}>검색</button>
+                </div>
             </div>
             <ul className="job-list">
                 {filteredJobs.length > 0 ? (

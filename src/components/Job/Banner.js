@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/Job/Banner.css";
 
-import slide1 from "../../assets/images/slide1.png";
+import slide1 from "../../assets/images/slide5.png";
 import slide2 from "../../assets/images/slide2.png";
 import slide3 from "../../assets/images/slide3.png";
 
