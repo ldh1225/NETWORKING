@@ -62,6 +62,7 @@ const LoginContextProvider = ({ children }) => {
         if (response.status === 200) {
           // 쿠키에 accessToken 저장
           Cookies.set("accessToken", accessToken);
+          localStorage.setItem("token", accessToken); // 로컬 스토리지에 저장
 
           // API 요청 헤더에 Authorization 추가
           api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
@@ -127,11 +128,12 @@ const LoginContextProvider = ({ children }) => {
   };
 
   const logoutSetting = () => {
-    api.defaults.headers.common.Authorization = undefined;
+    delete api.defaults.headers.common.Authorization;
     Cookies.remove("accessToken");
+    localStorage.removeItem("token"); // 로컬 스토리지에서 제거
     setLogin(false);
     setUserInfo(null);
-    setRoles(null);
+    setRoles({ isUser: false, isAdmin: false });
   };
 
   useEffect(() => {
@@ -140,7 +142,7 @@ const LoginContextProvider = ({ children }) => {
 
   return (
     <LoginContext.Provider
-      value={{ isLogin, userInfo, roles, login, loginCheck, logout }}
+      value={{ isLogin, userInfo, roles, login, logout, loginCheck }}
     >
       {children}
     </LoginContext.Provider>

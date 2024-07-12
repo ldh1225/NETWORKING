@@ -55,7 +55,8 @@ public class SecurityConfig {
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/", "/login", "/users/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .anyRequest().authenticated());
+                        .requestMatchers("/api/**").authenticated()
+                        .anyRequest().permitAll());
         http.userDetailsService(customUserDetailService);
 
         log.info("시큐리티 설정 완료...");

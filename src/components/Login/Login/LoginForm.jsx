@@ -5,14 +5,18 @@ import "./LoginForm.css";
 const LoginForm = () => {
   const { login, userInfo } = useContext(LoginContext);
 
-  const onLogin = (e) => {
+  const onLogin = async (e) => {
     e.preventDefault();
 
     const form = e.target;
     const username = form.username.value;
     const password = form.password.value;
 
-    login(username, password);
+    await login(username, password);
+    const token = localStorage.getItem("token"); // 토큰 확인
+    if (!token) {
+      console.error("JWT 토큰이 로컬 스토리지에 저장되지 않았습니다.");
+    }
   };
 
   return (
@@ -35,9 +39,6 @@ const LoginForm = () => {
             name="username"
             autoComplete="username"
             required
-            // TODO: 아이디 저장 기능 구현 후 추가
-            // FIXME : remberUserId 를 넣어줘
-            //    defaultValue={}
           />
         </div>
 
