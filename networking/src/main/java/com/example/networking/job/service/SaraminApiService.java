@@ -1,4 +1,4 @@
-package com.example.networking;
+package com.example.networking.job.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

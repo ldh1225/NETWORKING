@@ -1,4 +1,4 @@
-package com.example.networking;
+package com.example.networking.job.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
