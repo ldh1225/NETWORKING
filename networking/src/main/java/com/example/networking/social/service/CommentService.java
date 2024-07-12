@@ -10,6 +10,7 @@ import com.example.networking.social.repository.CommentRepository;
 
 @Service
 public class CommentService {
+
     @Autowired
     private CommentRepository commentRepository;
 
@@ -19,5 +20,9 @@ public class CommentService {
 
     public Comment createComment(Comment comment) {
         return commentRepository.save(comment);
+    }
+
+    public void deleteComment(Long commentId) {
+        commentRepository.deleteById(commentId);
     }
 }

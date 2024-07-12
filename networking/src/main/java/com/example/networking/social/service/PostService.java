@@ -1,12 +1,14 @@
 package com.example.networking.social.service;
 
-import com.example.networking.social.entity.Post;
-import com.example.networking.social.repository.PostRepository;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.example.networking.social.dto.PostDTO;
+import com.example.networking.social.entity.Post;
+import com.example.networking.social.repository.PostRepository;
 
 @Service
 public class PostService {
@@ -14,19 +16,29 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
 
-    public List<Post> getAllPosts() {
-        return postRepository.findAll();
+    public List<PostDTO> getAllPosts() {
+        return postRepository.findAll().stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
-    public Optional<Post> getPostById(Long id) {
-        return postRepository.findById(id);
+    public PostDTO createPost(PostDTO postDTO) {
+        Post post = convertToEntity(postDTO);
+        Post savedPost = postRepository.save(post);
+        return convertToDto(savedPost);
     }
 
-    public Post createPost(Post post) {
-        return postRepository.save(post);
+    public void deletePost(Long postId) {
+        postRepository.deleteById(postId);
     }
 
-    public void deletePost(Long id) {
-        postRepository.deleteById(id);
+    private PostDTO convertToDto(Post post) {
+        PostDTO postDTO = new PostDTO();
+        return postDTO;
+    }
+
+    private Post convertToEntity(PostDTO postDTO) {
+        Post post = new Post();
+        return post;
     }
 }

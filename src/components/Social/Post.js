@@ -35,14 +35,14 @@ const Post = () => {
     };
 
     const handleAddPost = async () => {
-        console.log('Updating post...'); // 디버깅을 위해 추가
+        console.log('Updating post...'); 
         if (newPostContent.trim() !== '') {
             const formData = new FormData();
             formData.append('contentPost', newPostContent);
             if (newPostImage) {
                 formData.append('imagePost', newPostImage);
             }
-            formData.append('userId', 1); // 하드코딩된 사용자 ID
+            formData.append('userId', 1); 
 
             try {
                 const response = await axios.post('/api/posts', formData, {
@@ -50,7 +50,7 @@ const Post = () => {
                         'Content-Type': 'multipart/form-data'
                     }
                 });
-                console.log('Post created:', response.data); // 디버깅을 위해 추가
+                console.log('Post created:', response.data); 
                 setNewPostContent('');
                 setNewPostImage(null);
                 setShowPopup(false);
@@ -96,7 +96,7 @@ const Post = () => {
         if (post && post.commentText.trim() !== '') {
             const newComment = {
                 postId: postId,
-                userId: 1,  // 하드코딩된 사용자 ID
+                userId: 1,  
                 contentComment: post.commentText
             };
 
