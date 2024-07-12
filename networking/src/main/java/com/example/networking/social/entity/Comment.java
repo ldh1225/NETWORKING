@@ -2,36 +2,67 @@ package com.example.networking.social.entity;
 
 import java.sql.Timestamp;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
 
 
 @Entity
-@Table(name = "comment")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    private String contentComment;
+    private Long userId;
+    private Timestamp createdAt;
+
+    @ManyToOne
     @JoinColumn(name = "post_id")
     private Post post;
 
-    @Column(name = "user_id")
-    private Long userId;
-
-    @Column(name = "content_comment")
-    private String contentComment;
-
-    @Column(name = "created_at", insertable = false, updatable = false)
-    private Timestamp createdAt;
-
     // Getters and Setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getContentComment() {
+        return contentComment;
+    }
+
+    public void setContentComment(String contentComment) {
+        this.contentComment = contentComment;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
 }
