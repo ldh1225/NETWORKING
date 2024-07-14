@@ -1,9 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
 import "../../styles/Job/Job.css";
 
 Modal.setAppElement('#root');
+
+const regionOptions = [
+    "서울전체", "강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구",
+    "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구",
+    "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구",
+    "중구", "중랑구"
+];
+
+const educationOptions = [
+    "학력무관", "고등학교졸업", "대학졸업(2,3년)", "대학졸업(4년)", "석사졸업",
+    "박사졸업", "고등학교졸업이상", "대학졸업(2,3년)이상", "대학졸업(4년)이상", "석사졸업이상"
+];
+
+const jobTypeOptions = [
+    "호텔·여행·항공", "외식업·식음료", "시설관리·경비·용역", "레저·스포츠·여가", "AS·카센터·주유",
+    "렌탈·임대", "웨딩·장례·이벤트", "기타서비스업", "뷰티·미용", "전기·전자·제어", "기계·설비·자동차",
+    "석유·화학·에너지", "섬유·의류·패션", "화장품·뷰티", "생활용품·소비재·사무", "가구·목재·제지",
+    "농업·어업·광업·임업", "금속·재료·철강·요업", "조선·항공·우주", "기타제조업", "식품·가공·개발",
+    "반도체·광학·LCD", "환경", "솔루션·ERP·CRM", "웹에이전시", "쇼핑몰·오픈마켓", "포털·인터넷·컨텐츠",
+    "네트워크·통신·모바일", "하드웨어·장비", "정보보안·백신", "IT컨설팅", "게임", "은행·금융·저축",
+    "대출·캐피탈·여신", "기타금융", "증권·보험·카드", "신문·잡지·언론사", "방송사·케이블", "연예·엔터테인먼트",
+    "광고·홍보·전시", "영화·배급·음악", "공연·예술·문화", "출판·인쇄·사진", "캐릭터·애니메이션",
+    "디자인·설계", "초중고·대학", "학원·어학원", "유아·유치원", "교재·학습지", "전문·기능학원",
+    "의료(진료과목별)", "의료(병원종류별)", "제약·보건·바이오", "사회복지", "판매(매장종류별)",
+    "판매(상품품목별)", "유통·무역·상사", "운송·운수·물류", "건설·건축·토목·시공", "실내·인테리어·조경",
+    "환경·설비", "부동산·임대·중개", "정부·공공기관·공기업", "협회·단체", "법률·법무·특허", "세무·회계",
+    "연구소·컨설팅·조사"
+];
+
+const experienceOptions = ["신입", "경력", "신입/경력", "경력무관"];
 
 const Job = () => {
     const [jobs, setJobs] = useState([]);
@@ -28,8 +58,11 @@ const Job = () => {
         region: [],
         jobType: [],
         experience: [],
-        education: []
+        education: [],
+        search: ''
     });
+
+    const dropdownRef = useRef(null);
 
     useEffect(() => {
         const fetchJobs = async () => {
@@ -81,27 +114,30 @@ const Job = () => {
     const handleFilterChange = (e) => {
         const { name, value } = e.target;
         setTempFilters(prevFilters => {
-            const updatedFilter = [...prevFilters[name]];
-            if (updatedFilter.includes(value)) {
-                updatedFilter.splice(updatedFilter.indexOf(value), 1);
+            const updatedFilter = { ...prevFilters };
+            if (name === 'search') {
+                updatedFilter[name] = value;
             } else {
-                updatedFilter.push(value);
+                const filterArray = [...prevFilters[name]];
+                if (filterArray.includes(value)) {
+                    filterArray.splice(filterArray.indexOf(value), 1);
+                } else {
+                    filterArray.push(value);
+                }
+                updatedFilter[name] = filterArray;
             }
-            return {
-                ...prevFilters,
-                [name]: updatedFilter
-            };
+            return updatedFilter;
         });
     };
 
     const toggleDropdown = (name) => {
-        setDropdowns({
+        setDropdowns(prevDropdowns => ({
             region: false,
             jobType: false,
             experience: false,
             education: false,
-            [name]: !dropdowns[name]
-        });
+            [name]: !prevDropdowns[name]
+        }));
         setTempFilters(filters); 
     };
 
@@ -121,94 +157,92 @@ const Job = () => {
         }));
     };
 
-    const filteredJobs = jobs.filter(job => {
-        return (
-            (filters.region.length === 0 || filters.region.some(region => job.position.location.name.includes(region))) &&
-            (filters.jobType.length === 0 || filters.jobType.some(jobType => job.position.title.includes(jobType))) &&
-            (filters.experience.length === 0 || filters.experience.some(experience => job.position["experience-level"].name.includes(experience))) &&
-            (filters.education.length === 0 || filters.education.some(education => job.position["required-education-level"].name.includes(education))) &&
-            (filters.search === '' || job.position.title.includes(filters.search) || job.company.detail.name.includes(filters.search))
-        );
-    });
+    const renderDropdownOptions = (options, filterName) => {
+        return options.map(option => (
+            <label key={option}>
+                <input
+                    type="checkbox"
+                    name={filterName}
+                    value={option}
+                    onChange={handleFilterChange}
+                    checked={tempFilters[filterName].includes(option)}
+                /> {option}
+            </label>
+        ));
+    };
+
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setDropdowns({
+                region: false,
+                jobType: false,
+                experience: false,
+                education: false
+            });
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    const getFilteredJobs = () => {
+        return jobs.filter(job => {
+            return (
+                (filters.region.length === 0 || filters.region.some(region => job.position.location.name.includes(region))) &&
+                (filters.jobType.length === 0 || filters.jobType.some(jobType => job.position.title.includes(jobType))) &&
+                (filters.experience.length === 0 || filters.experience.some(experience => job.position["experience-level"].name.includes(experience))) &&
+                (filters.education.length === 0 || filters.education.some(education => job.position["required-education-level"].name.includes(education))) &&
+                (filters.search === '' || job.position.title.toLowerCase().includes(filters.search.toLowerCase()) || job.company.detail.name.toLowerCase().includes(filters.search.toLowerCase()))
+            );
+        });
+    };
+
+    const filteredJobs = getFilteredJobs();
 
     const getFilterCount = (filterName) => filters[filterName].length;
 
     return (
-        <div>
+        <div ref={dropdownRef}>
             <div className="filter-search">
                 <div className="filter-container">
-                    <div className="filter-group">
-                        <button onClick={() => toggleDropdown('region')}>
-                            지역별 {getFilterCount('region') > 0 && `(${getFilterCount('region')})`}
-                        </button>
-                        {dropdowns.region && (
-                            <div className="dropdown">
-                                <label><input type="checkbox" name="region" value="서울전체" onChange={handleFilterChange} checked={tempFilters.region.includes('서울전체')} /> 서울전체</label>
-                                <label><input type="checkbox" name="region" value="강남구" onChange={handleFilterChange} checked={tempFilters.region.includes('강남구')} /> 강남구</label>
-                                <label><input type="checkbox" name="region" value="강동구" onChange={handleFilterChange} checked={tempFilters.region.includes('강동구')} /> 강동구</label>
-                                <div className="dropdown-buttons">
-                                    <button onClick={() => applyFilters('region')}>적용하기</button>
-                                    <button onClick={() => resetFilters('region')}>초기화</button>
+                    {["region", "jobType", "experience", "education"].map((filterName, index) => (
+                        <div key={index} className="filter-group">
+                            <button onClick={() => toggleDropdown(filterName)}>
+                                {filterName === "region" ? "지역별" : filterName === "jobType" ? "산업별" : filterName === "experience" ? "경력" : "학력"} {getFilterCount(filterName) > 0 && `(${getFilterCount(filterName)})`}
+                            </button>
+                            {dropdowns[filterName] && (
+                                <div className="dropdown">
+                                    <div className="dropdown-labels">
+                                        {renderDropdownOptions(
+                                            filterName === "region" ? regionOptions :
+                                            filterName === "jobType" ? jobTypeOptions :
+                                            filterName === "experience" ? experienceOptions :
+                                            educationOptions, filterName)}
+                                    </div>
+                                    <div className="dropdown-buttons">
+                                        <button onClick={() => applyFilters(filterName)}>적용하기</button>
+                                        <button onClick={() => resetFilters(filterName)}>초기화</button>
+                                    </div>
                                 </div>
-                            </div>
-                        )}
-                    </div>
-                    <div className="filter-group">
-                        <button onClick={() => toggleDropdown('jobType')}>
-                            산업별 {getFilterCount('jobType') > 0 && `(${getFilterCount('jobType')})`}
-                        </button>
-                        {dropdowns.jobType && (
-                            <div className="dropdown">
-                                <label><input type="checkbox" name="jobType" value="개발" onChange={handleFilterChange} checked={tempFilters.jobType.includes('개발')} /> 개발</label>
-                                <label><input type="checkbox" name="jobType" value="디자인" onChange={handleFilterChange} checked={tempFilters.jobType.includes('디자인')} /> 디자인</label>
-                                <label><input type="checkbox" name="jobType" value="마케팅" onChange={handleFilterChange} checked={tempFilters.jobType.includes('마케팅')} /> 마케팅</label>
-                                <div className="dropdown-buttons">
-                                    <button onClick={() => applyFilters('jobType')}>적용하기</button>
-                                    <button onClick={() => resetFilters('jobType')}>초기화</button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                    <div className="filter-group">
-                        <button onClick={() => toggleDropdown('experience')}>
-                            경력 {getFilterCount('experience') > 0 && `(${getFilterCount('experience')})`}
-                        </button>
-                        {dropdowns.experience && (
-                            <div className="dropdown">
-                                <label><input type="checkbox" name="experience" value="신입" onChange={handleFilterChange} checked={tempFilters.experience.includes('신입')} /> 신입</label>
-                                <label><input type="checkbox" name="experience" value="경력" onChange={handleFilterChange} checked={tempFilters.experience.includes('경력')} /> 경력</label>
-                                <label><input type="checkbox" name="experience" value="신입/경력" onChange={handleFilterChange} checked={tempFilters.experience.includes('신입/경력')} /> 신입/경력</label>
-                                <label><input type="checkbox" name="experience" value="경력무관" onChange={handleFilterChange} checked={tempFilters.experience.includes('경력무관')} /> 경력무관</label>
-                                <div className="dropdown-buttons">
-                                    <button onClick={() => applyFilters('experience')}>적용하기</button>
-                                    <button onClick={() => resetFilters('experience')}>초기화</button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                    <div className="filter-group">
-                        <button onClick={() => toggleDropdown('education')}>
-                            학력 {getFilterCount('education') > 0 && `(${getFilterCount('education')})`}
-                        </button>
-                        {dropdowns.education && (
-                            <div className="dropdown">
-                                <label><input type="checkbox" name="education" value="학력무관" onChange={handleFilterChange} checked={tempFilters.education.includes('학력무관')} /> 학력무관</label>
-                                <label><input type="checkbox" name="education" value="고등학교졸업" onChange={handleFilterChange} checked={tempFilters.education.includes('고등학교졸업')} /> 고등학교졸업</label>
-                                <label><input type="checkbox" name="education" value="대학졸업(2,3년)" onChange={handleFilterChange} checked={tempFilters.education.includes('대학졸업(2,3년)')} /> 대학졸업(2,3년)</label>
-                                <label><input type="checkbox" name="education" value="대학졸업(4년)" onChange={handleFilterChange} checked={tempFilters.education.includes('대학졸업(4년)')} /> 대학졸업(4년)</label>
-                                <label><input type="checkbox" name="education" value="석사졸업" onChange={handleFilterChange} checked={tempFilters.education.includes('석사졸업')} /> 석사졸업</label>
-                                <label><input type="checkbox" name="education" value="박사졸업" onChange={handleFilterChange} checked={tempFilters.education.includes('박사졸업')} /> 박사졸업</label>
-                                <div className="dropdown-buttons">
-                                    <button onClick={() => applyFilters('education')}>적용하기</button>
-                                    <button onClick={() => resetFilters('education')}>초기화</button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
+                            )}
+                        </div>
+                    ))}
                 </div>
                 <div className="search-container">
-                    <input type="text" name="search" placeholder="제목, 회사명 검색" onChange={handleFilterChange} />
-                    <button onClick={() => setFilters({ region: [], jobType: [], experience: [], education: [], search: '' })}>검색</button>
+                    <input 
+                        type="text" 
+                        name="search" 
+                        placeholder="제목, 회사명 검색" 
+                        onChange={handleFilterChange} 
+                        value={tempFilters.search}
+                    />
+                    <button onClick={() => {
+                        setFilters(tempFilters);
+                    }}>검색</button>
                 </div>
             </div>
             <ul className="job-list">
