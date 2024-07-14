@@ -35,22 +35,23 @@ const Post = () => {
     };
 
     const handleAddPost = async () => {
-        console.log('Updating post...'); 
+        console.log("test1");
         if (newPostContent.trim() !== '') {
             const formData = new FormData();
             formData.append('contentPost', newPostContent);
             if (newPostImage) {
                 formData.append('imagePost', newPostImage);
             }
-            formData.append('userId', 1); 
+            formData.append('userId', 1); // 예시 사용자 ID
 
+            console.log("test2");
             try {
                 const response = await axios.post('/api/posts', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
                 });
-                console.log('Post created:', response.data); 
+                console.log('Post created:', response.data);
                 setNewPostContent('');
                 setNewPostImage(null);
                 setShowPopup(false);
@@ -79,6 +80,10 @@ const Post = () => {
     };
 
     const togglePopup = () => {
+        if (showPopup) {
+            setNewPostContent('');
+            setNewPostImage(null);
+        }
         setShowPopup(!showPopup);
     };
 
@@ -96,7 +101,7 @@ const Post = () => {
         if (post && post.commentText.trim() !== '') {
             const newComment = {
                 postId: postId,
-                userId: 1,  
+                userId: 1,  // 예시 사용자 ID
                 contentComment: post.commentText
             };
 
