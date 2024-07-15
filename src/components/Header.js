@@ -36,15 +36,16 @@ const Header = () => {
                     ? 
                     /* 비로그인 시 */
                     <ul>
-                        <li><NavLink to="/login">로그인</NavLink></li>
-                        <li><NavLink to="/join">회원가입</NavLink></li>
+                        <li><NavLink to="/login">로그인</NavLink>&nbsp;&nbsp;&nbsp;
+			<NavLink to="/join">회원가입</NavLink></li>
                     </ul>
                     :
                     /* 로그인 시 */
-                    <ul>
-                        <li><NavLink to="/mypage">마이페이지</NavLink></li>
-                        <li><button className='Link' onClick={ () => logout() }>로그아웃</button></li>
-                    </ul>
+		    <ul>
+		      <li>
+                         <NavLink to="/User">마이페이지</NavLink>&nbsp;&nbsp;&nbsp;
+                         <button className="Link" onClick={ () => logout() }>로그아웃</button></li>
+                      </ul>
                 }
             </div>
         </header>
