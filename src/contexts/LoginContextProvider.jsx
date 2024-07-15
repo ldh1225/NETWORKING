@@ -30,14 +30,18 @@ const LoginContextProvider = ({ children }) => {
     const [isLogin, setLogin] = useState(false);
 
     // 유저 정보
-    const [userInfo, setUserInfo] = useState(false)
+    const [userInfo, setUserInfo] = useState(null)
 
     // 권한 정보
     const [roles, setRoles] = useState({isUser : false, isAmdin : false})
+
+    // 아이디 저장
+    const [remberUserId, setRemberUserId] = useState()
     /* -------------------------------------------------------- */
 
     // 페이지 이동
     const navigate = useNavigate()
+
 
     /* 
         💍✅ 로그인 체크
@@ -130,6 +134,8 @@ const LoginContextProvider = ({ children }) => {
             // - 아이디 또는 비밀번호가 일치하지 않습니다.
             Swal.alert("로그인 실패", "아이디 또는 비밀번호가 일치하지 않습니다.", "error" )
         }
+        
+
     }
 
     // 🔓 로그아웃
@@ -216,7 +222,9 @@ const LoginContextProvider = ({ children }) => {
 
         // 👮‍♀️❌ 권한 정보 초기화
         setRoles(null)
-    }    
+    }
+
+    
 
     useEffect( () => {
       
@@ -225,6 +233,8 @@ const LoginContextProvider = ({ children }) => {
       
     }, [])
 
+
+
     return ( 
         <LoginContext.Provider value={ {isLogin, userInfo, roles, login, loginCheck, logout} }>
             {children}
@@ -232,4 +242,4 @@ const LoginContextProvider = ({ children }) => {
     )
 }
 
-export default LoginContextProvider;
+export default LoginContextProvider
