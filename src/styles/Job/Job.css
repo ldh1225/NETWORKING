@@ -184,10 +184,6 @@
     transition: background-color 0.3s ease;
 }
 
-<<<<<<< HEAD
-/* Font Awesome */
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
-=======
 .search-container button:hover {
     background-color: #d0d0d0;
 }
@@ -314,4 +310,3 @@
 .close-modal-btn:hover {
     background-color: #8c8
 }
->>>>>>> YSJ

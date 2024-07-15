@@ -1,11 +1,7 @@
 import React from "react";
 import Banner from "../components/Job/Banner";
-<<<<<<< HEAD
-import Joblist from "../components/Job/Job";
-import Profile from "../components/Job/Profile";
-=======
 import Job from "../components/Job/Job";
->>>>>>> YSJ
+import Profile from "../components/Job/Profile";
 import "../styles/Job/Joblist.css";
 
 const JoblistPage = () => {

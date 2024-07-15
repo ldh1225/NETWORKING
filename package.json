@@ -8,12 +8,9 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.2",
     "cors": "^2.8.5",
-<<<<<<< HEAD
-=======
     "dotenv": "^16.4.5",
     "fast-xml-parser": "^4.4.0",
     "http-proxy-middleware": "^3.0.0",
->>>>>>> YSJ
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-modal": "^3.16.1",
@@ -28,7 +25,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -46,10 +42,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-    
-  },
-  "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
-  
 }
