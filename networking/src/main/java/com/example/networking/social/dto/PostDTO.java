@@ -17,5 +17,5 @@ public class PostDTO {
     private LocalDateTime createdAt;
     private List<CommentDTO> comments;
 
-    // Getters and Setters
+
 }

@@ -13,5 +13,5 @@ public class CommentDTO {
     private String contentComment;
     private LocalDateTime createdAt;
 
-    // Getters and Setters
+
 }

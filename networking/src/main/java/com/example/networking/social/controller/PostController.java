@@ -37,7 +37,6 @@ public class PostController {
         postDTO.setUserId(userId);
         postDTO.setContentPost(contentPost);
         if (imagePost != null && !imagePost.isEmpty()) {
-            // 이미지 파일 처리 로직 추가
             String imagePath = saveImage(imagePost);
             postDTO.setImagePost(imagePath);
         }
@@ -51,12 +50,12 @@ public class PostController {
     }
 
     private String saveImage(MultipartFile imageFile) {
-        // 이미지 파일을 저장하는 로직을 구현합니다.
-        // 파일을 서버의 특정 디렉토리에 저장하고, 저장된 파일 경로를 반환합니다.
-        // 예시:
-        // String filePath = "/images/" + imageFile.getOriginalFilename();
-        // imageFile.transferTo(new File(filePath));
-        // return filePath;
-        return null; // 실제 구현에서는 파일 경로를 반환해야 합니다.
+        String filePath = "images/" + imageFile.getOriginalFilename();
+        try {
+            imageFile.transferTo(new java.io.File(filePath));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return filePath;
     }
 }

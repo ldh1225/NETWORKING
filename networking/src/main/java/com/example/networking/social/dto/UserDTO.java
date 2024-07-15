@@ -11,5 +11,5 @@ public class UserDTO {
     private String nickname;
     private String email;
 
-    // Getters and Setters
+
 }

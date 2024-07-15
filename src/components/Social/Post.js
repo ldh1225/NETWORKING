@@ -27,7 +27,7 @@ const Post = () => {
 
     const fetchPosts = async () => {
         try {
-            const response = await axios.get('/api/posts');
+            const response = await axios.get('http://localhost:8095/api/posts/');
             setPosts(response.data);
         } catch (error) {
             console.error('Error fetching posts', error);
@@ -38,22 +38,20 @@ const Post = () => {
         console.log("test1");
         if (newPostContent.trim() !== '') {
             const formData = new FormData();
+            formData.append('userId', 1); // 예시 사용자 ID
             formData.append('contentPost', newPostContent);
             if (newPostImage) {
                 formData.append('imagePost', newPostImage);
+            } else {
+                formData.append('imagePost', new Blob()); // 빈 파일 필드 추가
             }
-            formData.append('userId', 1); // 예시 사용자 ID
 
             console.log("test2");
             try {
-                const response = await axios.post('/api/posts', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
+                const response = await axios.post('http://localhost:8095/api/posts', formData);
                 console.log('Post created:', response.data);
                 setNewPostContent('');
-                setNewPostImage(null);
+                setNewPostImage('');
                 setShowPopup(false);
                 fetchPosts();
             } catch (error) {
@@ -66,7 +64,7 @@ const Post = () => {
 
     const handleDeletePost = async (postId) => {
         try {
-            await axios.delete(`/api/posts/${postId}`);
+            await axios.delete(`http://localhost:8095/api/posts/${postId}`);
             fetchPosts();
         } catch (error) {
             console.error('Error deleting post', error);
@@ -106,7 +104,7 @@ const Post = () => {
             };
 
             try {
-                await axios.post('/api/comments', newComment);
+                await axios.post('http://localhost:8095/api/comments', newComment);
                 fetchPosts();
             } catch (error) {
                 console.error('Error adding comment', error);
