@@ -40,12 +40,19 @@ public class PostService {
     private PostDTO convertToDto(Post post) {
         PostDTO postDTO = new PostDTO();
         postDTO.setId(post.getId());
+<<<<<<< HEAD
         postDTO.setUserId(post.getUser().getId());  // userId 설정
+=======
+        postDTO.setUserId(post.getUser().getId());
+>>>>>>> YSJ
         postDTO.setContentPost(post.getContentPost());
         postDTO.setImagePost(post.getImagePost());
         postDTO.setLikesCount(post.getLikesCount());
         postDTO.setCreatedAt(post.getCreatedAt());
+<<<<<<< HEAD
         // 댓글 및 기타 필드 설정
+=======
+>>>>>>> YSJ
         return postDTO;
     }
 
@@ -60,4 +67,8 @@ public class PostService {
         post.setCreatedAt(postDTO.getCreatedAt());
         return post;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> YSJ

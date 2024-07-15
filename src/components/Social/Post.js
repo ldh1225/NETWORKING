@@ -27,7 +27,11 @@ const Post = () => {
 
     const fetchPosts = async () => {
         try {
+<<<<<<< HEAD
             const response = await axios.get('http://localhost:8095/api/posts/');
+=======
+            const response = await axios.get('/api/posts');
+>>>>>>> YSJ
             setPosts(response.data);
         } catch (error) {
             console.error('Error fetching posts', error);
@@ -38,6 +42,7 @@ const Post = () => {
         console.log("test1");
         if (newPostContent.trim() !== '') {
             const formData = new FormData();
+<<<<<<< HEAD
             formData.append('userId', 1); // 예시 사용자 ID
             formData.append('contentPost', newPostContent);
             if (newPostImage) {
@@ -52,6 +57,24 @@ const Post = () => {
                 console.log('Post created:', response.data);
                 setNewPostContent('');
                 setNewPostImage('');
+=======
+            formData.append('contentPost', newPostContent);
+            if (newPostImage) {
+                formData.append('imagePost', newPostImage);
+            }
+            formData.append('userId', 1); // 예시 사용자 ID
+
+            console.log("test2");
+            try {
+                const response = await axios.post('/api/posts', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                console.log('Post created:', response.data);
+                setNewPostContent('');
+                setNewPostImage(null);
+>>>>>>> YSJ
                 setShowPopup(false);
                 fetchPosts();
             } catch (error) {
@@ -64,7 +87,11 @@ const Post = () => {
 
     const handleDeletePost = async (postId) => {
         try {
+<<<<<<< HEAD
             await axios.delete(`http://localhost:8095/api/posts/${postId}`);
+=======
+            await axios.delete(`/api/posts/${postId}`);
+>>>>>>> YSJ
             fetchPosts();
         } catch (error) {
             console.error('Error deleting post', error);
@@ -104,7 +131,11 @@ const Post = () => {
             };
 
             try {
+<<<<<<< HEAD
                 await axios.post('http://localhost:8095/api/comments', newComment);
+=======
+                await axios.post('/api/comments', newComment);
+>>>>>>> YSJ
                 fetchPosts();
             } catch (error) {
                 console.error('Error adding comment', error);

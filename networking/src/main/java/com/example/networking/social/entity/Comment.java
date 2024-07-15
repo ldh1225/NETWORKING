@@ -30,5 +30,8 @@ public class Comment {
     private String contentComment;
     private LocalDateTime createdAt;
 
+<<<<<<< HEAD
     // Getters and Setters
+=======
+>>>>>>> YSJ
 }
