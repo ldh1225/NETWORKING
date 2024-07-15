@@ -30,5 +30,4 @@ public class Comment {
     private String contentComment;
     private LocalDateTime createdAt;
 
-    // Getters and Setters
 }

@@ -40,12 +40,11 @@ public class PostService {
     private PostDTO convertToDto(Post post) {
         PostDTO postDTO = new PostDTO();
         postDTO.setId(post.getId());
-        postDTO.setUserId(post.getUser().getId());  // userId 설정
+        postDTO.setUserId(post.getUser().getId());
         postDTO.setContentPost(post.getContentPost());
         postDTO.setImagePost(post.getImagePost());
         postDTO.setLikesCount(post.getLikesCount());
         postDTO.setCreatedAt(post.getCreatedAt());
-        // 댓글 및 기타 필드 설정
         return postDTO;
     }
 
