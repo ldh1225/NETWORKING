@@ -58,8 +58,4 @@ public class PostController {
         }
         return filePath;
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> YSJ

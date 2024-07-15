@@ -18,8 +18,4 @@ public class PostDTO {
     private List<CommentDTO> comments;
 
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> YSJ

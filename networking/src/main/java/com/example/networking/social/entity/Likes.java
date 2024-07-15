@@ -28,9 +28,4 @@ public class Likes {
     private User user;
 
     private LocalDateTime createdAt;
-<<<<<<< HEAD
-
-    // Getters and Setters
-=======
->>>>>>> YSJ
 }
