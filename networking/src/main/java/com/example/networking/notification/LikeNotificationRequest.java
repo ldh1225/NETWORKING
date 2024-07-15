@@ -1,9 +1,10 @@
-package com.example.notification;
+package com.example.networking.notification;
 
 public class LikeNotificationRequest {
     private String liker;
     private String targetUser;
 
+    // getters and setters
     public String getLiker() {
         return liker;
     }
