@@ -7,7 +7,6 @@ import Notifications from "./pages/Notification";
 import Joblist from "./pages/Joblist";
 import Login from "./pages/Login";
 import Join from "./pages/Join";
-import User from "./pages/User";
 
 function App() {
   return (

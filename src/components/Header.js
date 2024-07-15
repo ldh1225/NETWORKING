@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import '../styles/header.css'
 import { NavLink } from "react-router-dom";
-//import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { LoginContext } from '../contexts/LoginContextProvider'
 
 const Header = () => {
@@ -42,8 +42,8 @@ const Header = () => {
                     :
                     /* 로그인 시 */
                     <ul>
-                        <li><NavLink to="/user">마이페이지</NavLink></li>
-                        <li><button className='NavLink' onClick={ () => logout() }>로그아웃</button></li>
+                        <li><NavLink to="/mypage">마이페이지</NavLink></li>
+                        <li><button className='Link' onClick={ () => logout() }>로그아웃</button></li>
                     </ul>
                 }
             </div>
