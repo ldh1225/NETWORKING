@@ -24,7 +24,8 @@ public class NotificationController {
 
     @PostMapping("/like")
     public ResponseEntity<?> sendLikeNotification(@RequestBody LikeNotificationRequest likeNotificationRequest) {
-        logger.info("Received like notification request: liker={}, targetUser={}", likeNotificationRequest.getLiker(), likeNotificationRequest.getTargetUser());
+        logger.info("Received like notification request: liker={}, targetUser={}, postId={}",
+                likeNotificationRequest.getLiker(), likeNotificationRequest.getTargetUser(), likeNotificationRequest.getPostId());
         notificationService.sendLikeNotification(likeNotificationRequest);
         return ResponseEntity.ok().build();
     }
@@ -36,3 +37,4 @@ public class NotificationController {
         return ResponseEntity.ok(notifications);
     }
 }
+

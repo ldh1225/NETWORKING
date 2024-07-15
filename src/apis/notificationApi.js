@@ -1,4 +1,4 @@
-export const sendLikeNotification = async (liker, targetUser) => {
+export const sendLikeNotification = async (liker, targetUser, postId) => {
   const token = localStorage.getItem("token"); // JWT 토큰 가져오기
   console.log("Token in sendLikeNotification:", token); // 디버그 로그 추가
   const response = await fetch("http://localhost:8080/api/notifications/like", {
@@ -7,7 +7,7 @@ export const sendLikeNotification = async (liker, targetUser) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`, // JWT 토큰 헤더에 추가
     },
-    body: JSON.stringify({ liker, targetUser }),
+    body: JSON.stringify({ liker, targetUser, postId }),
   });
 
   if (!response.ok) {

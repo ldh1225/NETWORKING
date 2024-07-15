@@ -3,6 +3,7 @@ package com.example.networking.notification;
 public class LikeNotificationRequest {
     private String liker;
     private String targetUser;
+    private Long postId;
 
     // getters and setters
     public String getLiker() {
@@ -20,4 +21,13 @@ public class LikeNotificationRequest {
     public void setTargetUser(String targetUser) {
         this.targetUser = targetUser;
     }
+
+    public Long getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Long postId) {
+        this.postId = postId;
+    }
 }
+

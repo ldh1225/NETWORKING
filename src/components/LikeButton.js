@@ -16,7 +16,7 @@ const LikeButton = ({ targetUser, postId, onLike }) => {
       return;
     }
     try {
-      await sendLikeNotification(userInfo.userId, targetUser);
+      await sendLikeNotification(userInfo.userId, targetUser, postId);
       onLike(postId);
     } catch (error) {
       Swal.alert("오류", "좋아요 알림을 보내는 데 실패했습니다.", "error");

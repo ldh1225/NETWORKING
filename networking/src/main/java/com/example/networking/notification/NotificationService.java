@@ -2,6 +2,7 @@ package com.example.networking.notification;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,18 +19,38 @@ public class NotificationService {
 
     public void sendLikeNotification(LikeNotificationRequest likeNotificationRequest) {
         try {
-            Notification notification = new Notification();
-            notification.setMessage(likeNotificationRequest.getLiker() + " liked your post");
-            notification.setReceiver(likeNotificationRequest.getTargetUser());
-            notification.setJob(false);
-            LocalDateTime now = LocalDateTime.now();
-            notification.setNotificationTime(now);
-            notification.setCreatedAt(now);
-            notification.setUpdatedAt(now);
+            Optional<Notification> existingNotification = notificationRepository.findByLikerAndReceiverAndPostId(
+                likeNotificationRequest.getLiker(), likeNotificationRequest.getTargetUser(), likeNotificationRequest.getPostId());
 
-            logger.info("Saving notification: {}", notification);
-            notificationRepository.save(notification);
-            logger.info("Notification saved successfully");
+            if (existingNotification.isPresent()) {
+                Notification notification = existingNotification.get();
+                if (notification.isLiked()) {
+                    notification.setLiked(false);
+                    notification.setMessage(likeNotificationRequest.getLiker() + " unliked your post");
+                } else {
+                    notification.setLiked(true);
+                    notification.setMessage(likeNotificationRequest.getLiker() + " liked your post");
+                }
+                notification.setUpdatedAt(LocalDateTime.now());
+                notificationRepository.save(notification);
+                logger.info("Notification updated: {}", notification);
+            } else {
+                Notification notification = new Notification();
+                notification.setMessage(likeNotificationRequest.getLiker() + " liked your post");
+                notification.setReceiver(likeNotificationRequest.getTargetUser());
+                notification.setLiker(likeNotificationRequest.getLiker());
+                notification.setPostId(likeNotificationRequest.getPostId());
+                notification.setJob(false);
+                notification.setLiked(true);
+                LocalDateTime now = LocalDateTime.now();
+                notification.setNotificationTime(now);
+                notification.setCreatedAt(now);
+                notification.setUpdatedAt(now);
+
+                logger.info("Saving notification: {}", notification);
+                notificationRepository.save(notification);
+                logger.info("Notification saved successfully");
+            }
         } catch (Exception e) {
             logger.error("Error saving notification: ", e);
         }

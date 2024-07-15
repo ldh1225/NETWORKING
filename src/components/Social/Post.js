@@ -32,6 +32,7 @@ const Post = () => {
       content: "테스트용 포스트.",
       comments: [],
       likes: 5,
+      liked: false,
       commentText: "",
     },
   ]);
@@ -46,6 +47,7 @@ const Post = () => {
         content: newPostContent,
         comments: [],
         likes: 0,
+        liked: false,
         commentText: "",
       };
       setPosts([newPost, ...posts]);
@@ -84,9 +86,14 @@ const Post = () => {
   };
 
   const handleLike = (postId) => {
-    const updatedPosts = posts.map((post) =>
-      post.id === postId ? { ...post, likes: post.likes + 1 } : post
-    );
+    const updatedPosts = posts.map((post) => {
+      if (post.id === postId) {
+        const liked = !post.liked;
+        const likes = liked ? post.likes + 1 : post.likes - 1;
+        return { ...post, liked, likes };
+      }
+      return post;
+    });
     setPosts(updatedPosts);
   };
 

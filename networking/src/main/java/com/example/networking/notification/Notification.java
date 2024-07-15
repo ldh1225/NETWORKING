@@ -1,7 +1,6 @@
 package com.example.networking.notification;
 
 import java.time.LocalDateTime;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,11 +18,20 @@ public class Notification {
     @Column(name = "user_id")
     private String receiver;
 
+    @Column(name = "liker")
+    private String liker;
+
+    @Column(name = "post_id")
+    private Long postId;
+
     @Column(name = "notification_content")
     private String message;
 
     @Column(name = "job", columnDefinition = "BOOLEAN")
     private boolean job;
+
+    @Column(name = "liked", columnDefinition = "BOOLEAN")
+    private boolean liked;
 
     @Column(name = "notification_time")
     private LocalDateTime notificationTime;
@@ -38,10 +46,13 @@ public class Notification {
     public Notification() {}
 
     // 모든 필드를 포함한 생성자
-    public Notification(String message, String receiver, boolean job, LocalDateTime notificationTime, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Notification(String message, String receiver, String liker, Long postId, boolean job, boolean liked, LocalDateTime notificationTime, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.message = message;
         this.receiver = receiver;
+        this.liker = liker;
+        this.postId = postId;
         this.job = job;
+        this.liked = liked;
         this.notificationTime = notificationTime;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -72,12 +83,36 @@ public class Notification {
         this.receiver = receiver;
     }
 
+    public String getLiker() {
+        return liker;
+    }
+
+    public void setLiker(String liker) {
+        this.liker = liker;
+    }
+
+    public Long getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Long postId) {
+        this.postId = postId;
+    }
+
     public boolean isJob() {
         return job;
     }
 
     public void setJob(boolean job) {
         this.job = job;
+    }
+
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
     }
 
     public LocalDateTime getNotificationTime() {
