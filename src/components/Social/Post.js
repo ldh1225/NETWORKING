@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import '../../styles/Social/Post.css';
-import postImage from '../../assets/images/피드 메이지 예시.png';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import postprofileImage from '../../assets/images/고양이 프로필.png';
+import '../../styles/Social/Post.css';
 
 const PostHeader = ({ username, onDelete }) => {
     return (
@@ -16,57 +16,102 @@ const PostHeader = ({ username, onDelete }) => {
 };
 
 const Post = () => {
-    const [posts, setPosts] = useState([
-        { id: 1, username: '사용자 이름', content: '테스트용 포스트.', comments: [], likes: 5, commentText: '' }
-    ]);
+    const [posts, setPosts] = useState([]);
     const [newPostContent, setNewPostContent] = useState('');
+    const [newPostImage, setNewPostImage] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
 
-    const handleAddPost = () => {
-        if (newPostContent.trim() !== '') {
-            const newPost = {
-                id: posts.length + 1,
-                username: '사용자 이름',
-                content: newPostContent,
-                comments: [],
-                likes: 0,
-                commentText: ''
-            };
-            setPosts([newPost, ...posts]);
-            setNewPostContent('');
-            setShowPopup(false);
+    useEffect(() => {
+        fetchPosts();
+    }, []);
+
+    const fetchPosts = async () => {
+        try {
+            const response = await axios.get('/api/posts');
+            setPosts(response.data);
+        } catch (error) {
+            console.error('Error fetching posts', error);
         }
     };
 
-    const handleDeletePost = (postId) => {
-        setPosts(posts.filter(post => post.id !== postId));
+    const handleAddPost = async () => {
+        console.log("test1");
+        if (newPostContent.trim() !== '') {
+            const formData = new FormData();
+            formData.append('contentPost', newPostContent);
+            if (newPostImage) {
+                formData.append('imagePost', newPostImage);
+            }
+            formData.append('userId', 1); // 예시 사용자 ID
+
+            console.log("test2");
+            try {
+                const response = await axios.post('/api/posts', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                console.log('Post created:', response.data);
+                setNewPostContent('');
+                setNewPostImage(null);
+                setShowPopup(false);
+                fetchPosts();
+            } catch (error) {
+                console.error('Error creating post', error);
+            }
+        } else {
+            console.error('Post content is empty');
+        }
+    };
+
+    const handleDeletePost = async (postId) => {
+        try {
+            await axios.delete(`/api/posts/${postId}`);
+            fetchPosts();
+        } catch (error) {
+            console.error('Error deleting post', error);
+        }
+    };
+
+    const handleImageChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            setNewPostImage(e.target.files[0]);
+        }
     };
 
     const togglePopup = () => {
+        if (showPopup) {
+            setNewPostContent('');
+            setNewPostImage(null);
+        }
         setShowPopup(!showPopup);
     };
 
     const handleCommentChange = (postId, event) => {
-        const updatedPosts = posts.map(post => 
-            post.id === postId 
+        const updatedPosts = posts.map(post =>
+            post.id === postId
                 ? { ...post, commentText: event.target.value }
                 : post
         );
         setPosts(updatedPosts);
     };
 
-    const handleCommentSubmit = (postId) => {
-        const updatedPosts = posts.map(post => {
-            if (post.id === postId && post.commentText.trim() !== '') {
-                return { 
-                    ...post, 
-                    comments: [...post.comments, post.commentText],
-                    commentText: '' 
-                };
+    const handleCommentSubmit = async (postId) => {
+        const post = posts.find(post => post.id === postId);
+        if (post && post.commentText.trim() !== '') {
+            const newComment = {
+                postId: postId,
+                userId: 1,  // 예시 사용자 ID
+                contentComment: post.commentText
+            };
+
+            try {
+                await axios.post('/api/comments', newComment);
+                fetchPosts();
+            } catch (error) {
+                console.error('Error adding comment', error);
             }
-            return post;
-        });
-        setPosts(updatedPosts);
+        }
     };
 
     return (
@@ -87,6 +132,11 @@ const Post = () => {
                                 onChange={(e) => setNewPostContent(e.target.value)}
                                 className="new-post-textarea"
                             />
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                            />
                             <button onClick={handleAddPost} className="popup-add-post-button">업데이트</button>
                         </div>
                     </div>
@@ -96,15 +146,15 @@ const Post = () => {
             {posts.map(post => (
                 <div key={post.id} className="post">
                     <PostHeader username={post.username} onDelete={() => handleDeletePost(post.id)} />
-                    <img src={postImage} alt="Post Image" className="main-img" />
-                    <div className="description">{post.content}</div>
+                    {post.imagePost && <img src={post.imagePost} alt="Post Image" className="main-img" />}
+                    <div className="description">{post.contentPost}</div>
                     <div className="meta">
                         <span>💬 {post.comments.length} comments</span>
-                        <span className="like-count">{post.likes} likes</span>
+                        <span className="like-count">{post.likesCount} likes</span>
                     </div>
                     <div className="comments">
                         {post.comments.map((comment, index) => (
-                            <div key={index} className="comment">{comment}</div>
+                            <div key={index} className="comment">{comment.contentComment}</div>
                         ))}
                     </div>
                     <div className="comment-input">
@@ -113,7 +163,7 @@ const Post = () => {
                             type="text"
                             placeholder="댓글을 입력하세요..."
                             className="comment-textbox"
-                            value={post.commentText}
+                            value={post.commentText || ''}
                             onChange={(e) => handleCommentChange(post.id, e)}
                         />
                         <button className="comment-button" onClick={() => handleCommentSubmit(post.id)}>Post</button>
