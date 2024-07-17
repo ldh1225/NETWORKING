@@ -3,6 +3,7 @@ package com.example.networking.login.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -24,10 +25,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Configuration
 @EnableWebSecurity
+@ComponentScan(basePackages = "com.example.networking.login.config")
 // @preAuthorize, @postAuthorize, @Secured 활성화
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true) 
-public class SecurityConfig {
-    
+public class LoginSecurityConfig {
 
     @Autowired
     private CustomUserDetailService customUserDetailService;
@@ -36,8 +37,8 @@ public class SecurityConfig {
     private JwtTokenProvider jwtTokenProvider;
 
     // 시큐리티 설정
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    @Bean(name = "loginSecurityFilterChain")
+    public SecurityFilterChain loginSecurityFilterChain(HttpSecurity http) throws Exception {
         log.info("시큐리티 설정...");
 
         // 폼 기반 로그인 비활성화
@@ -54,8 +55,7 @@ public class SecurityConfig {
                         , UsernamePasswordAuthenticationFilter.class)
 
             .addFilterBefore(new JwtRequestFilter(jwtTokenProvider)
-                            , UsernamePasswordAuthenticationFilter.class)
-            ;
+                            , UsernamePasswordAuthenticationFilter.class);
 
         // 인가 설정 ✅
         http.authorizeHttpRequests( authorizeRequests -> 
@@ -65,8 +65,7 @@ public class SecurityConfig {
                                         .requestMatchers("/login").permitAll()
                                         .requestMatchers("/users/**").permitAll()
                                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                                        .anyRequest().authenticated()
-                                   );
+                                        .anyRequest().authenticated());
 
         // 인증 방식 설정 ✅
         http.userDetailsService(customUserDetailService);
@@ -74,24 +73,20 @@ public class SecurityConfig {
         return http.build();
     }
 
-
     // PasswordEncoder 빈 등록
     // 암호화 알고리즘 방식: Bcrypt
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();    
+    @Bean(name = "loginPasswordEncoder")
+    public PasswordEncoder loginPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
-
 
     // AuthenticationManager 빈 등록
     private AuthenticationManager authenticationManager;
 
-    @Bean
-    public AuthenticationManager authenticationManager
+    @Bean(name = "loginAuthenticationManager")
+    public AuthenticationManager loginAuthenticationManager
                             (AuthenticationConfiguration authenticationConfiguration) throws Exception {
         this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
         return authenticationManager;
     }
-
-    
 }

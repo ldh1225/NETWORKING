@@ -1,4 +1,4 @@
-package com.example.networking.social;
+package com.example.networking;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

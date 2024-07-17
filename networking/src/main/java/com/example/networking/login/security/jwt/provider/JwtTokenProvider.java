@@ -62,7 +62,7 @@ public class JwtTokenProvider {
                 .claim("uno", "" + userNo)                                // 클레임 설정: 사용자 번호
                 .claim("uid", userId)                                     // 클레임 설정: 사용자 아이디
                 .claim("rol", roles)                                      // 클레임 설정: 권한
-                .compact();      
+                .compact();
 
         log.info("jwt : " + jwt);
 
