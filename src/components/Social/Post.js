@@ -32,7 +32,7 @@ const Post = () => {
       content: "테스트용 포스트.",
       comments: [],
       likes: 5,
-      liked: false,
+      liked: 0, // 데이터베이스의 liked 값이 1이면 true, 0이면 false로 설정
       commentText: "",
     },
   ]);
@@ -47,7 +47,7 @@ const Post = () => {
         content: newPostContent,
         comments: [],
         likes: 0,
-        liked: false,
+        liked: 0,
         commentText: "",
       };
       setPosts([newPost, ...posts]);
@@ -88,8 +88,8 @@ const Post = () => {
   const handleLike = (postId) => {
     const updatedPosts = posts.map((post) => {
       if (post.id === postId) {
-        const liked = !post.liked;
-        const likes = liked ? post.likes + 1 : post.likes - 1;
+        const liked = post.liked === 1 ? 0 : 1;
+        const likes = liked === 1 ? post.likes + 1 : post.likes - 1;
         return { ...post, liked, likes };
       }
       return post;
@@ -137,11 +137,12 @@ const Post = () => {
           <div className="description">{post.content}</div>
           <div className="meta">
             <span>💬 {post.comments.length} comments</span>
-            <span className="like-count">{post.likes} likes</span>
             <LikeButton
               targetUser={post.username}
               postId={post.id}
               onLike={handleLike}
+              liked={post.liked}
+              likes={post.likes}
             />
           </div>
           <div className="comments">
