@@ -15,6 +15,14 @@
         <result property="name" column="name" />
         <result property="email" column="email" />
         <result property="area" column="area" />
+        <result property="status" column="status" />
+        <result property="industry" column="industry" />
+        <result property="edu" column="edu" />
+        <result property="skill" column="skill" />
+        <result property="cert" column="cert" />
+        <result property="bio" column="bio" />
+        <result property="company" column="company" />
+        <result property="title" column="title" />
         <result property="enabled" column="enabled" />
         <result property="regDate" column="reg_date" />
         <result property="updDate" column="upd_date" />
@@ -30,25 +38,33 @@
 
      <!-- 회원 등록 -->
     <insert id="insert">
-        INSERT INTO user( user_id, user_pw, name, email, area )
-        VALUES ( #{userId}, #{userPw}, #{name} ,#{email}, #{area} )
+        INSERT INTO user( user_id, user_pw, name, email, area, status, industry, edu, skill, cert, bio, company, title )
+        VALUES ( #{userId}, #{userPw}, #{name}, #{email}, #{area}, #{status}, #{industry}, #{edu}, #{skill}, #{cert}, #{bio}, #{company}, #{title} )
     </insert>
 
     <!-- 회원 조회 -->
     <select id="select" resultType="Users">
         SELECT *
         FROM user
-        WHERE no = #{no}
+        WHERE no = #{userNo}
     </select>
 
     <!-- 회원 조회 - id -->
     <select id="login" resultMap="userMap">
         SELECT u.no
               ,u.user_id
-              ,user_pw
+              ,u.user_pw
               ,name
               ,email
               ,area
+              ,status
+              ,industry
+              ,edu
+              ,skill             
+              ,cert
+              ,bio
+              ,company
+              ,title
               ,enabled
               ,reg_date
               ,upd_date
@@ -72,6 +88,14 @@
               ,name = #{name}
               ,email = #{email}
               ,area = #{area}
+              ,status = #{status}
+              ,industry = #{industry}
+              ,edu = #{edu}
+              ,skill = #{skill}
+              ,cert = #{cert}
+              ,bio = #{bio}
+              ,company = #{company}
+              ,title = #{title}
         WHERE user_id = #{userId}
     </update>
 
@@ -81,6 +105,5 @@
         DELETE FROM user
         WHERE user_id = #{userId}
     </delete>
-
 
 </mapper>
