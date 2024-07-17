@@ -1,4 +1,4 @@
-package com.example.networking.prop;
+package com.example.networking.login.prop;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

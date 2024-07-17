@@ -1,4 +1,4 @@
-package com.example.networking.config;
+package com.example.networking.login.config;
 
 import java.util.Arrays;
 
@@ -20,10 +20,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.example.networking.security.custom.CustomUserDetailService;
-import com.example.networking.security.jwt.filter.JwtAuthenticationFilter;
-import com.example.networking.security.jwt.filter.JwtRequestFilter;
-import com.example.networking.security.jwt.provider.JwtTokenProvider;
+import com.example.networking.login.security.custom.CustomUserDetailService;
+import com.example.networking.login.security.jwt.filter.JwtAuthenticationFilter;
+import com.example.networking.login.security.jwt.filter.JwtRequestFilter;
+import com.example.networking.login.security.jwt.provider.JwtTokenProvider;
 
 import lombok.extern.slf4j.Slf4j;
 

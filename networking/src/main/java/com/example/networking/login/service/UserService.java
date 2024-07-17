@@ -1,6 +1,6 @@
-package com.example.networking.service;
+package com.example.networking.login.service;
 
-import com.example.networking.dto.Users;
+import com.example.networking.login.dto.Users;
 
 import jakarta.servlet.http.HttpServletRequest;
 

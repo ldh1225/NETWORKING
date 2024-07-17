@@ -1,9 +1,9 @@
-package com.example.networking.mapper;
+package com.example.networking.login.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.networking.dto.UserAuth;
-import com.example.networking.dto.Users;
+import com.example.networking.login.dto.UserAuth;
+import com.example.networking.login.dto.Users;
 
 @Mapper
 public interface UserMapper {

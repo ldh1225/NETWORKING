@@ -1,4 +1,4 @@
-package com.example.networking.security.jwt.constants;
+package com.example.networking.login.security.jwt.constants;
 
 /**
  * - 로그인 필터 경로

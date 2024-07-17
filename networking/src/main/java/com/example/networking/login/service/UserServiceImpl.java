@@ -1,4 +1,4 @@
-package com.example.networking.service;
+package com.example.networking.login.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,9 +10,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
 
-import com.example.networking.dto.UserAuth;
-import com.example.networking.dto.Users;
-import com.example.networking.mapper.UserMapper;
+import com.example.networking.login.dto.UserAuth;
+import com.example.networking.login.dto.Users;
+import com.example.networking.login.mapper.UserMapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;

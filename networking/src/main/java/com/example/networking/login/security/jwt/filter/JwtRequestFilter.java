@@ -1,11 +1,11 @@
-package com.example.networking.security.jwt.filter;
+package com.example.networking.login.security.jwt.filter;
 
 import java.io.IOException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
-import com.example.networking.security.jwt.constants.JwtConstants;
-import com.example.networking.security.jwt.provider.JwtTokenProvider;
+import com.example.networking.login.security.jwt.constants.JwtConstants;
+import com.example.networking.login.security.jwt.provider.JwtTokenProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

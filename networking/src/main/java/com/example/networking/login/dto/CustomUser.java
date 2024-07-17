@@ -1,4 +1,4 @@
-package com.example.networking.dto;
+package com.example.networking.login.dto;
 
 import java.util.Collection;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.networking.security.jwt.filter;
+package com.example.networking.login.security.jwt.filter;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,9 +10,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.example.networking.dto.CustomUser;
-import com.example.networking.security.jwt.constants.JwtConstants;
-import com.example.networking.security.jwt.provider.JwtTokenProvider;
+import com.example.networking.login.dto.CustomUser;
+import com.example.networking.login.security.jwt.constants.JwtConstants;
+import com.example.networking.login.security.jwt.provider.JwtTokenProvider;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

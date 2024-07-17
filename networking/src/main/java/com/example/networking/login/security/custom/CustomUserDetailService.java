@@ -1,4 +1,4 @@
-package com.example.networking.security.custom;
+package com.example.networking.login.security.custom;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -6,9 +6,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.example.networking.dto.CustomUser;
-import com.example.networking.dto.Users;
-import com.example.networking.mapper.UserMapper;    
+import com.example.networking.login.dto.CustomUser;
+import com.example.networking.login.dto.Users;
+import com.example.networking.login.mapper.UserMapper;    
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,4 +1,4 @@
-package com.example.networking.security.jwt.provider;
+package com.example.networking.login.security.jwt.provider;
 
 import java.util.Date;
 import java.util.List;
@@ -12,12 +12,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.example.networking.dto.CustomUser;
-import com.example.networking.dto.UserAuth;
-import com.example.networking.dto.Users;
-import com.example.networking.mapper.UserMapper;
-import com.example.networking.prop.JwtProps;
-import com.example.networking.security.jwt.constants.JwtConstants;
+import com.example.networking.login.dto.CustomUser;
+import com.example.networking.login.dto.UserAuth;
+import com.example.networking.login.dto.Users;
+import com.example.networking.login.mapper.UserMapper;
+import com.example.networking.login.prop.JwtProps;
+import com.example.networking.login.security.jwt.constants.JwtConstants;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

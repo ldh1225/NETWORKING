@@ -1,4 +1,4 @@
-package com.example.networking.controller;
+package com.example.networking.login.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.networking.dto.CustomUser;
-import com.example.networking.dto.Users;
-import com.example.networking.service.UserService;
+import com.example.networking.login.dto.CustomUser;
+import com.example.networking.login.dto.Users;
+import com.example.networking.login.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
