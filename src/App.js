@@ -7,6 +7,7 @@ import Notifications from "./pages/Notification";
 import Joblist from "./pages/Joblist";
 import Login from "./pages/Login";
 import Join from "./pages/Join";
+import User from "./pages/Login/User";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/chat" element={<Chat />} />
         <Route path="/joblist" element={<Joblist />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/user" element={<User />} />
         <Route path="/join" element={<Join />} />
         <Route path="/notifications" element={<Notifications />} />
       </Routes>

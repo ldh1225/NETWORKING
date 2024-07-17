@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as auth from "../../apis/auth";
-import Header from "../../components/Login/Header/Header";
-import UserForm from "../../components/Login/User/UserForm";
+import Header from "../../components/Header";
+// import Header from "../../components/Login/Header/Header";
+import UserForm from "../../components/User/UserForm";
+// import UserForm from "../../components/Login/User/UserForm";
 import { LoginContext } from "../../contexts/LoginContextProvider";
 import * as Swal from "../../apis/alert";
 
@@ -108,7 +110,6 @@ const User = () => {
 
   return (
     <>
-      <Header />
       <div className="container">
         <UserForm
           userInfo={userInfo}

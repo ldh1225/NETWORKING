@@ -43,7 +43,7 @@ const Header = () => {
                     /* 로그인 시 */
 		    <ul>
 		      <li>
-                         <NavLink to="/User">마이페이지</NavLink>&nbsp;&nbsp;&nbsp;
+                         {/* <NavLink to="/user">마이페이지</NavLink>&nbsp;&nbsp;&nbsp; */}
                          <button className="Link" onClick={ () => logout() }>로그아웃</button></li>
                       </ul>
                 }
