@@ -2,6 +2,7 @@ package com.example.networking.security.jwt.filter;
 
 import java.io.IOException;
 
+import org.springframework.lang.NonNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -31,7 +32,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
      *  - JWT 토큰 유효성 검사
      */
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException {
         
         // 헤더에서 jwt 토큰을 가져옴
@@ -64,7 +65,4 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         // 다음 필터
         filterChain.doFilter(request, response);
     }
-
-    
-    
 }

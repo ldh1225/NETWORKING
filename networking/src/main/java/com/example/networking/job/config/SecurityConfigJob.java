@@ -6,17 +6,28 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
 @ComponentScan(basePackages = "com.example.networking.job.config")
-public class JobSecurityConfig {
+public class SecurityConfigJob {
 
     @Bean(name = "jobSecurityFilterChain")
     public SecurityFilterChain jobSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-            .cors(cors -> cors.disable()) // cors 설정 업데이트
-            .csrf(csrf -> csrf.disable()) // csrf 설정 업데이트
+            .cors(cors -> {
+                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                CorsConfiguration config = new CorsConfiguration();
+                config.setAllowCredentials(true);
+                config.addAllowedOrigin("http://localhost:3000");
+                config.addAllowedHeader("*");
+                config.addAllowedMethod("*");
+                source.registerCorsConfiguration("/**", config);
+                cors.configurationSource(source);
+            })
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authorizeRequests -> 
                 authorizeRequests
                     .requestMatchers("/api/**").permitAll()

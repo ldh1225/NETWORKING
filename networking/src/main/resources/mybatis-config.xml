@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <typeAliases>
+        <typeAlias alias="Users" type="com.example.networking.dto.Users"/>
+        <typeAlias alias="UserAuth" type="com.example.networking.dto.UserAuth"/>
+    </typeAliases>
+
+    <mappers>
+        <mapper resource="com/example/networking/mapper/UserMapper.xml"/>
+    </mappers>
+</configuration>

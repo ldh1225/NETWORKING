@@ -1,7 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import LoginContextProvider from "./contexts/LoginContextProvider";
 import Chat from "./pages/Chat";
 import Joblist from "./pages/Joblist";
 import Join from "./pages/Join";
@@ -11,7 +10,6 @@ import Social from "./pages/Social";
 
 function App() {
   return (
-    <LoginContextProvider>
     <div className="App">
       <Header />
       <Routes>
@@ -24,7 +22,6 @@ function App() {
       </Routes>
       <Footer />
     </div>
-    </LoginContextProvider>
   );
 }
 

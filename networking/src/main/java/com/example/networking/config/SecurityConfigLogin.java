@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true) 
-public class SecurityConfig {
+public class SecurityConfigLogin {
 
     @Autowired
     private CustomUserDetailService customUserDetailService;
@@ -40,15 +40,26 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         log.info("시큐리티 설정...");
 
-        http.formLogin(login -> login.disable())
-            .httpBasic(basic -> basic.disable())
-            .csrf(csrf -> csrf.disable())
-            .cors().and()
-            .addFilterAt(new JwtAuthenticationFilter(authenticationManager, jwtTokenProvider),
+        http.formLogin(formLoginConfigurer -> formLoginConfigurer.disable())
+            .httpBasic(httpBasicConfigurer -> httpBasicConfigurer.disable())
+            .csrf(csrfConfigurer -> csrfConfigurer.disable())
+            .cors(corsConfigurer -> {
+                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                CorsConfiguration config = new CorsConfiguration();
+                config.setAllowCredentials(true);
+                config.addAllowedOrigin("http://localhost:3000");
+                config.addAllowedHeader("*");
+                config.addAllowedMethod("*");
+                source.registerCorsConfiguration("/**", config);
+                corsConfigurer.configurationSource(source);
+            });
+
+        http.addFilterAt(new JwtAuthenticationFilter(authenticationManager, jwtTokenProvider),
                     UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(new JwtRequestFilter(jwtTokenProvider),
-                    UsernamePasswordAuthenticationFilter.class)
-            .authorizeHttpRequests(authorizeRequests -> 
+                    UsernamePasswordAuthenticationFilter.class);
+
+        http.authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
                     .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                     .requestMatchers("/", "/login", "/users/**").permitAll()
