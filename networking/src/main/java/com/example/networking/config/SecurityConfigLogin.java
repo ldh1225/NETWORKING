@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true) 
+@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfigLogin {
 
     @Autowired
@@ -35,6 +35,9 @@ public class SecurityConfigLogin {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private AuthenticationConfiguration authenticationConfiguration;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -54,7 +57,7 @@ public class SecurityConfigLogin {
                 corsConfigurer.configurationSource(source);
             });
 
-        http.addFilterAt(new JwtAuthenticationFilter(authenticationManager, jwtTokenProvider),
+        http.addFilterAt(new JwtAuthenticationFilter(authenticationManagerBean(), jwtTokenProvider),
                     UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(new JwtRequestFilter(jwtTokenProvider),
                     UsernamePasswordAuthenticationFilter.class);
@@ -74,15 +77,12 @@ public class SecurityConfigLogin {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();    
+        return new BCryptPasswordEncoder();
     }
 
-    private AuthenticationManager authenticationManager;
-
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
-        return authenticationManager;
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean

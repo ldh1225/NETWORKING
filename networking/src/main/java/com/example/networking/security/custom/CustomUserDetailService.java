@@ -23,9 +23,11 @@ public class CustomUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username)  {
         log.info("login - loadUserByUsername : " + username);
 
+        // 데이터베이스에서 사용자 정보를 조회
         Users user = userMapper.login(username);
         
-        if( user == null ) {
+        // 사용자가 존재하지 않으면 예외를 던짐
+        if (user == null) {
             log.info("사용자 없음... (일치하는 아이디가 없음)");
             throw new UsernameNotFoundException("사용자를 찾을 수 없습니다 : " + username);
         }
@@ -33,7 +35,7 @@ public class CustomUserDetailService implements UserDetailsService {
         log.info("user : ");
         log.info(user.toString());
 
-        // Users -> CustomUser
+        // Users 객체를 CustomUser 객체로 변환
         CustomUser customUser = new CustomUser(user);
 
         log.info("customUser : ");
@@ -41,6 +43,4 @@ public class CustomUserDetailService implements UserDetailsService {
 
         return customUser;
     }
-
-    
 }
