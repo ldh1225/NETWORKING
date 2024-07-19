@@ -25,7 +25,7 @@ import com.example.networking.security.jwt.provider.JwtTokenProvider;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Configuration
+@Configuration("mainSecurityConfig")
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true) 
 public class SecurityConfig {
@@ -37,7 +37,7 @@ public class SecurityConfig {
     private JwtTokenProvider jwtTokenProvider;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain mainSecurityFilterChain(HttpSecurity http) throws Exception {
         log.info("시큐리티 설정...");
 
         http.formLogin(login -> login.disable())

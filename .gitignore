@@ -30,3 +30,5 @@ src/App.css
 public/logo512.png
 public/logo192.png
 public/favicon.ico
+
+.env

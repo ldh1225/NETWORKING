@@ -55,7 +55,7 @@ const Contents = () => {
             key={index}
             style={{ position: "relative" }}
           >
-            <p>{notification.notificationContent}</p>
+            <p>{notification.message}</p>
             <button className="more-options" onClick={() => toggleMenu(index)}>
               <i className="fa-solid fa-ellipsis"></i>
             </button>
