@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.networking.social.dto.PostDTO;
 import com.example.networking.social.entity.Post;
-import com.example.networking.social.entity.User;
+import com.example.networking.social.entity.Users;
 import com.example.networking.social.repository.PostRepository;
 import com.example.networking.social.repository.UserRepository;
 
@@ -40,7 +40,7 @@ public class PostService {
     private PostDTO convertToDto(Post post) {
         PostDTO postDTO = new PostDTO();
         postDTO.setId(post.getId());
-        postDTO.setUserId(post.getUser().getId());
+        postDTO.setUserId(String.valueOf(post.getUser().getNo()));
         postDTO.setContentPost(post.getContentPost());
         postDTO.setImagePost(post.getImagePost());
         postDTO.setLikesCount(post.getLikesCount());
@@ -50,9 +50,9 @@ public class PostService {
 
     private Post convertToEntity(PostDTO postDTO) {
         Post post = new Post();
-        post.setId(postDTO.getId());
-        User user = userRepository.findById(postDTO.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
-        post.setUser(user);
+        Users users = userRepository.findById(Integer.parseInt(postDTO.getUserId()))
+        .orElseThrow(() -> new RuntimeException("User not found"));
+        post.setUser(users);
         post.setContentPost(postDTO.getContentPost());
         post.setImagePost(postDTO.getImagePost());
         post.setLikesCount(postDTO.getLikesCount());
