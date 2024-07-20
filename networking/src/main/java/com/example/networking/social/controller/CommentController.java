@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.networking.social.entity.Comment;
+import com.example.networking.social.dto.CommentDTO;
 import com.example.networking.social.service.CommentService;
 
 @RestController
@@ -22,13 +22,13 @@ public class CommentController {
     private CommentService commentService;
 
     @GetMapping
-    public List<Comment> getAllComments() {
+    public List<CommentDTO> getAllComments() {
         return commentService.getAllComments();
     }
 
     @PostMapping
-    public Comment createComment(@RequestBody Comment comment) {
-        return commentService.createComment(comment);
+    public CommentDTO createComment(@RequestBody CommentDTO commentDTO) {
+        return commentService.createComment(commentDTO);
     }
 
     @DeleteMapping("/{commentId}")

@@ -29,7 +29,7 @@ const Banner = () => {
     return () => {
       clearInterval(slideInterval);
     };
-  }, [nextSlide]);
+  }, []);
 
   return (
     <div className="banner-container">

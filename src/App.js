@@ -7,6 +7,7 @@ import Join from "./pages/Join";
 import Login from "./pages/Login";
 import Notifications from "./pages/Notification";
 import Social from "./pages/Social";
+import User from './pages/User'; //마이페이지
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/join" element={<Join />} />
         <Route path="/notifications" element={<Notifications />} />
+        <Route path="/user" component={User} />
       </Routes>
       <Footer />
     </div>

@@ -9,17 +9,11 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class NetworkingApplication {
 
     public static void main(String[] args) {
+        // Load environment variables
         Dotenv dotenv = Dotenv.load();
-        String saraminApiKey = dotenv.get("SARAMIN_API_KEY");
-        
-        if (saraminApiKey != null) {
-            System.setProperty("SARAMIN_API_KEY", saraminApiKey);
-        } else {
-            
-            System.err.println("Error: SARAMIN_API_KEY is not set in .env file.");
-            System.exit(1);
-        }
-        
+        System.setProperty("saramin.api.key", dotenv.get("SARAMIN_API_KEY"));
+
+        // Run the Spring Boot application
         SpringApplication.run(NetworkingApplication.class, args);
     }
 }

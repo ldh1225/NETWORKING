@@ -16,7 +16,7 @@ public class SaraminApiController {
     @Autowired
     private SaraminApiService saraminApiService;
 
-    @GetMapping(value = "/data", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/data", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<String> getExternalData() {
         String data = saraminApiService.getExternalData();
         return ResponseEntity.ok().body(data);

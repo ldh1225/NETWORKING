@@ -10,12 +10,10 @@ import lombok.Setter;
 @Getter
 public class PostDTO {
     private Long id;
-    private Long userId;
+    private String userId;
     private String contentPost;
     private String imagePost;
     private int likesCount;
     private LocalDateTime createdAt;
     private List<CommentDTO> comments;
-
-
 }

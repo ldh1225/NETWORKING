@@ -26,17 +26,17 @@ public class NotificationService {
                 Notification notification = existingNotification.get();
                 if (notification.isLiked()) {
                     notification.setLiked(false);
-                    notification.setMessage(likeNotificationRequest.getLiker() + " unliked your post");
+                    notification.setMessage(likeNotificationRequest.getLiker() + "님이 당신의 게시물을 좋아요를 취소했습니다");
                 } else {
                     notification.setLiked(true);
-                    notification.setMessage(likeNotificationRequest.getLiker() + " liked your post");
+                    notification.setMessage(likeNotificationRequest.getLiker() + "님이 당신의 게시물을 좋아요를 눌렀습니다");
                 }
                 notification.setUpdatedAt(LocalDateTime.now());
                 notificationRepository.save(notification);
                 logger.info("Notification updated: {}", notification);
             } else {
                 Notification notification = new Notification();
-                notification.setMessage(likeNotificationRequest.getLiker() + " liked your post");
+                notification.setMessage(likeNotificationRequest.getLiker() + "님이 당신의 게시물을 좋아요를 눌렀습니다");
                 notification.setReceiver(likeNotificationRequest.getTargetUser());
                 notification.setLiker(likeNotificationRequest.getLiker());
                 notification.setPostId(likeNotificationRequest.getPostId());
