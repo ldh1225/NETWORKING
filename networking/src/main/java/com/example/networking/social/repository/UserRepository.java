@@ -2,8 +2,8 @@ package com.example.networking.social.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.networking.social.entity.User;
+import com.example.networking.social.entity.Users;
 
-public interface UserRepository extends JpaRepository<User, Long> {
-    User findByEmail(String email);
+public interface UserRepository extends JpaRepository<Users, Integer> {
+    Users findByEmail(String email);
 }

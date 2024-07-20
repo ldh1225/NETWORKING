@@ -25,10 +25,9 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users user;
 
     private String contentComment;
     private LocalDateTime createdAt;
 
-    // Getters and Setters
 }

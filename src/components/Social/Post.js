@@ -7,7 +7,7 @@ const PostHeader = ({ username, onDelete }) => {
     return (
         <div className="post-header">
             <div className="user-info">
-                <img src={postprofileImage} alt="Profile Picture" className="profile-pic" />
+                <img src={postprofileImage} alt="Profile" className="profile-pic" />
                 <div className="username">{username}</div>
             </div>
             <button className="delete-button" onClick={onDelete}>×</button>
@@ -27,7 +27,7 @@ const Post = () => {
 
     const fetchPosts = async () => {
         try {
-            const response = await axios.get('/api/posts');
+            const response = await axios.get('api/posts');
             setPosts(response.data);
         } catch (error) {
             console.error('Error fetching posts', error);
@@ -46,7 +46,7 @@ const Post = () => {
 
             console.log("test2");
             try {
-                const response = await axios.post('/api/posts', formData, {
+                const response = await axios.post('api/posts', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -66,7 +66,7 @@ const Post = () => {
 
     const handleDeletePost = async (postId) => {
         try {
-            await axios.delete(`/api/posts/${postId}`);
+            await axios.delete(`api/posts/${postId}`);
             fetchPosts();
         } catch (error) {
             console.error('Error deleting post', error);
@@ -106,7 +106,7 @@ const Post = () => {
             };
 
             try {
-                await axios.post('/api/comments', newComment);
+                await axios.post('api/comments', newComment);
                 fetchPosts();
             } catch (error) {
                 console.error('Error adding comment', error);
@@ -146,7 +146,7 @@ const Post = () => {
             {posts.map(post => (
                 <div key={post.id} className="post">
                     <PostHeader username={post.username} onDelete={() => handleDeletePost(post.id)} />
-                    {post.imagePost && <img src={post.imagePost} alt="Post Image" className="main-img" />}
+                    {post.imagePost && <img src={post.imagePost} alt="Post" className="main-img" />}
                     <div className="description">{post.contentPost}</div>
                     <div className="meta">
                         <span>💬 {post.comments.length} comments</span>

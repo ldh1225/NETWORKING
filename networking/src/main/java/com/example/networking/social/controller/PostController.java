@@ -34,7 +34,7 @@ public class PostController {
             @RequestParam(value = "imagePost", required = false) MultipartFile imagePost) {
         
         PostDTO postDTO = new PostDTO();
-        postDTO.setUserId(userId);
+        postDTO.setUserId(userId.toString());
         postDTO.setContentPost(contentPost);
         if (imagePost != null && !imagePost.isEmpty()) {
             String imagePath = saveImage(imagePost);

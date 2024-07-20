@@ -9,9 +9,7 @@ import lombok.Setter;
 @Getter
 public class CommentDTO {
     private Long id;
-    private Long userId;
+    private String userId;
     private String contentComment;
     private LocalDateTime createdAt;
-
-    // Getters and Setters
 }

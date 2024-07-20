@@ -25,7 +25,7 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users user;
 
     private String contentPost;
     private String imagePost;

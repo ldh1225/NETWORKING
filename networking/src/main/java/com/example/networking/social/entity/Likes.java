@@ -25,9 +25,7 @@ public class Likes {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users user;
 
     private LocalDateTime createdAt;
-
-    // Getters and Setters
 }
