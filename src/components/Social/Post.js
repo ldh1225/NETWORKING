@@ -1,6 +1,8 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+import React, { useContext, useEffect, useState } from 'react';
 import postprofileImage from '../../assets/images/고양이 프로필.png';
+import { LoginContext } from '../../contexts/LoginContextProvider';
 import '../../styles/Social/Post.css';
 
 const PostHeader = ({ username, onDelete }) => {
@@ -20,6 +22,7 @@ const Post = () => {
     const [newPostContent, setNewPostContent] = useState('');
     const [newPostImage, setNewPostImage] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
+    const { isLogin, userInfo } = useContext(LoginContext);
 
     useEffect(() => {
         fetchPosts();
@@ -27,7 +30,7 @@ const Post = () => {
 
     const fetchPosts = async () => {
         try {
-            const response = await axios.get('api/posts');
+            const response = await axios.get('/api/posts');
             setPosts(response.data);
         } catch (error) {
             console.error('Error fetching posts', error);
@@ -35,20 +38,20 @@ const Post = () => {
     };
 
     const handleAddPost = async () => {
-        console.log("test1");
         if (newPostContent.trim() !== '') {
             const formData = new FormData();
             formData.append('contentPost', newPostContent);
             if (newPostImage) {
                 formData.append('imagePost', newPostImage);
             }
-            formData.append('userId', 1); // 예시 사용자 ID
+            formData.append('userId', userInfo.no);
 
-            console.log("test2");
             try {
-                const response = await axios.post('api/posts', formData, {
+                const token = Cookies.get('accessToken');
+                const response = await axios.post('/api/posts', formData, {
                     headers: {
-                        'Content-Type': 'multipart/form-data'
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': `Bearer ${token}`
                     }
                 });
                 console.log('Post created:', response.data);
@@ -57,16 +60,27 @@ const Post = () => {
                 setShowPopup(false);
                 fetchPosts();
             } catch (error) {
-                console.error('Error creating post', error);
+                if (error.response) {
+                    console.error('Server responded with status:', error.response.status, error.response.data);
+                } else if (error.request) {
+                    console.error('No response received:', error.request);
+                } else {
+                    console.error('Error setting up request:', error.message);
+                }
             }
         } else {
-            console.error('Post content is empty');
+            console.error('Post content is empty or user is not logged in');
         }
     };
 
     const handleDeletePost = async (postId) => {
         try {
-            await axios.delete(`api/posts/${postId}`);
+            const token = Cookies.get('accessToken');
+            await axios.delete(`/api/posts/${postId}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             fetchPosts();
         } catch (error) {
             console.error('Error deleting post', error);
@@ -101,16 +115,20 @@ const Post = () => {
         if (post && post.commentText.trim() !== '') {
             const newComment = {
                 postId: postId,
-                userId: 1,  // 예시 사용자 ID
+                userId: userInfo.no,
                 contentComment: post.commentText
             };
 
             try {
-                await axios.post('api/comments', newComment);
+                const token = Cookies.get('accessToken');
+                await axios.post('/api/comments', newComment, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 fetchPosts();
             } catch (error) {
-                console.error('Error adding comment', error);
-            }
+                console.error('Error adding comment', error);}
         }
     };
 

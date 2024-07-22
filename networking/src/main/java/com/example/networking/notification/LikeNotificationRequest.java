@@ -30,4 +30,3 @@ public class LikeNotificationRequest {
         this.postId = postId;
     }
 }
-

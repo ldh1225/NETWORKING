@@ -25,7 +25,7 @@ import com.example.networking.security.jwt.provider.JwtTokenProvider;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Configuration("mainSecurityConfig")
+@Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true, securedEnabled = true) 
 public class SecurityConfig {
@@ -36,8 +36,10 @@ public class SecurityConfig {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+    private AuthenticationManager authenticationManager;
+
     @Bean
-    public SecurityFilterChain mainSecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         log.info("시큐리티 설정...");
 
         http.formLogin(login -> login.disable())
@@ -53,6 +55,7 @@ public class SecurityConfig {
                     .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                     .requestMatchers("/", "/login", "/users/**").permitAll()
                     .requestMatchers("/admin/**").hasRole("ADMIN")
+                    .requestMatchers("/**").permitAll() // 통합된 부분
                     .anyRequest().authenticated()
             );
 
@@ -65,8 +68,6 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();    
     }
-
-    private AuthenticationManager authenticationManager;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
