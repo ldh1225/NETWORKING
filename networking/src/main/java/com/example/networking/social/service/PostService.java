@@ -40,7 +40,7 @@ public class PostService {
     private PostDTO convertToDto(Post post) {
         PostDTO postDTO = new PostDTO();
         postDTO.setId(post.getId());
-        postDTO.setUserId(post.getUser().getId());
+        postDTO.setUserId(post.getUser().getNo());
         postDTO.setContentPost(post.getContentPost());
         postDTO.setImagePost(post.getImagePost());
         postDTO.setLikesCount(post.getLikesCount());
