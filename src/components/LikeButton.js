@@ -1,18 +1,34 @@
 import React, { useContext, useState, useEffect } from "react";
-import { sendLikeNotification } from "../apis/notificationApi";
+import {
+  sendLikeNotification,
+  isPostLikedByUser,
+  countLikesByPostId,
+} from "../apis/notificationApi";
 import { LoginContext } from "../contexts/LoginContextProvider";
 import * as Swal from "../apis/alert";
 import "../styles/LikeButton.css";
 
-const LikeButton = ({ targetUser, postId, onClick, liked, likes }) => {
+const LikeButton = ({ targetUser, postId, onClick }) => {
   const { isLogin, userInfo } = useContext(LoginContext);
-  const [isLiked, setIsLiked] = useState(liked);
-  const [likeCount, setLikeCount] = useState(likes);
+  const [isLiked, setIsLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
 
   useEffect(() => {
-    setIsLiked(liked);
-    setLikeCount(likes);
-  }, [liked, likes]);
+    const fetchLikeData = async () => {
+      if (isLogin && userInfo) {
+        try {
+          const liked = await isPostLikedByUser(postId, userInfo.userId);
+          const likes = await countLikesByPostId(postId);
+          setIsLiked(liked);
+          setLikeCount(likes);
+        } catch (error) {
+          console.error("Failed to fetch like data:", error);
+        }
+      }
+    };
+
+    fetchLikeData();
+  }, [isLogin, userInfo, postId]);
 
   const handleLike = async () => {
     if (!isLogin) {
