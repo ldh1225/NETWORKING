@@ -29,12 +29,12 @@ public class PostController {
 
     @PostMapping(consumes = "multipart/form-data")
     public PostDTO createPost(
-            @RequestParam("userId") Long userId,
+            @RequestParam("userId") String userId, // String으로 유지
             @RequestParam("contentPost") String contentPost,
             @RequestParam(value = "imagePost", required = false) MultipartFile imagePost) {
-        
+
         PostDTO postDTO = new PostDTO();
-        postDTO.setUserId(userId);
+        postDTO.setUserId(userId); // userId를 그대로 설정
         postDTO.setContentPost(contentPost);
         if (imagePost != null && !imagePost.isEmpty()) {
             String imagePath = saveImage(imagePost);

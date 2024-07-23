@@ -2,11 +2,13 @@ package com.example.networking.social.entity;
 
 import java.sql.Blob;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +20,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long no;
 
+    private String userId; // userId를 String으로 설정
     private String username;
     private String nickname;
     private String email;
@@ -36,4 +39,6 @@ public class User {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts;
 }

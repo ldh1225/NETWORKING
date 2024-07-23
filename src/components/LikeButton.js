@@ -4,13 +4,13 @@ import { LoginContext } from "../contexts/LoginContextProvider";
 import * as Swal from "../apis/alert";
 import "../styles/LikeButton.css";
 
-const LikeButton = ({ targetUser, postId, onLike, liked, likes }) => {
+const LikeButton = ({ targetUser, postId, onClick, liked, likes }) => {
   const { isLogin, userInfo } = useContext(LoginContext);
-  const [isLiked, setIsLiked] = useState(liked === 1);
+  const [isLiked, setIsLiked] = useState(liked);
   const [likeCount, setLikeCount] = useState(likes);
 
   useEffect(() => {
-    setIsLiked(liked === 1);
+    setIsLiked(liked);
     setLikeCount(likes);
   }, [liked, likes]);
 
@@ -24,11 +24,18 @@ const LikeButton = ({ targetUser, postId, onLike, liked, likes }) => {
       return;
     }
     try {
-      await sendLikeNotification(userInfo.userId, targetUser, postId);
+      const likeNotificationRequest = {
+        liker: userInfo.userId,
+        targetUser: targetUser,
+        postId: postId,
+      };
+      const token = localStorage.getItem("token");
+      console.log("Token in handleLike:", token);
+      await sendLikeNotification(likeNotificationRequest, token);
       const newLikedState = !isLiked;
       setIsLiked(newLikedState);
       setLikeCount(newLikedState ? likeCount + 1 : likeCount - 1);
-      onLike(postId);
+      onClick(postId, newLikedState ? likeCount + 1 : likeCount - 1);
     } catch (error) {
       Swal.alert("오류", "좋아요 알림을 보내는 데 실패했습니다.", "error");
     }
