@@ -21,7 +21,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
 
     // 생성자
-    public JwtRequestFilter( JwtTokenProvider jwtTokenProvider ) {
+    public JwtRequestFilter(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
@@ -40,7 +40,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         // jwt 토큰이 없으면 다음 필터로 이동
         // Bearer + {jwt} 체크
-        if( header == null || header.length() == 0 || !header.startsWith(JwtConstants.TOKEN_PREFIX) ) {
+        if (header == null || header.isEmpty() || !header.startsWith(JwtConstants.TOKEN_PREFIX)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -49,22 +49,21 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         // Bearer + {jwt} ➡ "Bearer " 제거
         String jwt = header.replace(JwtConstants.TOKEN_PREFIX, "");
 
-
-        // 토큰 해석
-        Authentication authenticaion = jwtTokenProvider.getAuthentication(jwt);
-
         // 토큰 유효성 검사
-        if( jwtTokenProvider.validateToken(jwt) ) {
+        if (jwtTokenProvider.validateToken(jwt)) {
             log.info("유효한 JWT 토큰입니다.");
-
-            // 로그인
-            SecurityContextHolder.getContext().setAuthentication(authenticaion);
+            
+            // 토큰 해석
+            Authentication authentication = jwtTokenProvider.getAuthentication(header);
+            if (authentication != null) {
+                // 로그인
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+        } else {
+            log.warn("유효하지 않은 JWT 토큰입니다.");
         }
         
         // 다음 필터
         filterChain.doFilter(request, response);
     }
-
-    
-    
 }

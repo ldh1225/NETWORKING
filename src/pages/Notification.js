@@ -1,6 +1,6 @@
 import React from "react";
-import Contents from "../components/Notification/Contents";
 import Sidebar from "../components/Notification/Sidebar";
+import Contents from "../components/Notification/Contents";
 import "../styles/Notification/notification.css";
 
 const Notifications = () => {

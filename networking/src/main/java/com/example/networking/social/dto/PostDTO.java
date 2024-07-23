@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 public class PostDTO {
     private Long id;
-    private String userId;
+    private String userId; // userId를 String으로 변경
     private String contentPost;
     private String imagePost;
     private int likesCount;

@@ -179,7 +179,7 @@
 }
 
 .search-container button {
-    background-color: #e0e0e0;
+    background-color: #a4a4a4;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
@@ -265,7 +265,7 @@
 
 .job-modal {
     position: absolute;
-    top: 20px; 
+    top: 50px; 
     left: 50%;
     right: auto;
     bottom: auto;
