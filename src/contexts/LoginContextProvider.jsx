@@ -72,12 +72,12 @@ const LoginContextProvider = ({ children }) => {
     }
 
     const loginSetting = (userData, accessToken) => {
-        const { no, userId, name, authList } = userData; // name 속성 추가
+        const { no, userId, name, authList } = userData; 
         const roleList = authList.map((auth) => auth.auth);
 
         api.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
         setLogin(true);
-        setUserInfo({ no, userId, name, roleList }); // userInfo에 name 포함
+        setUserInfo({ no, userId, name, roleList }); 
 
         const updatedRoles = { isUser: false, isAdmin: false };
         roleList.forEach((role) => {
