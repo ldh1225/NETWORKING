@@ -31,10 +31,10 @@
     </resultMap>
 
     <!-- UserAuth 매핑 -->
-    <resultMap type="com.example.networking.social.entity.UserAuth" id="authMap">
+    <resultMap type="com.example.networking.dto.UserAuth" id="authMap">
         <id property="authNo" column="auth_no" />
         <result property="auth" column="auth" />
-        <association property="users" column="user_id" javaType="com.example.networking.social.entity.Users" />
+        <association property="user" column="user_id" javaType="com.example.networking.dto.Users" />
     </resultMap>
 
      <!-- 회원 등록 -->
@@ -78,7 +78,7 @@
     <!-- 회원 권한 등록 -->
     <insert id="insertAuth">
         INSERT INTO user_auth( user_id, auth ) 
-        VALUES ( #{users.no}, #{auth} )
+        VALUES ( #{user.userId}, #{auth} )
     </insert>
 
     <!-- 회원 수정 -->

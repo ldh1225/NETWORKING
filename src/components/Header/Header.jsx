@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
-import './Header.css'
 import { Link } from 'react-router-dom'
 import { LoginContext } from '../../contexts/LoginContextProvider'
+import './Header.css'
 
 const Header = () => {
 

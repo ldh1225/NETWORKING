@@ -37,24 +37,25 @@ public class UserServiceImpl implements UserService {
      * 3. 권한 등록
      */
     @Override
-    public int insert(Users user) throws Exception {
-        // 비밀번호 암호화
-        String userPw = user.getUserPw();
-        String encodedPw = passwordEncoder.encode(userPw);
-        user.setUserPw(encodedPw);
+public int insert(Users user) throws Exception {
+    // 비밀번호 암호화
+    String userPw = user.getUserPw();
+    String encodedPw = passwordEncoder.encode(userPw);
+    user.setUserPw(encodedPw);
 
-        // 회원 등록
-        int result = userMapper.insert(user);
+    // 회원 등록
+    int result = userMapper.insert(user);
 
-        // 권한 등록
-        if( result > 0 ) {
-            UserAuth userAuth = new UserAuth();
-            userAuth.setUserId( user.getUserId() );
-            userAuth.setAuth("ROLE_USER");  // 기본 권한 : 사용자 권한 (ROLE_USER)
-            result = userMapper.insertAuth(userAuth);
-        }
-        return result;
+    // 권한 등록
+    if( result > 0 ) {
+        UserAuth userAuth = new UserAuth();
+        userAuth.setUserId( user.getUserId() );
+        userAuth.setAuth("ROLE_USER");  // 기본 권한 : 사용자 권한 (ROLE_USER)
+        userAuth.setUser(user);  // Users 객체 설정
+        result = userMapper.insertAuth(userAuth);
     }
+    return result;
+}
 
     /**
      * 회원 조회

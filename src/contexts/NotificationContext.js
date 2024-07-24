@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { subscribeToNotifications } from "../apis/notificationApi";
 
 export const NotificationContext = createContext();

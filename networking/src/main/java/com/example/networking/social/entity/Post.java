@@ -24,8 +24,8 @@ public class Post {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private Users user;
+    @JoinColumn(name = "user_id", referencedColumnName = "userId") // userId로 참조
+    private User user;
 
     private String contentPost;
     private String imagePost;

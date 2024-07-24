@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import * as Swal from '../apis/alert'
 import * as auth from '../apis/auth'
 import Header from '../components/Header/Header'
 import UserForm from '../components/User/UserForm'
 import { LoginContext } from '../contexts/LoginContextProvider'
-import * as Swal from '../apis/alert';
 
 const User = () => {
 

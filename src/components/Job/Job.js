@@ -168,6 +168,7 @@ const Job = () => {
           Array.isArray(parsedData.jobs.job)
         ) {
           setJobs(parsedData.jobs.job);
+          
         } else {
           console.error("Invalid data format", parsedData);
           setJobs([]);

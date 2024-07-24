@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { NavLink } from "react-router-dom";
 import { LoginContext } from '../contexts/LoginContextProvider';
-import '../styles/header.css';
+import '../styles/Header.css';
 
 const Header = () => {
 

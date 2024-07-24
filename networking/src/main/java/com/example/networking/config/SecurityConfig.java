@@ -55,7 +55,8 @@ public class SecurityConfig {
                     .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                     .requestMatchers("/", "/login", "/users/**").permitAll()
                     .requestMatchers("/admin/**").hasRole("ADMIN")
-                    .requestMatchers("/**").permitAll() // 통합된 부분
+                    .requestMatchers("/api/posts").permitAll()
+                    .requestMatchers("/api/**").permitAll() // 통합된 부분
                     .anyRequest().authenticated()
             );
 
@@ -66,7 +67,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();    
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
