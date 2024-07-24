@@ -1,0 +1,63 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+.profile {
+  width: 200px;
+  height: 300px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.profile-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden; 
+  margin: 0 auto;
+}
+
+.profile-img img {
+  width: 100%; 
+  height: auto; 
+}
+
+.profile-name {
+  font-size: 18px;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.profile-status {
+  color: #888;
+  font-size: 14px;
+}
+
+.profile-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  font-size: 14px;
+}
+
+.profile-info span {
+  display: inline-block;
+}
+
+.profile-info .icon {
+  font-size: 16px;
+}
+
+.profile-info i {
+  margin-right: 5px; 
+}
+
+.profile-login {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 60px;
+  text-align: center; 
+}
