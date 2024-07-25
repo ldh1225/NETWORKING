@@ -55,8 +55,18 @@
     color: #555;
     font-size: 14px;
 }
+.banner {
+    text-align: center;
+    margin: 20px 0 10px;
+}
+
+.banner-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
 
 .footer {
-    margin-top: 16px;
+    margin-top: 10px;
     text-align: center;
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import bannerImage from '../../assets/images/rightsideb_banner.jpg';
 import '../../styles/Social/RightSideb.css';
 import { fetchJobListings } from '../Social/Socialapi';
 
@@ -34,6 +35,9 @@ const RightSideb = () => {
                         </a>
                     ))}
                 </div>
+            </div>
+            <div className="banner">
+                <img src={bannerImage} alt="Banner" className="banner-image" />
             </div>
             <div className="footer">
                 <p style={{ fontWeight: 'bold' }}>

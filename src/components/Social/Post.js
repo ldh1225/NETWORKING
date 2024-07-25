@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from 'js-cookie';
 import React, { useContext, useEffect, useState } from "react";
 import {
   countLikesByPostId,
@@ -30,7 +31,7 @@ const Post = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [newPostContent, setNewPostContent] = useState("");
   const [newPostImage, setNewPostImage] = useState(null);
-  const [showButton, setShowButton] = useState(false);
+  const [showButton, setShowButton] = useState(false); // 페이지 맨 위로 스크롤 버튼 상태
 
   useEffect(() => {
     fetchPosts();
@@ -59,10 +60,14 @@ const Post = () => {
   };
 
   const fetchPosts = async () => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("accessToken");
     console.log("Token in fetchPosts:", token);
+    if (!token) {
+        console.error("No token found, user is not authenticated");
+        return;  // 또는 적절한 에러 처리를 추가합니다.
+    }
     try {
-      const response = await axios.get("/api/posts", {
+      const response = await axios.get("http://localhost:8080/api/posts", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -85,8 +90,12 @@ const Post = () => {
   };
 
   const handleAddPost = async () => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("accessToken");
     console.log("Token in handleAddPost:", token);
+    if (!token) {
+        console.error("No token found, user is not authenticated");
+        return;  // 또는 적절한 에러 처리를 추가합니다.
+    }
     try {
       const newPost = {
         contentPost: newPostContent,
@@ -100,7 +109,7 @@ const Post = () => {
         formData.append("image", newPostImage);
       }
 
-      await axios.post("/api/posts", formData, {
+      await axios.post("http://localhost:8080/api/posts", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -116,8 +125,12 @@ const Post = () => {
   };
 
   const handleDeletePost = async (postId) => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("accessToken");
     console.log("Token in handleDeletePost:", token);
+    if (!token) {
+        console.error("No token found, user is not authenticated");
+        return;  // 또는 적절한 에러 처리를 추가합니다.
+    }
     try {
       await axios.delete(`/api/posts/${postId}`, {
         headers: {
@@ -147,7 +160,7 @@ const Post = () => {
   };
 
   const handleCommentSubmit = async (postId) => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("accessToken");
     const post = posts.find((post) => post.id === postId);
     const commentText = post.commentText;
 

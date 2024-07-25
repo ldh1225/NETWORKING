@@ -3,6 +3,8 @@ package com.example.networking.social.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.example.networking.dto.Users;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -23,9 +25,9 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "userId") // userId로 참조
-    private User user;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    private Users user; // Users 클래스로 변경
 
     private String contentPost;
     private String imagePost;
