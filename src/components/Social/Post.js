@@ -28,6 +28,9 @@ const PostHeader = ({ username, userId, onDelete }) => {
 const Post = () => {
   const { userInfo, isLogin } = useContext(LoginContext);
   const [posts, setPosts] = useState([]);
+  const [newPostContent, setNewPostContent] = useState("");
+  const [newPostImage, setNewPostImage] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     fetchPosts();
@@ -44,23 +47,58 @@ const Post = () => {
       });
       const postsData = response.data;
 
+      if (!Array.isArray(postsData)) {
+        throw new Error("Invalid data format");
+      }
+
       // 각 포스트의 좋아요 상태와 총 좋아요 수를 가져오기
       const updatedPosts = await Promise.all(
         postsData.map(async (post) => {
+          if (!post || !post.userId) {
+            console.error("Invalid post data:", post);
+            return null;
+          }
           const liked = await isPostLikedByUser(post.id, userInfo.userId);
           const likes = await countLikesByPostId(post.id);
           return { ...post, liked, likes };
         })
       );
 
-      setPosts(updatedPosts);
+      setPosts(updatedPosts.filter((post) => post !== null));
     } catch (error) {
       console.error("Error fetching posts", error);
     }
   };
 
   const handleAddPost = async () => {
-    // 포스트 추가 로직 생략
+    if (newPostContent.trim() !== "") {
+      const formData = new FormData();
+      formData.append("contentPost", newPostContent);
+      if (newPostImage) {
+        formData.append("imagePost", newPostImage);
+      }
+      formData.append("userId", userInfo.userId.toString());
+
+      const token = localStorage.getItem("token");
+
+      try {
+        const response = await axios.post("/api/posts", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log("Post created:", response.data);
+        setNewPostContent("");
+        setNewPostImage(null);
+        setShowPopup(false);
+        fetchPosts();
+      } catch (error) {
+        console.error("Error creating post", error);
+      }
+    } else {
+      console.error("Post content is empty");
+    }
   };
 
   const handleDeletePost = async (postId) => {
@@ -79,11 +117,17 @@ const Post = () => {
   };
 
   const handleImageChange = (e) => {
-    // 이미지 변경 로직 생략
+    if (e.target.files && e.target.files[0]) {
+      setNewPostImage(e.target.files[0]);
+    }
   };
 
   const togglePopup = () => {
-    // 팝업 토글 로직 생략
+    if (showPopup) {
+      setNewPostContent("");
+      setNewPostImage(null);
+    }
+    setShowPopup(!showPopup);
   };
 
   const handleCommentChange = (postId, event) => {
@@ -94,17 +138,35 @@ const Post = () => {
   };
 
   const handleCommentSubmit = async (postId) => {
-    // 댓글 제출 로직 생략
+    const post = posts.find((post) => post.id === postId);
+    if (post && post.commentText.trim() !== "") {
+      const newComment = {
+        postId: postId,
+        userId: userInfo.userId.toString(),
+        contentComment: post.commentText,
+      };
+
+      const token = localStorage.getItem("token");
+
+      try {
+        await axios.post("/api/comments", newComment, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        fetchPosts();
+      } catch (error) {
+        console.error("Error adding comment", error);
+      }
+    }
   };
 
-  const handleLike = async (postId, newLikes) => {
+  const handleLike = async (postId) => {
     const updatedPosts = posts.map((post) => {
       if (post.id === postId) {
-        return {
-          ...post,
-          likes: newLikes,
-          liked: newLikes > post.likes ? 1 : 0,
-        };
+        const liked = post.liked === 1 ? 0 : 1;
+        const likes = liked === 1 ? post.likes + 1 : post.likes - 1;
+        return { ...post, liked, likes };
       }
       return post;
     });
@@ -116,6 +178,35 @@ const Post = () => {
       <button onClick={togglePopup} className="add-post-button">
         새 포스트 작성
       </button>
+
+      {showPopup && (
+        <div className="popup-overlay">
+          <div className="new-post-popup">
+            <div className="popup-content">
+              <div className="popup-header">
+                <span>새 포스트 작성</span>
+                <button onClick={togglePopup} className="close-popup-button">
+                  ✕
+                </button>
+              </div>
+              <textarea
+                placeholder="나누고 싶은 생각이 있으세요?"
+                value={newPostContent}
+                onChange={(e) => setNewPostContent(e.target.value)}
+                className="new-post-textarea"
+              />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+              <button onClick={handleAddPost} className="popup-add-post-button">
+                업데이트
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {posts.map((post) => (
         <div key={post.id} className="post">
@@ -137,7 +228,7 @@ const Post = () => {
               postId={post.id}
               initialLiked={post.liked === 1}
               likes={post.likes}
-              onClick={handleLike}
+              onClick={() => handleLike(post.id)}
             />
           </div>
           <div className="comments">
