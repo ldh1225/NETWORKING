@@ -1,7 +1,7 @@
 import React from "react";
+import Profile from "../components/Job/Profile";
 import Banner from "../components/Job/Banner";
 import Job from "../components/Job/Job";
-import Profile from "../components/Job/Profile";
 import "../styles/Job/Joblist.css";
 
 const JoblistPage = () => {
