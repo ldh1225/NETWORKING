@@ -105,7 +105,7 @@ const User = () => {
 
   return (
     <>
-        <Header />
+        {/* <Header /> */}
         <div className="container">
             <UserForm userInfo={userInfo} updateUser={updateUser} deleteUser={deleteUser} />
         </div>

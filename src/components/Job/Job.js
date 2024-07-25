@@ -424,7 +424,7 @@ const Job = () => {
             </li>
           ))
         ) : (
-          <p>No job listings available.</p>
+          <p>채용공고를 찾을 수 없습니다.</p>
         )}
       </ul>
 

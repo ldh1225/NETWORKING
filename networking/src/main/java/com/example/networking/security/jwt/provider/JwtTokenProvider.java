@@ -223,13 +223,18 @@ public class JwtTokenProvider {
 
 
 
-    // secretKey ➡ signingKey
-    private byte[] getSigningKey() {
+     // secretKey ➡ signingKey
+     private byte[] getSigningKey() {
 		return jwtProps.getSecretKey().getBytes();
 	}
 
     // secretKey ➡ (HMAC-SHA algorithms) ➡ signingKey
     private SecretKey getShaKey() {
         return Keys.hmacShaKeyFor(getSigningKey());
+    }
+
+    // Method to return the secret key as a string
+    public String getSigningKeyAsString() {  // 새로 업데이트
+       return jwtProps.getSecretKey();
     }
 }

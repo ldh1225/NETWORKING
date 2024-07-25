@@ -1,13 +1,14 @@
-import { Route, Routes } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Chat from "./pages/Chat";
-import Joblist from "./pages/Joblist";
-import Join from "./pages/Join";
-import Login from "./pages/Login";
-import Notifications from "./pages/Notification";
 import Social from "./pages/Social";
-import User from './pages/User'; //마이페이지
+import Notifications from "./pages/Notification";
+import Joblist from "./pages/Joblist";
+import Login from "./pages/Login";
+import Join from "./pages/Join";
+import User from "./pages/User";
+import LoginContextProvider from "./contexts/LoginContextProvider";
 
 function App() {
   return (
@@ -18,9 +19,9 @@ function App() {
         <Route path="/chat" element={<Chat />} />
         <Route path="/joblist" element={<Joblist />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/user" element={<User />} />
         <Route path="/join" element={<Join />} />
         <Route path="/notifications" element={<Notifications />} />
-        <Route path="/user" component={User} />
       </Routes>
       <Footer />
     </div>

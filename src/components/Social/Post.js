@@ -1,12 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState, useContext } from "react";
-import postprofileImage from "../../assets/images/고양이 프로필.png";
-import LikeButton from "../LikeButton";
-import { LoginContext } from "../../contexts/LoginContextProvider";
+import React, { useContext, useEffect, useState } from "react";
 import {
-  isPostLikedByUser,
   countLikesByPostId,
+  isPostLikedByUser,
 } from "../../apis/notificationApi";
+import postprofileImage from "../../assets/images/cat_profile.png";
+import { LoginContext } from "../../contexts/LoginContextProvider";
 import "../../styles/Social/Post.css";
 
 const PostHeader = ({ username, userId, onDelete }) => {
@@ -28,10 +27,36 @@ const PostHeader = ({ username, userId, onDelete }) => {
 const Post = () => {
   const { userInfo, isLogin } = useContext(LoginContext);
   const [posts, setPosts] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
+  const [newPostContent, setNewPostContent] = useState("");
+  const [newPostImage, setNewPostImage] = useState(null);
+  const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
     fetchPosts();
   }, [userInfo]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.pageYOffset > 300) {
+        setShowButton(true);
+      } else {
+        setShowButton(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   const fetchPosts = async () => {
     const token = localStorage.getItem("token");
@@ -60,7 +85,34 @@ const Post = () => {
   };
 
   const handleAddPost = async () => {
-    // 포스트 추가 로직 생략
+    const token = localStorage.getItem("token");
+    console.log("Token in handleAddPost:", token);
+    try {
+      const newPost = {
+        contentPost: newPostContent,
+        userId: userInfo.userId,
+        username: userInfo.username,
+      };
+
+      const formData = new FormData();
+      formData.append("contentPost", newPostContent);
+      if (newPostImage) {
+        formData.append("image", newPostImage);
+      }
+
+      await axios.post("/api/posts", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      fetchPosts();
+      setNewPostContent("");
+      setNewPostImage(null);
+      setShowPopup(false);
+    } catch (error) {
+      console.error("Error adding post", error);
+    }
   };
 
   const handleDeletePost = async (postId) => {
@@ -79,11 +131,12 @@ const Post = () => {
   };
 
   const handleImageChange = (e) => {
-    // 이미지 변경 로직 생략
+    const file = e.target.files[0];
+    setNewPostImage(file);
   };
 
   const togglePopup = () => {
-    // 팝업 토글 로직 생략
+    setShowPopup(!showPopup);
   };
 
   const handleCommentChange = (postId, event) => {
@@ -94,7 +147,26 @@ const Post = () => {
   };
 
   const handleCommentSubmit = async (postId) => {
-    // 댓글 제출 로직 생략
+    const token = localStorage.getItem("token");
+    const post = posts.find((post) => post.id === postId);
+    const commentText = post.commentText;
+
+    if (!commentText) return;
+
+    try {
+      await axios.post(
+        `/api/posts/${postId}/comments`,
+        { contentComment: commentText },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      fetchPosts();
+    } catch (error) {
+      console.error("Error submitting comment", error);
+    }
   };
 
   const handleLike = async (postId, newLikes) => {
@@ -117,6 +189,35 @@ const Post = () => {
         새 포스트 작성
       </button>
 
+      {showPopup && (
+        <div className="popup-overlay">
+          <div className="new-post-popup">
+            <div className="popup-content">
+              <div className="popup-header">
+                <span>새 포스트 작성</span>
+                <button onClick={togglePopup} className="close-popup-button">
+                  ✕
+                </button>
+              </div>
+              <textarea
+                placeholder="나누고 싶은 생각이 있으세요?"
+                value={newPostContent}
+                onChange={(e) => setNewPostContent(e.target.value)}
+                className="new-post-textarea"
+              />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+              <button onClick={handleAddPost} className="popup-add-post-button">
+                업데이트
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {posts.map((post) => (
         <div key={post.id} className="post">
           <PostHeader
@@ -125,20 +226,12 @@ const Post = () => {
             onDelete={() => handleDeletePost(post.id)}
           />
           {post.imagePost && (
-            <img src={post.imagePost} alt="Post" className="post-image" />
+            <img src={post.imagePost} alt="Post" className="main-img" />
           )}
-          <div className="post-content">{post.contentPost}</div>
-          <div className="post-footer">
-            <span className="comments-count">
-              💬 {post.comments?.length || 0} comments
-            </span>
-            <LikeButton
-              targetUser={post.userId}
-              postId={post.id}
-              initialLiked={post.liked === 1}
-              likes={post.likes}
-              onClick={handleLike}
-            />
+          <div className="description">{post.contentPost}</div>
+          <div className="meta">
+            <span>💬 {post.comments?.length || 0} comments</span>
+            <span className="like-count">{post.likesCount} likes</span>
           </div>
           <div className="comments">
             {post.comments &&
@@ -170,6 +263,13 @@ const Post = () => {
           </div>
         </div>
       ))}
+
+      {/* 페이지 맨 위로 보내는 버튼 */}
+      {showButton && (
+        <button onClick={scrollToTop} className="scroll-to-top">
+          ↑ Top
+        </button>
+      )}
     </div>
   );
 };

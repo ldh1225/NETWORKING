@@ -6,19 +6,19 @@ const UserForm = ({ userInfo, updateUser, deleteUser }) => {
         e.preventDefault()
 
         const form = e.target
-        const userId = form.username.value      // 아이디
-        const userPw = form.password.value      // 비밀번호
-        const name = form.name.value            // 이름
-        const email = form.email.value          // 이메일
-        const area = form.area.value            // 지역
-        const status = form.status.value        // 구직여부
-        const industry = form.industry.value    // 직무분야
-        const edu = form.edu.value              // 학력
-        const skill = form.skill.value          // 스킬
-        const cert = form.cert.value            // 자격증
-        const bio = form.bio.value              // 경력사항
-        const company = form.company.value      // 소속
-        const title = form.title.value          // 직급
+        const userId = form.username.value
+        const userPw = form.password.value
+        const name = form.name.value
+        const email = form.email.value
+        const area = form.area.value
+        const status = form.status.value
+        const industry = form.industry.value
+        const edu = form.edu.value
+        const skill = form.skill.value
+        const cert = form.cert.value
+        const bio = form.bio.value
+        const company = form.company.value
+        const title = form.title.value
 
         console.log(userId, userPw, name, email, area, status, industry, edu, skill, cert, bio, company, title);
 
@@ -27,14 +27,16 @@ const UserForm = ({ userInfo, updateUser, deleteUser }) => {
 
     return (
         <div className="form">
-            <h2 className="login-title">내 정보</h2>
+            <h2 className="login-title">마이 페이지</h2>
 
             <form className='login-form' onSubmit={ (e) => onUpdate(e) }>
                 <div>
-                    <label htmlFor="username">아이디</label>
+                    <label htmlFor="name">아이디</label>
                     <input type="text"
                             id='username'
+                            placeholder='필수사항'
                             name='username'
+                            autoComplete='username'
                             required
                             readOnly
                             defaultValue={ userInfo?.userId }
@@ -45,7 +47,9 @@ const UserForm = ({ userInfo, updateUser, deleteUser }) => {
                     <label htmlFor="password">비밀번호</label>
                     <input type="password"
                             id='password'
+                            placeholder='정보 수정 완료 후 비밀번호를 입력하세요.'
                             name='password'
+                            autoComplete='password'
                             required
                     />
                 </div>
@@ -54,99 +58,121 @@ const UserForm = ({ userInfo, updateUser, deleteUser }) => {
                     <label htmlFor="name">이름</label>
                     <input type="text"
                             id='name'
+                            placeholder='실명 또는 별명 (필수사항)'
                             name='name'
+                            autoComplete='name'
                             required
                             defaultValue={ userInfo?.name }
                     />
                 </div>
 
                 <div>
-                    <label htmlFor="email">이메일</label>
+                    <label htmlFor="name">이메일</label>
                     <input type="text"
                             id='email'
+                            placeholder='필수사항'
                             name='email'
+                            autoComplete='email'
                             required
                             defaultValue={ userInfo?.email }
                     />
                 </div>
 
                 <div>
-                <label htmlFor="area">지역</label>
+                <label htmlFor="name">지역</label>
                 <input type="text"
                         id='area'
+                        placeholder='선택사항'
                         name='area'
+                        autoComplete='area'
                         defaultValue={ userInfo?.area }
                 />
             </div>
 
             <div>
-                <label htmlFor="status">구직여부</label>
+                <label htmlFor="name">구직여부</label>
                 <input type="text"
                         id='status'
+                        placeholder='예) 재직중, 구직중, ... (선택사항)'
                         name='status'
+                        autoComplete='status'
                         defaultValue={ userInfo?.status }
                 />
             </div>
 
             <div>
-                <label htmlFor="industry">직무분야</label>
+                <label htmlFor="name">직무분야</label>
                 <input type="text"
                         id='industry'
+                        placeholder='재직중이거나 취업을 희망하는 분야 (선택사항)'
                         name='industry'
+                        autoComplete='industry'
                         defaultValue={ userInfo?.industry }
                 />
             </div>
 
             <div>
-                <label htmlFor="edu">학력</label>
+                <label htmlFor="name">학력</label>
                 <input type="text"
                         id='edu'
+                        placeholder='선택사항'
                         name='edu'
+                        autoComplete='edu'
                         defaultValue={ userInfo?.edu }
                 />
             </div>
 
             <div>
-                <label htmlFor="skill">스킬</label>
+                <label htmlFor="name">스킬</label>
                 <input type="text"
                         id='skill'
+                        placeholder='보유기술 (예. 자바, SQL 등...) (선택사항)'
                         name='skill'
+                        autoComplete='skill'
                         defaultValue={ userInfo?.skill }
                 />
             </div>
 
             <div>
-                <label htmlFor="cert">자격증</label>
+                <label htmlFor="name">자격증</label>
                 <input type="text"
                         id='cert'
+                        placeholder='선택사항'
                         name='cert'
+                        autoComplete='cert'
                         defaultValue={ userInfo?.cert }
                 />
             </div>
 
             <div>
-                <label htmlFor="bio">경력사항</label>
+                <label htmlFor="name">경력사항</label>
                 <input type="text"
                         id='bio'
+                        placeholder='선택사항'
                         name='bio'
+                        autoComplete='bio'
                         defaultValue={ userInfo?.bio }
                 />
             </div>
 
             <div>
-                <label htmlFor="company">소속</label>
+                <label htmlFor="name">소속</label>
                 <input type="text"
                         id='company'
+                        placeholder='선택사항'
                         name='company'
+                        autoComplete='company'
                         defaultValue={ userInfo?.company }
                 />
             </div>
 
             <div>
-                <label htmlFor="title">직급</label>
+                <label htmlFor="name">직급</label>
                 <input type="text"
                         id='title'
+                        placeholder='선택사항'
                         name='title'
+                        autoComplete='title'
                         defaultValue={ userInfo?.title }
                 />
             </div>
