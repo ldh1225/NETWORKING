@@ -1,88 +1,42 @@
+import { useState } from "react";
+import ChatDisplay from "../components/Chat/ChatDisplay";
 import ChatList from "../components/Chat/ChatList";
-// import React, { useState, useEffect } from "react";
-// import SockJS from "sockjs-client";
-// import { Client } from "@stomp/stompjs";
-// import axios from "axios";
+import ChatMember from "../components/Chat/ChatMember";
 import "../styles/Chat/Chat.css";
 
 const Chat = () => {
-  // const [messages, setMessages] = useState([]);
-  // const [message, setMessage] = useState("");
-  // const [stompClient, setStompClient] = useState(null);
+  const [selectedChatRoom, setSelectedChatRoom] = useState(null);
 
-  // useEffect(() => {
-  //   axios.get("/csrf").then((response) => {
-  //     const csrfToken = response.data.token;
+  const handleSelectChatRoom = (chatRoom) => {
+    setSelectedChatRoom(chatRoom);
+  };
 
-  //     const authToken = "";
-
-  //     const socket = new SockJS("/chat");
-  //     const client = new Client({
-  //       webSocketFactory: () => socket,
-  //       connectHeaders: {
-  //         "X-CSRF-TOKEN": csrfToken,
-  //         Authorization: `Bearer ${authToken}`,
-  //       },
-  //       onConnect: () => {
-  //         console.log("Connected");
-
-  //         client.subscribe("/topic/public", (msg) => {
-  //           const newMessage = JSON.parse(msg.body);
-  //           setMessages((prevMessages) => [...prevMessages, newMessage]);
-  //         });
-  //       },
-  //     });
-
-  //     client.activate();
-  //     setStompClient(client);
-
-  //     return () => {
-  //       if (stompClient) {
-  //         stompClient.deactivate();
-  //       }
-  //     };
-  //   });
-  // }, []);
-
-  // const sendMessage = () => {
-  //   if (stompClient && message.trim()) {
-  //     const chatMessage = {
-  //       sender: "User",
-  //       content: message,
-  //       type: "CHAT",
-  //     };
-  //     stompClient.publish({
-  //       destination: "/app/chat.sendMessage",
-  //       body: JSON.stringify(chatMessage),
-  //     });
-  //     setMessage("");
-  //   }
-  // };
+  const handleLeaveChatRoom = () => {
+    setSelectedChatRoom(null);
+  };
 
   return (
-    <div>
-      <div>
-        <ChatList />
-      </div>
-      {/* <div className="chat-container">
-        <div className="message-input">
-          <input
-            type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Enter your message..."
-          />
-          <button onClick={sendMessage}>Send</button>
-        </div>
-        <div className="message-list">
-          {messages.map((msg, index) => (
-            <div key={index} className="message">
-              <strong>{msg.sender}</strong>: {msg.content}
-            </div>
-          ))}
-        </div>
-      </div> */}
-    </div>
+    <main className="chat">
+      <section className="chat__container">
+        <article className="chat__box chat__box--list">
+          <ChatList onSelectChatRoom={handleSelectChatRoom} />
+        </article>
+        {selectedChatRoom && (
+          <>
+            <article className="chat__box chat__box--display">
+              <ChatDisplay
+                key={selectedChatRoom.chatRoomId}
+                chatRoom={selectedChatRoom}
+                onLeave={handleLeaveChatRoom}
+              />
+            </article>
+            <article className="chat__box chat__box--member">
+              <ChatMember chatRoom={selectedChatRoom} onLeave={handleLeaveChatRoom} />
+            </article>
+          </>
+        )}
+      </section>
+    </main>
   );
 };
 

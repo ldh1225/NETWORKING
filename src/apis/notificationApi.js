@@ -1,9 +1,10 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export const sendLikeNotification = async (likeNotificationRequest, token) => {
   console.log("Token in sendLikeNotification:", token);
   const response = await axios.post(
-    "http://localhost:8080/api/notifications/like",
+    `http://localhost:8080/api/notifications/like`,
     likeNotificationRequest,
     {
       headers: {
@@ -18,7 +19,7 @@ export const sendLikeNotification = async (likeNotificationRequest, token) => {
 };
 
 export const fetchNotifications = async (userId) => {
-  const token = localStorage.getItem("token");
+  const token = Cookies.get("accessToken");
   console.log("Token in fetchNotifications:", token);
   const response = await axios.get(
     `http://localhost:8080/api/notifications/${userId}`,
@@ -35,7 +36,7 @@ export const fetchNotifications = async (userId) => {
 };
 
 export const isPostLikedByUser = async (postId, liker) => {
-  const token = localStorage.getItem("token");
+  const token = Cookies.get("accessToken");
   const response = await axios.get(
     `http://localhost:8080/api/notifications/isLiked/${postId}/${liker}`,
     {
@@ -51,7 +52,7 @@ export const isPostLikedByUser = async (postId, liker) => {
 };
 
 export const countLikesByPostId = async (postId) => {
-  const token = localStorage.getItem("token");
+  const token = Cookies.get("accessToken");
   const response = await axios.get(
     `http://localhost:8080/api/notifications/likes/${postId}`,
     {
