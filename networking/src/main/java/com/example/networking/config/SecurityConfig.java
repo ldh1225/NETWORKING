@@ -56,7 +56,8 @@ public class SecurityConfig {
                     .requestMatchers("/", "/login", "/users/**").permitAll()
                     .requestMatchers("/admin/**").hasRole("ADMIN")
                     .requestMatchers("/api/posts").permitAll()
-                    .requestMatchers("/api/**").permitAll() // 통합된 부분
+                    .requestMatchers("/api/**").permitAll()
+                    .requestMatchers("/api/**").authenticated() // 통합된 부분
                     .anyRequest().authenticated()
             );
 
