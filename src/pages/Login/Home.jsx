@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <>
       <Header />
-      <div className="container">
+      <div className="container_login">
         <h1>Home</h1>
         <hr />
         <h2>메인 페이지</h2>

@@ -2,6 +2,8 @@ package com.example.networking.social.entity;
 
 import java.time.LocalDateTime;
 
+import com.example.networking.dto.Users;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,7 +27,7 @@ public class Likes {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users user;
 
     private LocalDateTime createdAt;
 }

@@ -40,6 +40,8 @@ dependencies {
 	implementation 'org.projectlombok:lombok'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+	implementation 'org.springframework.security:spring-security-messaging'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'

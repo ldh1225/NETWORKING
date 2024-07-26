@@ -1,16 +1,24 @@
 package com.example.networking.dto;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 // 회원 권한
 @Data
+@Entity
 public class UserAuth {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int authNo;
     private String userId;
     private String auth;
 
-    // User 객체를 포함하는 필드를 추가합니다.
+    @ManyToOne
     private Users user;
 
     public UserAuth() {}
@@ -20,7 +28,6 @@ public class UserAuth {
         this.auth = auth;
     }
 
-    // getter 메서드를 추가합니다.
     public Users getUser() {
         return user;
     }

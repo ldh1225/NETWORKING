@@ -2,17 +2,17 @@ import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import profileImage from "../../assets/icons/profileicon.png";
 import { LoginContext } from "../../contexts/LoginContextProvider";
-import "../../styles/Job/Profile.css";
+import "../../styles/Social/Social.css";
 
 const Profile = () => {
   const { isLogin, userInfo, loginCheck } = useContext(LoginContext);
 
   useEffect(() => {
     const checkLoginStatus = async () => {
-      await loginCheck(); // 로그인 상태를 비동기적으로 확인
+      await loginCheck();
     };
-    checkLoginStatus(); // 컴포넌트가 마운트될 때 로그인 상태를 확인
-  }, []); // 빈 배열을 의존성 배열로 설정하여 한 번만 실행되도록 합니다.
+    checkLoginStatus();
+  }, []);
 
   if (!isLogin) {
     return (

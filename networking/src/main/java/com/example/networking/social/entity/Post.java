@@ -26,7 +26,7 @@ public class Post {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    @JoinColumn(name = "user_id", referencedColumnName = "no")
     private Users user; // Users 클래스로 변경
 
     private String contentPost;

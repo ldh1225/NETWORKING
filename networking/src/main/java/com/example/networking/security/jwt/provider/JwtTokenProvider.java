@@ -232,4 +232,9 @@ public class JwtTokenProvider {
     private SecretKey getShaKey() {
         return Keys.hmacShaKeyFor(getSigningKey());
     }
+
+    public String getSigningKeyAsString() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getSigningKeyAsString'");
+    }
 }

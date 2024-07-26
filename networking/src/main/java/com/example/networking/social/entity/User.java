@@ -1,4 +1,4 @@
-package com.example.networking.social.entity;
+/*package com.example.networking.social.entity;
 
 import java.sql.Blob;
 import java.time.LocalDateTime;
@@ -41,4 +41,4 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Post> posts;
-}
+}*/

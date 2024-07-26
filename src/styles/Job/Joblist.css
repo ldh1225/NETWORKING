@@ -6,7 +6,7 @@
 
 .main {
   display: flex;
-  margin-top: 50px;
+  margin-top: 130px;
 }
 
 .leftColumn {
@@ -16,9 +16,4 @@
 
 .rightColumn {
   flex: 1;
-}
-.powered-by {
-  margin-top: 20px;
-  font-size: 12px;
-  text-align: center;
 }
