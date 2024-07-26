@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.2",
     "cors": "^2.8.5",
+    "debounce": "^2.1.0",
     "dotenv": "^16.4.5",
     "fast-xml-parser": "^4.4.0",
     "http-proxy-middleware": "^3.0.0",

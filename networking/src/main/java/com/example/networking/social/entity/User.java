@@ -20,7 +20,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long no;
 
-    private String userId; // userId를 String으로 설정
+    private String userId;
     private String username;
     private String nickname;
     private String email;
@@ -34,8 +34,8 @@ public class User {
     private String bio;
     private String company;
     private String title;
-    private Blob profileImage;
-    private Blob resumeFile;
+    //private Blob profileImage;
+    //private Blob resumeFile;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

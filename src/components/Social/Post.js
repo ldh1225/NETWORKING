@@ -1,11 +1,13 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
-import {
-  countLikesByPostId,
-  isPostLikedByUser,
-} from "../../apis/notificationApi";
+import React, { useEffect, useState, useContext } from "react";
+import Cookies from 'js-cookie'; // js-cookie 라이브러리 임포트
 import postprofileImage from "../../assets/images/cat_profile.png";
+import LikeButton from "../LikeButton";
 import { LoginContext } from "../../contexts/LoginContextProvider";
+import {
+  isPostLikedByUser,
+  countLikesByPostId,
+} from "../../apis/notificationApi";
 import "../../styles/Social/Post.css";
 
 const PostHeader = ({ username, userId, onDelete }) => {
@@ -25,41 +27,22 @@ const PostHeader = ({ username, userId, onDelete }) => {
 };
 
 const Post = () => {
-  const { userInfo, isLogin } = useContext(LoginContext);
+  const { userInfo, isLogin, loginCheck } = useContext(LoginContext); // loginCheck 추가
   const [posts, setPosts] = useState([]);
-  const [showPopup, setShowPopup] = useState(false);
   const [newPostContent, setNewPostContent] = useState("");
   const [newPostImage, setNewPostImage] = useState(null);
-  const [showButton, setShowButton] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
-    fetchPosts();
-  }, [userInfo]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.pageYOffset > 300) {
-        setShowButton(true);
-      } else {
-        setShowButton(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  };
+    if (isLogin) {
+      fetchPosts();
+    } else {
+      loginCheck(); // 로그인 상태 체크
+    }
+  }, [isLogin, userInfo]);
 
   const fetchPosts = async () => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("accessToken"); // Cookies에서 토큰 가져오기
     console.log("Token in fetchPosts:", token);
     try {
       const response = await axios.get("/api/posts", {
@@ -69,54 +52,68 @@ const Post = () => {
       });
       const postsData = response.data;
 
+      if (!Array.isArray(postsData)) {
+        throw new Error("Invalid data format");
+      }
+
       // 각 포스트의 좋아요 상태와 총 좋아요 수를 가져오기
       const updatedPosts = await Promise.all(
         postsData.map(async (post) => {
+          if (!post || !post.userId) {
+            console.error("Invalid post data:", post);
+            return null;
+          }
           const liked = await isPostLikedByUser(post.id, userInfo.userId);
           const likes = await countLikesByPostId(post.id);
           return { ...post, liked, likes };
         })
       );
 
-      setPosts(updatedPosts);
+      setPosts(updatedPosts.filter((post) => post !== null));
     } catch (error) {
       console.error("Error fetching posts", error);
     }
   };
 
   const handleAddPost = async () => {
-    const token = localStorage.getItem("token");
-    console.log("Token in handleAddPost:", token);
-    try {
-      const newPost = {
-        contentPost: newPostContent,
-        userId: userInfo.userId,
-        username: userInfo.username,
-      };
-
+    if (newPostContent.trim() !== "") {
       const formData = new FormData();
       formData.append("contentPost", newPostContent);
       if (newPostImage) {
-        formData.append("image", newPostImage);
+        formData.append("imagePost", newPostImage);
       }
+      formData.append("userId", userInfo.userId.toString());
 
-      await axios.post("/api/posts", formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      fetchPosts();
-      setNewPostContent("");
-      setNewPostImage(null);
-      setShowPopup(false);
-    } catch (error) {
-      console.error("Error adding post", error);
+      const token = Cookies.get("accessToken"); // Cookies에서 토큰 가져오기
+
+      try {
+        const response = await axios.post("/api/posts", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log("Post created:", response.data);
+        setNewPostContent("");
+        setNewPostImage(null);
+        setShowPopup(false);
+        fetchPosts();
+      } catch (error) {
+        if (error.response && error.response.status === 403) {
+          // 403 오류 처리
+          console.error("접근 권한이 없습니다. 로그인 상태를 확인하세요.");
+          loginCheck(); // 로그인 상태 다시 확인
+        } else {
+          console.error("Error creating post", error);
+        }
+      }
+    } else {
+      console.error("Post content is empty");
     }
   };
 
   const handleDeletePost = async (postId) => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("accessToken"); // Cookies에서 토큰 가져오기
     console.log("Token in handleDeletePost:", token);
     try {
       await axios.delete(`/api/posts/${postId}`, {
@@ -131,11 +128,16 @@ const Post = () => {
   };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setNewPostImage(file);
+    if (e.target.files && e.target.files[0]) {
+      setNewPostImage(e.target.files[0]);
+    }
   };
 
   const togglePopup = () => {
+    if (showPopup) {
+      setNewPostContent("");
+      setNewPostImage(null);
+    }
     setShowPopup(!showPopup);
   };
 
@@ -147,36 +149,35 @@ const Post = () => {
   };
 
   const handleCommentSubmit = async (postId) => {
-    const token = localStorage.getItem("token");
     const post = posts.find((post) => post.id === postId);
-    const commentText = post.commentText;
+    if (post && post.commentText.trim() !== "") {
+      const newComment = {
+        postId: postId,
+        userId: userInfo.userId.toString(),
+        contentComment: post.commentText,
+      };
 
-    if (!commentText) return;
+      const token = Cookies.get("accessToken"); // Cookies에서 토큰 가져오기
 
-    try {
-      await axios.post(
-        `/api/posts/${postId}/comments`,
-        { contentComment: commentText },
-        {
+      try {
+        await axios.post("/api/comments", newComment, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
-      );
-      fetchPosts();
-    } catch (error) {
-      console.error("Error submitting comment", error);
+        });
+        fetchPosts();
+      } catch (error) {
+        console.error("Error adding comment", error);
+      }
     }
   };
 
-  const handleLike = async (postId, newLikes) => {
+  const handleLike = async (postId) => {
     const updatedPosts = posts.map((post) => {
       if (post.id === postId) {
-        return {
-          ...post,
-          likes: newLikes,
-          liked: newLikes > post.likes ? 1 : 0,
-        };
+        const liked = post.liked === 1 ? 0 : 1;
+        const likes = liked === 1 ? post.likes + 1 : post.likes - 1;
+        return { ...post, liked, likes };
       }
       return post;
     });
@@ -226,12 +227,20 @@ const Post = () => {
             onDelete={() => handleDeletePost(post.id)}
           />
           {post.imagePost && (
-            <img src={post.imagePost} alt="Post" className="main-img" />
+            <img src={post.imagePost} alt="Post" className="post-image" />
           )}
-          <div className="description">{post.contentPost}</div>
-          <div className="meta">
-            <span>💬 {post.comments?.length || 0} comments</span>
-            <span className="like-count">{post.likesCount} likes</span>
+          <div className="post-content">{post.contentPost}</div>
+          <div className="post-footer">
+            <span className="comments-count">
+              💬 {post.comments?.length || 0} comments
+            </span>
+            <LikeButton
+              targetUser={post.userId}
+              postId={post.id}
+              initialLiked={post.liked === 1}
+              likes={post.likes}
+              onClick={() => handleLike(post.id)}
+            />
           </div>
           <div className="comments">
             {post.comments &&
@@ -263,13 +272,6 @@ const Post = () => {
           </div>
         </div>
       ))}
-
-      {/* 페이지 맨 위로 보내는 버튼 */}
-      {showButton && (
-        <button onClick={scrollToTop} className="scroll-to-top">
-          ↑ Top
-        </button>
-      )}
     </div>
   );
 };

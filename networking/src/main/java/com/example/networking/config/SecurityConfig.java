@@ -16,6 +16,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.example.networking.security.custom.CustomUserDetailService;
 import com.example.networking.security.jwt.filter.JwtAuthenticationFilter;
@@ -27,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true) 
+@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig {
 
     @Autowired
@@ -36,10 +38,8 @@ public class SecurityConfig {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    private AuthenticationManager authenticationManager;
-
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain mainSecurityFilterChain(HttpSecurity http) throws Exception {
         log.info("시큐리티 설정...");
 
         http.formLogin(login -> login.disable())
@@ -50,12 +50,11 @@ public class SecurityConfig {
                     UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(new JwtRequestFilter(jwtTokenProvider),
                     UsernamePasswordAuthenticationFilter.class)
-            .authorizeHttpRequests(authorizeRequests -> 
+            .authorizeHttpRequests(authorizeRequests ->
                 authorizeRequests
                     .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                    .requestMatchers("/", "/login", "/users/**").permitAll()
+                    .requestMatchers("/", "/login", "/users/**", "/api/**").permitAll()
                     .requestMatchers("/admin/**").hasRole("ADMIN")
-                    .requestMatchers("/api/**").permitAll() // 통합된 부분
                     .anyRequest().authenticated()
             );
 
@@ -66,8 +65,10 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();    
+        return new BCryptPasswordEncoder();
     }
+
+    private AuthenticationManager authenticationManager;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -85,5 +86,25 @@ public class SecurityConfig {
         config.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/api/**")
+                        .allowedOrigins("http://localhost:3000")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
+                
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:3000")
+                        .allowedMethods("*")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
+            }
+        };
     }
 }

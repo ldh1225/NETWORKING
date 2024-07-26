@@ -51,7 +51,6 @@ public int insert(Users user) throws Exception {
         UserAuth userAuth = new UserAuth();
         userAuth.setUserId( user.getUserId() );
         userAuth.setAuth("ROLE_USER");  // 기본 권한 : 사용자 권한 (ROLE_USER)
-        userAuth.setUser(user);  // Users 객체 설정
         result = userMapper.insertAuth(userAuth);
     }
     return result;
