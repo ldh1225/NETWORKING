@@ -1,26 +1,120 @@
+/* 전체적인 레이아웃 개선 */
+.footer {
+  background-color: #f8f8f8;
+  padding: 2rem 0;
+  border-top: 1px solid #e0e0e0;
+  position: relative;
+  z-index: 10;
+}
+
 .footer__container {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  flex-wrap: wrap;
+}
+
+.footer__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 2rem;
+}
+
+.footer__title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+.footer__title span {
+  color: tomato;
+}
+
+.footer__icon {
+  margin-top: 1rem;
+  width: 150px;
+  height: auto;
+}
+
+.footer__links {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  margin: 2rem;
+  gap: 2rem;
+}
+
+.footer__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer__group h2 {
+  margin: 0;
+  color: #333;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.footer__group p {
+  margin: 0;
+  color: #666;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.footer__group p:hover {
+  color: tomato;
+}
+
+.powered-by {
+  text-align: center;
+  margin-top: 1rem;
+  color: #333;
+  font-size: 1rem;
+}
+
+.powered-by a {
+  color: tomato;
+  text-decoration: none;
+}
+
+.powered-by a:hover {
+  text-decoration: underline;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .footer__container {
+    flex-direction: column;
+    align-items: center;
   }
-  
-  .footer__wrapper {
-    margin: 2rem 3rem;
+
+  .footer__brand, .footer__links {
+    margin: 1rem 0;
+    align-items: center;
   }
-  
-  .footer__title {
-    font-size: 1rem;
-    margin-left: 0.5rem;
+
+  .footer__links {
+    gap: 1rem;
   }
-  
-  .footer__icon {
-    margin-top: 4rem;
-  }
-  
+
   .footer__group {
-    display: flex;
-    gap: 8rem;
+    align-items: center;
   }
-  
-  .footer__title span {
-    color: tomato;
+
+  .footer__icon {
+    margin-top: 1rem;
+    width: 100px;
   }
+
+  .powered-by {
+    margin-top: 2rem;
+  }
+}

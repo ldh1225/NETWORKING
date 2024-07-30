@@ -31,7 +31,6 @@
 
 .chat-display__button {
   border: 0;
-  background-color: #ffff;
 }
 
 .chat-display__input {
@@ -75,8 +74,8 @@
 
 .chat-display__modal {
   position: fixed;
-  top: 25%;
-  left: 25%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
   padding: 1.875rem;
@@ -104,4 +103,3 @@
 .chat-display__modal--button:hover {
   background-color: #383a3c;
 } 
-

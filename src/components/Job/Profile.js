@@ -32,7 +32,7 @@ const Profile = () => {
   return (
     <div className="profile">
       <div className="profile-img">
-        <Link to="/UserForm">
+        <Link to="/User">
           <img src={userInfo?.profileImage || profileImage} alt="Profile" />
         </Link>
       </div>
@@ -45,7 +45,7 @@ const Profile = () => {
         <span className="icon">+</span>
       </div>
       <div className="profile-info">
-        <Link to="/UserForm">
+        <Link to="/User">
           <span>
             <i className="fas fa-edit"></i> 프로필 수정하기
           </span>

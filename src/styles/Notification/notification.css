@@ -3,6 +3,7 @@
 }
 .notification-main {
   display: flex;
+  margin-top: 70px;
 }
 .notifications {
   flex: 1;
