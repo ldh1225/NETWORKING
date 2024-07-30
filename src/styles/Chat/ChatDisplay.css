@@ -75,8 +75,8 @@
 
 .chat-display__modal {
   position: fixed;
-  top: 50%;
-  left: 50%;
+  top: 25%;
+  left: 25%;
   transform: translate(-50%, -50%);
   background-color: white;
   padding: 1.875rem;

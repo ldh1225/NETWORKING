@@ -176,7 +176,7 @@ const ChatList = ({ onSelectChatRoom }) => {
   };
 
   return (
-    <div style={{ display: "flex" }}>
+    <div>
       <div className="chat-list__wrapper">
         <div className="chat-list__group">
           <button

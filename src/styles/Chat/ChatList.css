@@ -58,18 +58,22 @@
   font-size: 1rem;
 }
 
+.chat-room-hashtags {
+  padding-left: 2rem;
+
+}
+
 .chat-room-hashtag {
   display: inline-block;
   margin-right: 0.313rem;
   color: #6c757d;
-  padding-left: 2rem;
   font-size: 0.85rem;
 }
 
 .chat-list__modal {
   position: fixed;
-  top: 50%;
-  left: 50%;
+  top: 25%;
+  left: 25%;
   transform: translate(-50%, -50%);
   background-color: white;
   padding: 1.875rem;
