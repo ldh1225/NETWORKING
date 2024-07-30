@@ -57,11 +57,14 @@
   font-size: 1rem;
 }
 
+.chat-room-hashtags {
+  padding-left: 2rem;
+}
+
 .chat-room-hashtag {
   display: inline-block;
   margin-right: 0.313rem;
   color: #6c757d;
-  padding-left: 2rem;
   font-size: 0.85rem;
 }
 

@@ -32,7 +32,7 @@
 }
 
 .footer__title span {
-  color: tomato;
+  color: #ff7900;;
 }
 
 .footer__icon {
@@ -70,7 +70,7 @@
 }
 
 .footer__group p:hover {
-  color: tomato;
+  color: #ff7900;;
 }
 
 .powered-by {
@@ -81,7 +81,7 @@
 }
 
 .powered-by a {
-  color: tomato;
+  color: #ff7900;;
   text-decoration: none;
 }
 

@@ -52,21 +52,22 @@
   border: none;
   border-radius: 0.25rem;
   padding: 0.5rem 1rem;
-  background-color: black;
+  background-color: #ff7900;;
   color: #ffff;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   margin-left: 1rem;
 }
 
 .chat-member__leave-button:hover {
-  background-color: #383a3c;
+  background: #f56a0d;
+  transform: scale(1.05);
 }
 
 .chat-member__modal {
   position: fixed;
-  top: 25%;
-  left: 25%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
   padding: 1.875rem;
