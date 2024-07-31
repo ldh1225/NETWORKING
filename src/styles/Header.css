@@ -20,7 +20,7 @@
 }
 
 .logo span {
-  color: #ff7900;;
+  color: #007bff;
 }
 
 nav {
@@ -48,7 +48,7 @@ nav a::after,
   bottom: -3px;
   width: 100%;
   height: 2px;
-  background-color: #ff7900;;
+  background-color:#007bff;
   transform: scaleX(0);
   transform-origin: right;
   transition: transform 0.3s ease;
@@ -58,7 +58,7 @@ nav a.active,
 nav a:hover,
 .util ul li a:hover,
 .util ul li a.active {
-  color: #ff7900;;
+  color: #007bff;
   transform: scale(1.05);
 }
 
@@ -83,7 +83,7 @@ nav a:hover::after,
 }
 
 .util ul li button {
-  background: #ff7900;;
+  background: #007bff;
   border: none;
   padding: 2px 6px;
   border-radius: 5px;
@@ -98,7 +98,7 @@ nav a:hover::after,
 }
 
 .util ul li button:hover {
-  background: #f56a0d;
+  background: #005aba;
   transform: scale(1.05);
 }
 

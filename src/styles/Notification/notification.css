@@ -28,11 +28,11 @@
   font-size: 15px;
 }
 .notifications__tabs button:hover {
-  background-color: tomato;
+  background-color: #007bff;
   color: white;
 }
 .notifications__tabs button.active {
-  background-color: tomato;
+  background-color: #007bff;
   color: white;
 }
 
@@ -59,7 +59,7 @@
 }
 
 .liker-name {
-  color: tomato;
+  color: #007bff;
   font-weight: bold;
 }
 
@@ -67,7 +67,7 @@
 .more-options {
   background: none;
   border: none;
-  color: tomato;
+  color: #007bff;
   cursor: pointer;
   font-size: 24px;
   padding: 0;
