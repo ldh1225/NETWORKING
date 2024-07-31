@@ -25,7 +25,7 @@ public class Likes {
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "no")     
-    private Users user;
+    private User user;
 
     private LocalDateTime createdAt;
 }

@@ -26,7 +26,7 @@ const Post = () => {
     const token = Cookies.get("accessToken");
     console.log("Token in fetchPosts:", token);
     try {
-      const response = await axios.get(`http://118.67.143.230:8080/api/posts`, {
+      const response = await axios.get(`${process.env.REACT_APP_URL}/api/posts`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -69,7 +69,7 @@ const Post = () => {
       const token = Cookies.get("accessToken");
 
       try {
-        const response = await axios.post(`http://118.67.143.230:8080/api/posts`, formData, {
+        const response = await axios.post(`${process.env.REACT_APP_URL}/api/posts`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`,
@@ -92,7 +92,7 @@ const Post = () => {
     const token = Cookies.get("accessToken");
     console.log("Token in handleDeletePost:", token);
     try {
-      await axios.delete(`http://118.67.143.230:8080/api/posts/${postId}`, {
+      await axios.delete(`${process.env.REACT_APP_URL}/api/posts/${postId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -136,7 +136,7 @@ const Post = () => {
       const token = Cookies.get("accessToken");
 
       try {
-        await axios.post("http://118.67.143.230:8080/api/comments", newComment, {
+        await axios.post(`${process.env.REACT_APP_URL}/api/comments`, newComment, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -203,7 +203,7 @@ const Post = () => {
             onDelete={() => handleDeletePost(post.id)}
           />
           {post.imagePost && (
-            <img src={`http://118.67.143.230:8080${post.imagePost}`} alt="Post" className="post-image" />
+            <img src={`${process.env.REACT_APP_URL}${post.imagePost}`} alt="Post" className="post-image" />
           )}
           <div className="post-content">
             {post.contentPost.split('\n').map((line, index) => (

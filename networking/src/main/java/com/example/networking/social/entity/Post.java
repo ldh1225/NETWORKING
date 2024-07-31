@@ -3,7 +3,7 @@ package com.example.networking.social.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -26,9 +26,8 @@ public class Post {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "no")
-    @JsonBackReference
-    private Users user;
+    @JoinColumn(name = "user_id", referencedColumnName = "no") // userId로 참조
+    private User user;
 
     private String contentPost;
     private String imagePost;
@@ -36,5 +35,6 @@ public class Post {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Comment> comments;
 }

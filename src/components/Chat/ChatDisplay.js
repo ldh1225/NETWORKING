@@ -27,7 +27,7 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
   const fetchUserInfo = async (token, chatRoomId) => {
     try {
       const response = await fetch(
-        `http://118.67.143.230:8080/users/infoWithNickname?chatRoomId=${chatRoomId}`,
+        `${process.env.REACT_APP_URL}/users/infoWithNickname?chatRoomId=${chatRoomId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -45,7 +45,7 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
   const fetchMessages = async (token, chatRoomId) => {
     try {
       const response = await fetch(
-        `http://118.67.143.230:8080/api/chat/messages/room/${chatRoomId}`,
+        `${process.env.REACT_APP_URL}/api/chat/messages/room/${chatRoomId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -68,7 +68,7 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
 
   const connect = () => {
     const token = Cookies.get("accessToken");
-    const socket = new SockJS(`http://118.67.143.230:8080/chat?token=${token}`);
+    const socket = new SockJS(`${process.env.REACT_APP_URL}/chat?token=${token}`);
     stompClient.current = Stomp.over(socket);
 
     stompClient.current.connect(
@@ -111,7 +111,7 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
       const checkActiveStatus = async () => {
         try {
           const response = await fetch(
-            `http://118.67.143.230:8080/api/chat/users/${chatRoom.chatRoomId}/isActive`,
+            `${process.env.REACT_APP_URL}/api/chat/users/${chatRoom.chatRoomId}/isActive`,
             {
               method: "GET",
               headers: {
@@ -176,7 +176,7 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
 
       try {
         const response = await fetch(
-          "http://118.67.143.230:8080/api/chat/messages",
+        `${process.env.REACT_APP_URL}/api/chat/messages`,
           {
             method: "POST",
             headers: {
@@ -226,7 +226,7 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
 
     try {
       const response = await fetch(
-        `http://118.67.143.230:8080/api/chat/messages/${selectedMessage}/soft-delete`,
+        `${process.env.REACT_APP_URL}/api/chat/messages/${selectedMessage}/soft-delete`,
         {
           method: "PATCH",
           headers: {
@@ -265,7 +265,7 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
     };
     try {
       const response = await fetch(
-        `http://118.67.143.230:8080/api/chat/users/join/${chatRoom.chatRoomId}`,
+        `${process.env.REACT_APP_URL}/api/chat/users/join/${chatRoom.chatRoomId}`,
         {
           method: "POST",
           headers: {

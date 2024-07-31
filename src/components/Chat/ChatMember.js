@@ -25,7 +25,7 @@ const ChatMember = ({ chatRoom, onLeave }) => {
 
       try {
         const response = await fetch(
-          `http://118.67.143.230:8080/api/chat/users/room/${chatRoom.chatRoomId}/members`,
+          `${process.env.REACT_APP_URL}/api/chat/users/room/${chatRoom.chatRoomId}/members`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -65,7 +65,7 @@ const ChatMember = ({ chatRoom, onLeave }) => {
 
     try {
       const response = await fetch(
-        `http://118.67.143.230:8080/api/chat/users/room/${chatRoom.chatRoomId}/user/${currentUser.userId}`,
+        `${process.env.REACT_APP_URL}/api/chat/users/room/${chatRoom.chatRoomId}/user/${currentUser.userId}`,
         {
           method: "DELETE",
           headers: {
