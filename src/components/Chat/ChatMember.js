@@ -10,7 +10,7 @@ const customStyles = {
   },
 };
 
-const ChatMember = ({ isOpen, closeModal, chatRoom, onLeave }) => {
+const ChatMember = ({ chatRoom, onLeave }) => {
   const [members, setMembers] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [showLeaveModal, setShowLeaveModal] = useState(false);
@@ -25,7 +25,7 @@ const ChatMember = ({ isOpen, closeModal, chatRoom, onLeave }) => {
 
       try {
         const response = await fetch(
-          `/api/chat/users/room/${chatRoom.chatRoomId}/members`,
+          `http://118.67.143.230:8080/api/chat/users/room/${chatRoom.chatRoomId}/members`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -65,7 +65,7 @@ const ChatMember = ({ isOpen, closeModal, chatRoom, onLeave }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/chat/users/room/${chatRoom.chatRoomId}/user/${currentUser.userId}`,
+        `http://118.67.143.230:8080/api/chat/users/room/${chatRoom.chatRoomId}/user/${currentUser.userId}`,
         {
           method: "DELETE",
           headers: {
