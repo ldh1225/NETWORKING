@@ -1,5 +1,5 @@
 import "../styles/Footer.css";
-import SocialIcon from "../assets/icons/Social Icons.png"; 
+import SocialIcon from "../assets/icons/Social Icons.png";
 import { useLocation } from "react-router-dom";
 
 export default function Footer() {
@@ -42,7 +42,14 @@ export default function Footer() {
         </div>
       </div>
       <div className="powered-by">
-        Powered by <a href="http://www.saramin.co.kr" target="_blank" rel="noopener noreferrer">취업 사람인</a>
+        Powered by{" "}
+        <a
+          href="http://www.saramin.co.kr"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          취업 사람인
+        </a>
       </div>
     </footer>
   );
