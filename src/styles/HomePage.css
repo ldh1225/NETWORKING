@@ -44,14 +44,10 @@
 
 .search-section__homepage button {
   padding: 10px 20px;
-  background-color: tomato;
+  background-color: #007bff;
   color: white;
   border: none;
   cursor: pointer;
-}
-
-.search-section__homepage button:hover {
-  background-color: #fb5607;
 }
 
 .sample-image {
