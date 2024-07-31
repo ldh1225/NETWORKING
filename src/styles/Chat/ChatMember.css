@@ -50,18 +50,20 @@
 
 .chat-member__leave-button {
   border: none;
-  border-radius: 0.25rem;
   padding: 0.5rem 1rem;
-  background-color: #ff7900;;
-  color: #ffff;
-  font-weight: 600;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 0 #007bff;
+  color: #007bff;
+  font-weight: bold;
   font-size: 0.9rem;
-  margin-left: 1rem;
+  margin: 1.5rem 0.5rem;
+  transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
+  background-color: #ffff;
 }
 
 .chat-member__leave-button:hover {
-  background: #f56a0d;
-  transform: scale(1.05);
+  box-shadow: inset 7.5rem 0 0 0 #007bff;
+  color: white;
 }
 
 .chat-member__modal {

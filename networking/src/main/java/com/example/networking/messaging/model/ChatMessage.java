@@ -2,11 +2,10 @@ package com.example.networking.messaging.model;
 
 import java.sql.Timestamp;
 
-// 웹소켓에 사용 
 public class ChatMessage {
     private MessageType type;
     private String message;
-    private String sender;
+    private String nickname;
     private String receiver;
     private Integer userId; 
     private Long chatRoomId; 
@@ -37,12 +36,12 @@ public class ChatMessage {
         this.message = message;
     }
 
-    public String getSender() {
-        return sender;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getReceiver() {

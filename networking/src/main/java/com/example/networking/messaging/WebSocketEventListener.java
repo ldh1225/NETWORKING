@@ -37,7 +37,7 @@ public class WebSocketEventListener {
             logger.info("유저 퇴장 : " + nickname);
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setType(ChatMessage.MessageType.LEAVE);
-            chatMessage.setSender(nickname);
+            chatMessage.setNickname(nickname);
             chatMessage.setMessage(nickname + "님이 나갔습니다.");
             chatMessage.setUserId(Integer.parseInt(userId)); 
             chatMessage.setChatRoomId(Long.parseLong(chatRoomId)); 

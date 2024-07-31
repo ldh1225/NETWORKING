@@ -57,7 +57,7 @@ public class ChatUserService {
 
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setType(ChatMessage.MessageType.LEAVE);
-            chatMessage.setSender(nickname);
+            chatMessage.setNickname(nickname);
             chatMessage.setMessage(nickname + " 님이 나갔습니다.");
             chatMessage.setUserId(userId);
             chatMessage.setChatRoomId(chatRoomId);

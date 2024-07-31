@@ -34,7 +34,7 @@ public class ChatController {
             throw new IllegalArgumentException("메세지는 null 혹은 빈 메세지일 수 없습니다.");
         }
 
-        if (chatMessage.getSender() == null || chatMessage.getSender().isEmpty()) {
+        if (chatMessage.getNickname() == null || chatMessage.getNickname().isEmpty()) {
             logger.error("null 혹은 빈 닉네임을 전달받았습니다: {}", chatMessage);
             throw new IllegalArgumentException("닉네임은 null 혹은 빈 값일 수 없습니다.");
         }
@@ -57,10 +57,10 @@ public class ChatController {
     @MessageMapping("/chat.addUser")
     @SendToUser("/queue/user")
     public ChatMessage addUser(ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
-        logger.info("유저 추가 완료: " + chatMessage.getSender());
-        headerAccessor.getSessionAttributes().put("nickname", chatMessage.getSender());
+        logger.info("유저 추가 완료: " + chatMessage.getNickname());
+        headerAccessor.getSessionAttributes().put("nickname", chatMessage.getNickname());
         headerAccessor.getSessionAttributes().put("userId", chatMessage.getUserId().toString());
-        chatMessage.setMessage(chatMessage.getSender() + "님이 들어왔습니다.");
+        chatMessage.setMessage(chatMessage.getNickname() + "님이 들어왔습니다.");
         chatMessage.setType(ChatMessage.MessageType.JOIN);
         return chatMessage;
     }
@@ -70,10 +70,10 @@ public class ChatController {
     @MessageMapping("/chat.addUser/{chatRoomId}")
     @SendTo("/topic/groupChatRoom/{chatRoomId}")
     public ChatMessage addUserToRoom(ChatMessage chatMessage, @DestinationVariable String chatRoomId, SimpMessageHeaderAccessor headerAccessor) {
-        headerAccessor.getSessionAttributes().put("nickname", chatMessage.getSender());
+        headerAccessor.getSessionAttributes().put("nickname", chatMessage.getNickname());
         headerAccessor.getSessionAttributes().put("userId", chatMessage.getUserId().toString());
         headerAccessor.getSessionAttributes().put("chatRoomId", chatRoomId);
-        chatMessage.setMessage(chatMessage.getSender() + "님이 들어왔습니다.");
+        chatMessage.setMessage(chatMessage.getNickname() + "님이 들어왔습니다.");
         chatMessage.setType(ChatMessage.MessageType.JOIN);
         return chatMessage;
     }

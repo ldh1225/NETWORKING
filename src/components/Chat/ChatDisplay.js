@@ -57,7 +57,7 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
         ...msg,
         chatId: msg.chatId,
         message: msg.message,
-        sender: msg.nickname,
+        nickname: msg.nickname,
         type: msg.type || "GROUP_CHAT",
       }));
       setMessages(normalizedMessages);
@@ -67,8 +67,14 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
   };
 
   const connect = () => {
+    if (stompClient.current && stompClient.current.connected) {
+      return; // subscribe는 한번만 하게 막음
+    }
+
     const token = Cookies.get("accessToken");
-    const socket = new SockJS(`${process.env.REACT_APP_URL}/chat?token=${token}`);
+    const socket = new SockJS(
+      `${process.env.REACT_APP_URL}/chat?token=${token}`
+    );
     stompClient.current = Stomp.over(socket);
 
     stompClient.current.connect(
@@ -83,7 +89,14 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
             console.log("메세지가 도착하였습니다:", newMessage);
 
             if (newMessage) {
-              setMessages((prevMessages) => [...prevMessages, newMessage]);
+              setMessages((prevMessages) => {
+                if (
+                  prevMessages.some((msg) => msg.chatId === newMessage.chatId)
+                ) {
+                  return prevMessages; // 메세지가 복사되지 않도록 막음 
+                }
+                return [...prevMessages, newMessage];
+              });
             } else {
               console.log("전달 받은 메세지가 null 혹은 undefined입니다.");
             }
@@ -93,7 +106,7 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
         stompClient.current.send(
           `/app/chat.addUser/${chatRoom.chatRoomId}`,
           {},
-          JSON.stringify({ sender: nickname, userId })
+          JSON.stringify({ nickname: nickname, userId })
         );
       },
       (error) => {
@@ -165,7 +178,7 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
   const sendMessage = async () => {
     if (stompClient.current && message.trim() !== "") {
       const chatMessage = {
-        sender: nickname.trim(),
+        nickname: nickname.trim(),
         message: message.trim(),
         type: "GROUP_CHAT",
         userId: userId,
@@ -176,7 +189,7 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
 
       try {
         const response = await fetch(
-        `${process.env.REACT_APP_URL}/api/chat/messages`,
+          `${process.env.REACT_APP_URL}/api/chat/messages`,
           {
             method: "POST",
             headers: {
@@ -322,7 +335,7 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
                   ) : (
                     <div className="chat-display__container">
                       <strong className="chat-display__nickname">
-                        {msg.sender}
+                        {msg.nickname}
                       </strong>
                       <div className="chat-display__message">{msg.message}</div>
                     </div>

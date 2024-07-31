@@ -29,7 +29,7 @@ public class ChatService {
             throw new IllegalArgumentException("메세지 내용은 null 혹은 빈 메세지일 수 없습니다.");
         }
 
-        if (chatMessage.getSender() == null || chatMessage.getSender().isEmpty()) {
+        if (chatMessage.getNickname() == null || chatMessage.getNickname().isEmpty()) {
             logger.error("null 혹은 빈 닉네임은 저장할 수 없습니다.: {}", chatMessage);
             throw new IllegalArgumentException("닉네임은 null 혹은 빈 값일 수 없습니다.");
         }
@@ -39,7 +39,7 @@ public class ChatService {
         chat.setChatRoomId(chatMessage.getChatRoomId());
         chat.setUserId(chatMessage.getUserId());
         chat.setMessage(chatMessage.getMessage());
-        chat.setNickname(chatMessage.getSender());
+        chat.setNickname(chatMessage.getNickname());
         chat.setReadStatus(false); 
         chat.setIsDeleted(false); 
         chat.setType(chatMessage.getType());

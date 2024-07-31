@@ -60,4 +60,16 @@ public class ChatRoomController {
         List<ChatRoom> chatRooms = chatRoomService.getChatRoomsByUserId(userId);
         return ResponseEntity.ok(chatRooms);
     }
+
+    // 채팅방 삭제하기
+  @DeleteMapping("/{chatRoomId}")
+    public ResponseEntity<Void> deleteChatRoom(@PathVariable Long chatRoomId) {
+    boolean isDeleted = chatRoomService.deleteChatRoom(chatRoomId);
+    if (isDeleted) {
+        return ResponseEntity.noContent().build();
+    } else {
+        return ResponseEntity.notFound().build();
+    }
+}
+
 }

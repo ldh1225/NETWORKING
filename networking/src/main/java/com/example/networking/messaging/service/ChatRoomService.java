@@ -70,4 +70,16 @@ public class ChatRoomService {
     public List<ChatRoom> getChatRoomsByUserId(Integer userId) {
         return chatRoomRepository.findByUserId(userId);
     }
+
+    // 채팅방 삭제하기
+    public boolean deleteChatRoom(Long chatRoomId) {
+    Optional<ChatRoom> chatRoom = chatRoomRepository.findById(chatRoomId);
+    if (chatRoom.isPresent()) {
+        chatRoomRepository.delete(chatRoom.get());
+        return true;
+    } else {
+        return false;
+    }
+}
+
 }
