@@ -7,6 +7,12 @@ import { jwtDecode } from "jwt-decode";
 
 Modal.setAppElement("#root");
 
+const customStyles = {
+  overlay: {
+    backgroundColor: 'rgba(255, 255, 255, 0.5)'
+  },
+};
+
 const ChatList = ({ onSelectChatRoom }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [chatRooms, setChatRooms] = useState([]);
@@ -226,6 +232,8 @@ const ChatList = ({ onSelectChatRoom }) => {
       </div>
       <Modal
         isOpen={showJoinModal}
+        style={customStyles}
+        shouldCloseOnOverlayClick={true}
         onRequestClose={() => {
           setShowJoinModal(false);
           setNickname("");

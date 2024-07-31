@@ -5,9 +5,11 @@ import Cookies from "js-cookie";
 
 const customStyles = {
   overlay: {
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: 'rgba(255, 255, 255, 0.5)'
   },
 };
+
+
 
 const NewChat = ({ isOpen, closeModal, fetchChatRooms }) => {
   const [selectedOption, setSelectedOption] = useState("");
@@ -108,7 +110,7 @@ const NewChat = ({ isOpen, closeModal, fetchChatRooms }) => {
       isOpen={isOpen}
       onRequestClose={closeModal}
       style={customStyles}
-      shouldCloseOnOverlayClick={false}
+      shouldCloseOnOverlayClick={true}
       className="new-chat__modal"
     >
       <div className="new-chat__wrapper">

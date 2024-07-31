@@ -1,9 +1,16 @@
 import "../../styles/Chat/ChatMember.css";
 import { useState, useEffect } from "react";
+import Modal from "react-modal";
 import Cookies from "js-cookie";
 import profilePic from "../../assets/images/profileicon.png";
 
-const ChatMember = ({ chatRoom, onLeave }) => {
+const customStyles = {
+  overlay: {
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
+  },
+};
+
+const ChatMember = ({ isOpen, closeModal, chatRoom, onLeave }) => {
   const [members, setMembers] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [showLeaveModal, setShowLeaveModal] = useState(false);
@@ -128,7 +135,12 @@ const ChatMember = ({ chatRoom, onLeave }) => {
       </button>
 
       {showLeaveModal && (
-        <div className="chat-member__modal">
+        <Modal
+          isOpen={showLeaveModal}
+          style={customStyles}
+          shouldCloseOnOverlayClick={true}
+          className="chat-member__modal"
+        >
           <div className="chat-member__modal-content">
             <h3 className="chat-member__title">채팅방을 나가시겠습니까?</h3>
             <div className="chat-member__modal-wrapper">
@@ -143,7 +155,7 @@ const ChatMember = ({ chatRoom, onLeave }) => {
               </button>
             </div>
           </div>
-        </div>
+        </Modal>
       )}
     </div>
   );
