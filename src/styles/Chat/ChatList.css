@@ -1,6 +1,7 @@
 .chat-list__group {
   display: flex;
   justify-content: space-evenly;
+  gap: 1rem; /* 버튼 간의 간격을 균일하게 조정 */
 }
 
 .chat-list__button {
@@ -11,13 +12,17 @@
   color: #ff7900;
   font-weight: bold;
   font-size: 0.9rem;
-  margin: 0 -.25rem;
-  transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
+  margin: 0 0.25rem; /* 좌우 여백을 균일하게 조정 */
+  border-radius: 0.3rem; /* 모서리를 둥글게 처리 */
+  background-color: transparent; /* 기본 배경색을 투명으로 */
+  transition: color 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 
 .chat-list__button:hover {
-  box-shadow: inset 7.5rem 0 0 0 #ff7900;
-  color: white;
+  background-color: #ff7900;
+  color: #fff;
+  box-shadow: inset 0 0 0 2px #ff7900; /* 호버 시 테두리 효과 추가 */
+  transform: translateY(-2px); /* 호버 시 버튼이 살짝 올라오게 */
 }
 
 .chat-list__u-list {
@@ -26,44 +31,43 @@
   overflow-y: auto;
   padding: 0;
   margin: 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-top:1rem;
 }
 
 .chat-list__list {
-  padding-top: 1rem;
+  padding: 1rem;
   cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  border-bottom: 1px solid #e0e0e0;
 }
 
-.chat-list__list:hover {
-  box-shadow: inset 7.5rem 0 0 0 #dee2e6;
-  background-color: #dee2e6;
-}
-
-.chat-list__list:checked{
-  background-color: #dee2e6;
-}
-
+.chat-list__list:hover,
 .chat-list__list.selected {
-  background-color: #dee2e6; 
+  background-color: #f1f3f5;
+  box-shadow: inset 7.5rem 0 0 0 #f1f3f5;
 }
 
-.chat-list__line {
-  padding: 0.5rem 0;
-  border-bottom: 0.125rem solid #e0e0e0;
+.chat-list__list:last-child {
+  border-bottom: none;
 }
 
 .chat-room-name {
-  padding-left: 2rem;
-  margin-bottom: 0.25rem;
+  padding-left: 1rem;
+  margin-bottom: 0.5rem;
   font-size: 1rem;
+  font-weight: bold;
+  color: #343a40;
 }
 
 .chat-room-hashtags {
-  padding-left: 2rem;
+  padding-left: 1rem;
 }
 
 .chat-room-hashtag {
   display: inline-block;
-  margin-right: 0.313rem;
+  margin-right: 0.5rem;
   color: #6c757d;
   font-size: 0.85rem;
 }
@@ -73,46 +77,59 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 1.875rem;
-  border: 0.063rem solid #ccc;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 10px;
   z-index: 1000;
-  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  max-width: 90%;
+  width: 400px;
 }
 
 .chat-list__title {
-  color: #495057;
-}
-
-.chat-list__wrapper--pw {
+  color: #212529;
+  font-size: 1.2rem;
+  font-weight: bold;
   margin-bottom: 1rem;
 }
 
+.chat-list__wrapper--pw {
+  margin-bottom: 1.5rem;
+}
+
 .chat-list__subtitle {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: #495057;
+  margin-bottom: 0.5rem;
 }
 
 .chat-list__input {
-  border: none;
-  border-bottom: 0.1rem solid black;
-  padding-bottom: 0.25rem;
-  width: 12rem;
-  height: 1.25rem;
+  border: 1px solid #ced4da;
+  padding: 0.5rem;
+  width: 100%;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  transition: border-color 0.3s ease;
+}
+
+.chat-list__input:focus {
+  outline: none;
+  border-color: #ff7900;
 }
 
 .chat-list__button--join {
   border: none;
   border-radius: 0.25rem;
   padding: 0.5rem 1rem;
-  background-color: black;
-  color: #ffff;
+  background-color: #ff7900;
+  color: #fff;
   font-weight: 600;
-  font-size: 0.85rem;
-  margin: 1.5rem 0;
+  font-size: 0.95rem;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
 }
 
 .chat-list__button--join:hover {
-  background-color: #383a3c;
+  background-color: #e67e22;
 }
