@@ -119,3 +119,18 @@
 .popup-add-post-button:hover {
     background-color: #12bdf3;
 }
+
+.post-content {
+    padding: 50px 10px;
+    font-size: 1.2rem;
+}
+.post-footer {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.comments-count, .like-count {
+    margin-right: 20px;
+}
