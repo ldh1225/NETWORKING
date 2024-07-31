@@ -31,9 +31,9 @@
 }
 
 .teams {
-  font-size: 18px;
+  font-size: 15px;
   margin: 20px;
-  color: #6c757d;
+  color: #ced0ce;
   display: inline-block;
   max-width: 400px;
   word-wrap: break-word;
