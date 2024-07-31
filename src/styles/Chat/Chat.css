@@ -1,27 +1,32 @@
+.chat {
+  background-color: #ECF3FF;
+}
+
 .chat__container {
   display: flex;
   justify-content: space-between;
-  border-top: 0.125rem solid #E0E0E0;
   margin-top: 70px;
 }
 
 .chat__box {
   padding: 1.5rem;
+  border: 1px solid #E0E0E0;
+  border-radius: 20px;
+  background-color: white;;
+  height: 650px;
+  margin: 2rem 1rem;
+ }
+ 
+ .chat__box--list {
+   padding: 1rem 0;
+   width: 23%;
  }
 
 .chat__box--display{
-  width: 700px;
-  max-height: 40rem;
-}
-
-.chat__box--list {
-  border-right: 0.125rem solid #E0E0E0;
-  padding: 1rem 0;
-  width: 23%;
+  width: 55%;
 }
 
 .chat__box--member {
-  border-left: 0.125rem solid #E0E0E0;
   width: 18%;
   padding: 0;
 }

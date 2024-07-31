@@ -364,7 +364,7 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
                 viewBox="0 0 32 32"
                 className="icon-2xl"
               >
-                <circle cx="16" cy="16" r="16" fill="black" />
+                <circle cx="16" cy="16" r="16" fill="#007bff" />
                 <path
                   fill="white"
                   fillRule="evenodd"

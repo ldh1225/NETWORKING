@@ -6,6 +6,7 @@
 
 .chat-list__button {
   border: none;
+  border-radius: 15px;
   padding: 0.5rem 1rem;
   cursor: pointer;
   box-shadow: inset 0 0 0 0 #007bff;
@@ -20,11 +21,12 @@
 .chat-list__button:hover {
   box-shadow: inset 7.5rem 0 0 0 #007bff;
   color: white;
+  border-radius: 15px;
 }
 
 .chat-list__u-list {
   list-style-type: none;
-  max-height: 40rem;
+  max-height: 36rem;
   overflow-y: auto;
   padding: 0;
   margin: 0;
@@ -42,8 +44,8 @@
 
 .chat-list__list:hover,
 .chat-list__list.selected {
-  background-color: #f1f3f5;
-  box-shadow: inset 7.5rem 0 0 0 #f1f3f5;
+  background-color: #f8f9fa;
+  box-shadow: inset 7.5rem 0 0 0 #f8f9fa;
 }
 
 .chat-list__list:last-child {

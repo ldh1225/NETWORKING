@@ -2,18 +2,18 @@
 
 
 .chat-display__msg {
-  max-height: 37rem;
+  max-height: 35rem;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   font-family: "Hi Melody", sans-serif;
-  font-size: 1.1rem;
-
+  font-size: 1.15rem;
 }
 
 .chat-display__nickname{
-  font-size: 0.65rem;
-  color: #495057;
+  font-size: 1rem;
+  color: white;
+
 }
 
 .chat-display__wrapper {
@@ -31,6 +31,9 @@
 
 .chat-display__button {
   border: 0;
+  background-color: white;
+  margin: auto;
+  height: 2rem;
 }
 
 .chat-display__input {
@@ -60,14 +63,16 @@
 }
 
 .chat-display__content.my-message {
-  background-color: #e0e0e0;
+  background-color: #007bff;
+  color: white;
   text-align: right;
   margin-left: auto;
   float: right;
 }
 
 .chat-display__content.other-message {
-  background-color: #e0e0e0;
+  background-color: #007bff;
+  color: white;
   text-align: left;
   margin-right: auto;
 }
@@ -92,14 +97,15 @@
   border: none;
   border-radius: 0.25rem;
   padding: 0.5rem 1rem;
-  background-color: black;
-  color: #ffff;
+  background-color: #007bff;
+  color: #fff;
   font-weight: 600;
-  font-size: 0.85rem;
-  margin-right: 1rem;
+  font-size: 0.95rem;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+  margin-right: 1rem;
 }
 
 .chat-display__modal--button:hover {
-  background-color: #383a3c;
-} 
+  background-color: #0368d5;} 
