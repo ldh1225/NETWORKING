@@ -1,24 +1,44 @@
+/* 기본 스타일 초기화 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-.app {
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* Joblist 페이지에만 스타일 적용 */
+.joblist-page {
+  width: 100%;
+  min-height: 100%; /* 최소 높이를 100%로 설정하여 페이지 전체에 색상 적용 */
+  background-color: #ECF3FF;
+  display: flex;
+  flex-direction: column; /* 컬럼 방향으로 요소 정렬 */
+}
+
+.joblist-page .app {
   width: 1280px;
   margin: 0 auto;
-  box-sizing: border-box;
- 
+  background-color: #ECF3FF;
+  flex: 1; /* 부모의 flexbox 공간을 채우도록 설정 */
 }
 
-.main {
+.joblist-page .main {
   display: flex;
   margin-top: 130px;
-  
 }
 
-.leftColumn {
+.joblist-page .leftColumn {
   width: 200px;
-  margin-right: 80px;
-  
+  margin-right: 40px;
 }
 
-.rightColumn {
+.joblist-page .rightColumn {
   flex: 1;
-  
 }

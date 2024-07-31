@@ -1,5 +1,7 @@
 .notifications-page {
   padding: 50px;
+  background-color: #ecf3ff;
+  height: 100vh;
 }
 .notification-main {
   display: flex;
@@ -41,7 +43,8 @@
   padding: 20px;
   border: 1px solid gray;
   border-radius: 20px;
-  height: 80%;
+  height: 90%;
+  background-color: white;
 }
 
 .notification {
@@ -59,7 +62,7 @@
 }
 
 .liker-name {
-  color: #007bff;
+  color: #0077b6;
   font-weight: bold;
 }
 
@@ -67,7 +70,7 @@
 .more-options {
   background: none;
   border: none;
-  color: #007bff;
+  color: #0077b6;
   cursor: pointer;
   font-size: 24px;
   padding: 0;
