@@ -38,7 +38,7 @@ const Header = () => {
         ) : (
           <ul>
             <li>
-              <NavLink to="/user">마이페이지</NavLink>
+              {/* <NavLink to="/user">마이페이지</NavLink> */}
               <button className="link" onClick={logout}>
                 로그아웃
               </button>

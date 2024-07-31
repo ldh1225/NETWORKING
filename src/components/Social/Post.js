@@ -1,14 +1,14 @@
 import axios from "axios";
-import React, { useEffect, useState, useContext } from "react";
-import postprofileImage from "../../assets/images/고양이 프로필.png";
-import LikeButton from "../LikeButton";
 import Cookies from "js-cookie";
-import { LoginContext } from "../../contexts/LoginContextProvider";
+import React, { useContext, useEffect, useState } from "react";
 import {
-  isPostLikedByUser,
   countLikesByPostId,
+  isPostLikedByUser,
 } from "../../apis/notificationApi";
+import postprofileImage from "../../assets/images/고양이 프로필.png";
+import { LoginContext } from "../../contexts/LoginContextProvider";
 import "../../styles/Social/Post.css";
+import LikeButton from "../LikeButton";
 
 const PostHeader = ({ username, userId, onDelete }) => {
   return (
@@ -66,7 +66,7 @@ const Post = () => {
         })
       );
 
-      setPosts(updatedPosts.filter((post) => post !== null));
+      setPosts(updatedPosts.filter((post) => post !== null).reverse());
     } catch (error) {
       console.error("Error fetching posts", error);
     }
