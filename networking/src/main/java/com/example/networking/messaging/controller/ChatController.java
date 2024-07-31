@@ -24,7 +24,7 @@ public class ChatController {
     }
 
     // 그룹메세지
-    @MessageMapping("/chat.sendMessage/{chatRoomId}")
+    @MessageMapping("/chat.sendGroupMessage/{chatRoomId}")
     @SendTo("/topic/groupChatRoom/{chatRoomId}") 
     public ChatMessage sendGroupMessage(ChatMessage chatMessage) {
         chatService.saveMessage(chatMessage); 

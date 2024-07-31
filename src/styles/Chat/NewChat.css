@@ -1,7 +1,7 @@
 .new-chat__modal {
   position: fixed;
-  top: 25%;
-  left: 25%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
   padding: 1.875rem;
@@ -9,6 +9,7 @@
   z-index: 1000;
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
 }
+
 
 .error-message {
   color: #ee6055;

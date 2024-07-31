@@ -126,7 +126,8 @@ body {
 }
 
 /* 푸터 */
-.footer {
+/* footer-social로 변경 */
+.footer-social {
   text-align: center;
   padding: 20px;
   background-color: #fff;
