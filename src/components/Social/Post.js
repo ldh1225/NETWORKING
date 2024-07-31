@@ -5,26 +5,11 @@ import {
   countLikesByPostId,
   isPostLikedByUser,
 } from "../../apis/notificationApi";
-import postprofileImage from "../../assets/images/고양이 프로필.png";
+import postprofileImage from "../../assets/images/profileicon.png";
 import { LoginContext } from "../../contexts/LoginContextProvider";
 import "../../styles/Social/Post.css";
 import LikeButton from "../LikeButton";
-
-const PostHeader = ({ username, userId, onDelete }) => {
-  return (
-    <div className="post-header">
-      <div className="user-info">
-        <img src={postprofileImage} alt="Profile" className="profile-pic" />
-        <div className="username">
-          {username} ({userId})
-        </div>
-      </div>
-      <button className="delete-button" onClick={onDelete}>
-        ×
-      </button>
-    </div>
-  );
-};
+import PostHeader from "./PostHeader";
 
 const Post = () => {
   const { userInfo, isLogin } = useContext(LoginContext);
@@ -156,6 +141,11 @@ const Post = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+
+        const updatedPosts = posts.map((p) =>
+          p.id === postId ? { ...p, commentText: "" } : p
+        );
+        setPosts(updatedPosts);
         fetchPosts();
       } catch (error) {
         console.error("Error adding comment", error);
@@ -218,9 +208,16 @@ const Post = () => {
             onDelete={() => handleDeletePost(post.id)}
           />
           {post.imagePost && (
-            <img src={post.imagePost} alt="Post" className="post-image" />
+            <img src={`http://localhost:8080${post.imagePost}`} alt="Post" className="post-image" />
           )}
-          <div className="post-content">{post.contentPost}</div>
+          <div className="post-content">
+            {post.contentPost.split('\n').map((line, index) => (
+              <span key={index}>
+                {line}
+                <br />
+              </span>
+            ))}
+          </div>
           <div className="post-footer">
             <span className="comments-count">
               💬 {post.comments?.length || 0} comments
