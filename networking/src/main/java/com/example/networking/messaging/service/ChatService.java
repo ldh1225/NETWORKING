@@ -23,19 +23,31 @@ public class ChatService {
     // 새로운 메세지 저장하기
     @Transactional
     public Chat saveMessage(ChatMessage chatMessage) {
+
+        if (chatMessage.getMessage() == null || chatMessage.getMessage().isEmpty()) {
+            logger.error("null 혹은 빈 메세지는 저장할 수 없습니다.: {}", chatMessage);
+            throw new IllegalArgumentException("메세지 내용은 null 혹은 빈 메세지일 수 없습니다.");
+        }
+
+        if (chatMessage.getSender() == null || chatMessage.getSender().isEmpty()) {
+            logger.error("null 혹은 빈 닉네임은 저장할 수 없습니다.: {}", chatMessage);
+            throw new IllegalArgumentException("닉네임은 null 혹은 빈 값일 수 없습니다.");
+        }
+
         Chat chat = new Chat();
+        chat.setChatId(chatMessage.getChatId());
         chat.setChatRoomId(chatMessage.getChatRoomId());
         chat.setUserId(chatMessage.getUserId());
-        chat.setMessage(chatMessage.getContent());
-        chat.setReadStatus(false); 
+        chat.setMessage(chatMessage.getMessage());
         chat.setNickname(chatMessage.getSender());
+        chat.setReadStatus(false); 
         chat.setIsDeleted(false); 
         chat.setType(chatMessage.getType());
 
-        logger.info("메세지 저장중: " + chat);
+        logger.info("메세지 저장중: {}", chat);
 
         Chat savedChat = chatRepository.save(chat);
-        logger.info("메세지가 저장되었습니다: " + savedChat);
+        logger.info("메세지가 저장되었습니다: {}", savedChat);
 
         return savedChat;
     }

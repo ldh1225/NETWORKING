@@ -27,7 +27,7 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
   const fetchUserInfo = async (token, chatRoomId) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/users/infoWithNickname?chatRoomId=${chatRoomId}`,
+        `${process.env.REACT_APP_URL}/users/infoWithNickname?chatRoomId=${chatRoomId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -45,7 +45,7 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
   const fetchMessages = async (token, chatRoomId) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/chat/messages/room/${chatRoomId}`,
+        `${process.env.REACT_APP_URL}/api/chat/messages/room/${chatRoomId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -56,7 +56,7 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
       const normalizedMessages = data.map((msg) => ({
         ...msg,
         chatId: msg.chatId,
-        content: msg.message,
+        message: msg.message,
         sender: msg.nickname,
         type: msg.type || "GROUP_CHAT",
       }));
@@ -68,7 +68,7 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
 
   const connect = () => {
     const token = Cookies.get("accessToken");
-    const socket = new SockJS(`http://localhost:8080/chat?token=${token}`);
+    const socket = new SockJS(`${process.env.REACT_APP_URL}/chat?token=${token}`);
     stompClient.current = Stomp.over(socket);
 
     stompClient.current.connect(
@@ -80,10 +80,12 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
           `/topic/groupChatRoom/${chatRoom.chatRoomId}`,
           (message) => {
             const newMessage = JSON.parse(message.body);
-            console.log("메세지 도착하였습니다:", newMessage);
+            console.log("메세지가 도착하였습니다:", newMessage);
 
             if (newMessage) {
               setMessages((prevMessages) => [...prevMessages, newMessage]);
+            } else {
+              console.log("전달 받은 메세지가 null 혹은 undefined입니다.");
             }
           }
         );
@@ -109,7 +111,7 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
       const checkActiveStatus = async () => {
         try {
           const response = await fetch(
-            `/api/chat/users/${chatRoom.chatRoomId}/isActive`,
+            `${process.env.REACT_APP_URL}/api/chat/users/${chatRoom.chatRoomId}/isActive`,
             {
               method: "GET",
               headers: {
@@ -163,26 +165,29 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
   const sendMessage = async () => {
     if (stompClient.current && message.trim() !== "") {
       const chatMessage = {
-        sender: nickname,
-        content: message.trim(),
+        sender: nickname.trim(),
+        message: message.trim(),
         type: "GROUP_CHAT",
         userId: userId,
         chatRoomId: chatRoom.chatRoomId,
       };
 
-      console.log("메세지를 보내고 있습니다~:", chatMessage);
+      console.log("메세지를 보내고 있습니다:", chatMessage);
 
       try {
-        const response = await fetch("/api/chat/messages", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("accessToken")}`,
-          },
-          body: JSON.stringify(chatMessage),
-        });
+        const response = await fetch(
+        `${process.env.REACT_APP_URL}/api/chat/messages`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${Cookies.get("accessToken")}`,
+            },
+            body: JSON.stringify(chatMessage),
+          }
+        );
 
-        const newMessage = await response.json(); 
+        const newMessage = await response.json();
 
         if (!response.ok) {
           throw new Error(`서버 에러: ${response.statusText}`);
@@ -194,9 +199,11 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
 
         console.log("서버로부터 새로운 메세지:", newMessage);
 
+        console.log("새로운 메세지를 설정 중입니다.:", newMessage);
         setMessages((prevMessages) => [...prevMessages, newMessage]);
         setMessage("");
 
+        console.log("웹소켓에 메세지를 전달 중입니다.:", newMessage);
         stompClient.current.send(
           `/app/chat.sendGroupMessage/${chatRoom.chatRoomId}`,
           {},
@@ -219,7 +226,7 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/chat/messages/${selectedMessage}/soft-delete`,
+        `${process.env.REACT_APP_URL}/api/chat/messages/${selectedMessage}/soft-delete`,
         {
           method: "PATCH",
           headers: {
@@ -258,7 +265,7 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
     };
     try {
       const response = await fetch(
-        `http://localhost:8080/api/chat/users/join/${chatRoom.chatRoomId}`,
+        `${process.env.REACT_APP_URL}/api/chat/users/join/${chatRoom.chatRoomId}`,
         {
           method: "POST",
           headers: {
@@ -310,15 +317,12 @@ const ChatDisplay = ({ chatRoom, onLeave }) => {
                       : "other-message"
                   }`}
                 >
-                  {/* {console.log(
-                    `Message Type: ${msg.type}, Content: ${msg.content}`
-                  )} */}
                   {msg.type === "JOIN" || msg.type === "LEAVE" ? (
-                    <div>{msg.content}</div>
+                    <div>{msg.message}</div>
                   ) : (
                     <div className="chat-display__container">
                       <strong className="chat-display__nickname">
-                        {msg.nickname}
+                        {msg.sender}
                       </strong>
                       <div className="chat-display__message">{msg.message}</div>
                     </div>

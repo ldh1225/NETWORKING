@@ -2,7 +2,12 @@ body {
   font-family: "Roboto", sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #ffffff;
+}
+
+.social-page {
+  background-color: #ECF3FF;
+  min-height: 100vh;
+  padding: 20px;
 }
 
 /* 메인 콘텐츠 및 사이드바 컨테이너 */
@@ -16,17 +21,17 @@ body {
 
 .main-content {
   flex: 2;
-  background-color: #ffffff;
+  background-color: #fff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* 포스트 */
-.post {
-  margin-bottom: 20px;
-  border-bottom: 1px solid #e0e0e0;
+.main-content .post {
   padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
 }
 
 .post:last-child {

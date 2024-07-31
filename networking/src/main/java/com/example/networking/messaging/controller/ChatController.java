@@ -27,6 +27,18 @@ public class ChatController {
     @MessageMapping("/chat.sendGroupMessage/{chatRoomId}")
     @SendTo("/topic/groupChatRoom/{chatRoomId}") 
     public ChatMessage sendGroupMessage(ChatMessage chatMessage) {
+        logger.info("그룹채팅 메세지를 받았습니다.: {}", chatMessage);
+
+        if (chatMessage.getMessage() == null || chatMessage.getMessage().isEmpty()) {
+            logger.error("null 혹은 빈 메세지를 전달받았습니다: {}", chatMessage);
+            throw new IllegalArgumentException("메세지는 null 혹은 빈 메세지일 수 없습니다.");
+        }
+
+        if (chatMessage.getSender() == null || chatMessage.getSender().isEmpty()) {
+            logger.error("null 혹은 빈 닉네임을 전달받았습니다: {}", chatMessage);
+            throw new IllegalArgumentException("닉네임은 null 혹은 빈 값일 수 없습니다.");
+        }
+
         chatService.saveMessage(chatMessage); 
         return chatMessage;
     }
@@ -35,7 +47,7 @@ public class ChatController {
     @MessageMapping("/chat.sendPrivateMessage")
     @SendToUser("/queue/user")
     public ChatMessage sendPrivateMessage(ChatMessage chatMessage) {
-        logger.info("메세지 전달 완료: " + chatMessage.getContent());
+        logger.info("메세지 전달 완료: " + chatMessage.getMessage());
         chatService.saveMessage(chatMessage); 
         return chatMessage;
     }
@@ -48,7 +60,7 @@ public class ChatController {
         logger.info("유저 추가 완료: " + chatMessage.getSender());
         headerAccessor.getSessionAttributes().put("nickname", chatMessage.getSender());
         headerAccessor.getSessionAttributes().put("userId", chatMessage.getUserId().toString());
-        chatMessage.setContent(chatMessage.getSender() + "님이 들어왔습니다.");
+        chatMessage.setMessage(chatMessage.getSender() + "님이 들어왔습니다.");
         chatMessage.setType(ChatMessage.MessageType.JOIN);
         return chatMessage;
     }
@@ -61,9 +73,8 @@ public class ChatController {
         headerAccessor.getSessionAttributes().put("nickname", chatMessage.getSender());
         headerAccessor.getSessionAttributes().put("userId", chatMessage.getUserId().toString());
         headerAccessor.getSessionAttributes().put("chatRoomId", chatRoomId);
-        chatMessage.setContent(chatMessage.getSender() + "님이 들어왔습니다.");
+        chatMessage.setMessage(chatMessage.getSender() + "님이 들어왔습니다.");
         chatMessage.setType(ChatMessage.MessageType.JOIN);
         return chatMessage;
     }
-
 }

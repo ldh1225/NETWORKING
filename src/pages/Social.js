@@ -4,7 +4,7 @@ import "../styles/Social/Social.css";
 
 const Social = () => {
   return (
-    <div>
+    <div className="social-page">
       <Container />
     </div>
   );

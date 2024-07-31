@@ -93,7 +93,7 @@ const ChatList = ({ onSelectChatRoom }) => {
 
     try {
       const response = await fetch(
-        `/api/chat/users/${chatRoom.chatRoomId}/isActive`,
+        `${process.env.REACT_APP_URL}/api/chat/users/${chatRoom.chatRoomId}/isActive`,
         {
           method: "GET",
           headers: {
@@ -150,7 +150,7 @@ const ChatList = ({ onSelectChatRoom }) => {
 
     try {
       const response = await fetch(
-        `/api/chat/users/join/${selectedChatRoom.chatRoomId}`,
+        `${process.env.REACT_APP_URL}/api/chat/users/join/${selectedChatRoom.chatRoomId}`,
         {
           method: "POST",
           headers: {

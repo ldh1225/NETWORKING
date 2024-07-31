@@ -2,7 +2,6 @@
   display: flex;
   justify-content: space-between;
   border-top: 0.125rem solid #E0E0E0;
-  border-bottom: 0.125rem solid #E0E0E0;
   margin-top: 70px;
 }
 
@@ -23,6 +22,6 @@
 
 .chat__box--member {
   border-left: 0.125rem solid #E0E0E0;
-  width: 15%;
+  width: 18%;
   padding: 0;
 }

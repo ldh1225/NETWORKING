@@ -5,11 +5,12 @@ import java.sql.Timestamp;
 // 웹소켓에 사용 
 public class ChatMessage {
     private MessageType type;
-    private String content;
+    private String message;
     private String sender;
     private String receiver;
     private Integer userId; 
     private Long chatRoomId; 
+    private Long chatId;
     private Timestamp timestamp;
 
     public enum MessageType {
@@ -28,12 +29,12 @@ public class ChatMessage {
         this.type = type;
     }
 
-    public String getContent() {
-        return content;
+    public String getMessage() {
+        return message;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getSender() {
@@ -66,6 +67,14 @@ public class ChatMessage {
 
     public void setChatRoomId(Long chatRoomId) {
         this.chatRoomId = chatRoomId;
+    }
+
+    public Long getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(Long chatId) {
+        this.chatId = chatId;
     }
 
     public Timestamp getTimestamp() {

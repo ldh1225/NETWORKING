@@ -22,7 +22,9 @@ function HomePage() {
             <span className="upper">S</span>tarts <br />
             <span className="upper">H</span>ere
             <span className="teams">
-              networking <br /> 김형순 / 김현주 / 유승재 / 이동한 / 장소지
+              Job Hunting Made Easy : Get instant
+              <br /> alerts fot jobs matching your skills and
+              <br /> innovative job finder.
             </span>
           </h2>
           <div>

@@ -28,9 +28,16 @@ public class ChatMessageController {
     // 새로운 메세지 저장하기 
     @PostMapping
     public ResponseEntity<Chat> createChatMessage(@RequestBody ChatMessage chatMessage) {
-        logger.info("Received message: {}", chatMessage);
+        logger.info("메세지를 받았습니다.: {}", chatMessage);
+
+
+        if (chatMessage.getMessage() == null || chatMessage.getMessage().isEmpty()) {
+            logger.error("null 혹은 빈 메세지를 전달받았습니다.: {}", chatMessage);
+            return ResponseEntity.badRequest().build();
+        }
+
         Chat savedChat = chatService.saveMessage(chatMessage);
-        logger.info("Returning saved chat: {}", savedChat);
+        logger.info("저장된 메세지를 보내고 있습니다.: {}", savedChat);
         return ResponseEntity.ok(savedChat);
     }
 

@@ -16,28 +16,22 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 20px 150px 50px 150px;
-}
-
-.search-section__homepage {
-  text-align: left;
+  padding: 0px 150px 50px 150px;
 }
 
 .search-section__homepage h2 {
   font-size: 70px;
+  margin-right: -200px;
 }
 .upper {
   font-size: 75px;
 }
 
 .teams {
-  font-size: 18px;
-  margin: 20px;
-  color: #6c757d;
+  font-size: 15px;
+  margin-left: 20px;
+  color: #ced0ce;
   display: inline-block;
-  max-width: 400px;
-  word-wrap: break-word;
-  white-space: normal;
 }
 
 .search-section__homepage input {
@@ -61,7 +55,7 @@
 }
 
 .sample-image {
-  width: 300px;
+  width: 400px;
   height: auto;
   border-radius: 10px;
 }
@@ -69,14 +63,4 @@
 .footer__homepage {
   margin-top: 50px;
   border-top: 0.1px solid lightgrey;
-}
-
-.flex-container {
-  display: flex;
-  align-items: baseline;
-  justify-content: center; /* 텍스트 가운데 정렬 */
-}
-
-.flex-container h2 {
-  margin-right: 10px; /* h2와 p 사이의 간격 */
 }

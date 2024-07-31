@@ -17,16 +17,39 @@ const Post = () => {
   const [newPostContent, setNewPostContent] = useState("");
   const [newPostImage, setNewPostImage] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
+  const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
     fetchPosts();
   }, [userInfo]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.pageYOffset > 300) {
+        setShowButton(true);
+      } else {
+        setShowButton(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   const fetchPosts = async () => {
     const token = Cookies.get("accessToken");
     console.log("Token in fetchPosts:", token);
     try {
-      const response = await axios.get(`http://localhost:8080/api/posts`, {
+      const response = await axios.get(`${process.env.REACT_APP_URL}/api/posts`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -69,7 +92,7 @@ const Post = () => {
       const token = Cookies.get("accessToken");
 
       try {
-        const response = await axios.post(`http://localhost:8080/api/posts`, formData, {
+        const response = await axios.post(`${process.env.REACT_APP_URL}/api/posts`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`,
@@ -92,7 +115,7 @@ const Post = () => {
     const token = Cookies.get("accessToken");
     console.log("Token in handleDeletePost:", token);
     try {
-      await axios.delete(`http://localhost:8080/api/posts/${postId}`, {
+      await axios.delete(`${process.env.REACT_APP_URL}/api/posts/${postId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -136,7 +159,7 @@ const Post = () => {
       const token = Cookies.get("accessToken");
 
       try {
-        await axios.post("http://localhost:8080/api/comments", newComment, {
+        await axios.post("http://118.67.143.230:8080/api/comments", newComment, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -187,11 +210,6 @@ const Post = () => {
                 onChange={(e) => setNewPostContent(e.target.value)}
                 className="new-post-textarea"
               />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-              />
               <button onClick={handleAddPost} className="popup-add-post-button">
                 업데이트
               </button>
@@ -208,7 +226,7 @@ const Post = () => {
             onDelete={() => handleDeletePost(post.id)}
           />
           {post.imagePost && (
-            <img src={`http://localhost:8080${post.imagePost}`} alt="Post" className="post-image" />
+            <img src={`${process.env.REACT_APP_URL}${post.imagePost}`} alt="Post" className="post-image" />
           )}
           <div className="post-content">
             {post.contentPost.split('\n').map((line, index) => (
@@ -260,6 +278,11 @@ const Post = () => {
           </div>
         </div>
       ))}
+      {showButton && (
+        <button onClick={scrollToTop} className="scroll-to-top">
+          ↑ Top
+        </button>
+      )}
     </div>
   );
 };
