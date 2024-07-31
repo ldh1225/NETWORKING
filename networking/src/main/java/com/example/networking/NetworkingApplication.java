@@ -16,8 +16,6 @@ public class NetworkingApplication {
         System.setProperty("SARAMIN_API_KEY", dotenv.get("SARAMIN_API_KEY"));
         System.setProperty("DB_USERNAME", dotenv.get("DB_USERNAME"));
         System.setProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));
-        // System.setProperty("REACT_APP_URL", dotenv.get("REACT_APP_URL"));
-
 
         // Run the Spring Boot application
         SpringApplication.run(NetworkingApplication.class, args);
