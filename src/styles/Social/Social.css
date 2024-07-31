@@ -14,130 +14,142 @@ body {
   margin-top: 130px;
 }
 
-/* 메인 콘텐츠 */
 .main-content {
   flex: 2;
-  background-color: #fff;
+  background-color: #ffffff;
   padding: 20px;
-  border-radius: 8px;
-  /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* 포스트 */
-.main-content .post {
-  padding-bottom: 20px;
+.post {
   margin-bottom: 20px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 20px;
 }
 
-.main-content .post:last-child {
+.post:last-child {
   border-bottom: none;
 }
 
-.main-content .post main-img {
+.post .main-img {
+  width: 100%;
   max-width: 100%;
-  border-radius: 8px;
-  width: 600px;
-  height: 400px;
+  border-radius: 10px;
+  height: auto;
 }
 
-.main-content .post .description {
-  margin: 10px 0;
+.post .description {
+  margin: 15px 0;
 }
 
-.main-content .post .meta {
+.post .meta {
   display: flex;
-  gap: 10px;
+  gap: 15px;
+  font-size: 14px;
+  color: #777;
 }
 
 /* 사이드바 */
-.leftsidebar {
+.leftsidebar, .rightsidebar {
   flex: 1;
-  background-color: #fff;
-  padding: 80px 20px;
-  border-radius: 8px;
-  box-shadow: 2px 0 0px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .rightsidebar {
   flex: 1.5;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: -2px 0 0px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
-
+/* 링크 스타일 */
 .links a {
   display: block;
   margin-bottom: 10px;
   text-decoration: none;
-  color: #000;
+  color: #333;
+  transition: color 0.2s;
 }
 
-/* 댓글창 */
+.links a:hover {
+  color: #007bff;
+}
+
+/* 댓글 스타일 */
 .comments {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 20px;
   padding: 10px 0;
 }
+
 .comment {
   display: flex;
-  align-items: center;
-  margin-top: 5px;
-  padding: 5px 0;
+  align-items: flex-start;
+  margin-top: 10px;
+  padding: 10px 0;
+  border-top: 1px solid #e0e0e0;
 }
+
 .comment-input {
   display: flex;
   align-items: center;
-  border-top: 1px solid #e6e6e6;
-  padding-top: 10px;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 15px;
 }
 
 .comment-input .profile-pic {
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   margin-right: 10px;
 }
 
 .comment-input .comment-textbox {
   flex-grow: 1;
-  border: none;
-  padding: 5px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
   font-size: 14px;
   outline: none;
 }
 
 .comment-input .comment-button {
-  background-color: #141516;
+  background-color: #007bff;
   color: white;
   border: none;
-  padding: 5px 10px;
+  padding: 8px 15px;
   margin-left: 10px;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .comment-input .comment-button:disabled {
-  background-color: #b2dffc;
-  cursor: default;
+  background-color: #c0c0c0;
+  cursor: not-allowed;
+}
+
+.comment-input .comment-button:hover:not(:disabled) {
+  background-color: #0056b3;
 }
 
 /* 푸터 */
-/* footer-social로 변경 */
 .footer-social {
   text-align: center;
   padding: 20px;
-  background-color: #fff;
-  margin-top: 200px;
+  background-color: #ffffff;
+  margin-top: 40px;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
+
+/* 상단으로 이동 버튼 */
 .back-to-top {
   position: fixed;
   bottom: 40px;
-  right: 80px;
-  background-color: rgb(0, 0, 0);
+  right: 20px;
+  background-color: #007bff;
   color: white;
   font-weight: bold;
   padding: 15px 20px;
@@ -145,9 +157,9 @@ body {
   border-radius: 10px;
   cursor: pointer;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s, opacity 0.3s;
   opacity: 0;
   visibility: hidden;
+  transition: background-color 0.3s, opacity 0.3s;
 }
 
 .back-to-top.show {
@@ -156,17 +168,22 @@ body {
 }
 
 .back-to-top:hover {
-  background-color: grey;
+  background-color: #0056b3;
 }
 
+/* 좋아요 카운트 */
 .like-count {
   cursor: pointer;
   transition: color 0.3s;
+  color: #777;
 }
+
 .like-count.liked::before {
   content: "❤️";
+  color: #e74c3c;
   margin-right: 5px;
 }
+
 .like-count::before {
   content: "🤍";
   margin-right: 5px;
