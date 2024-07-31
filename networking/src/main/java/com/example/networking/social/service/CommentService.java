@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.networking.social.dto.CommentDTO;
 import com.example.networking.social.entity.Comment;
 import com.example.networking.social.entity.Post;
-import com.example.networking.social.entity.Users;
+import com.example.networking.social.entity.User;
 import com.example.networking.social.repository.CommentRepository;
 import com.example.networking.social.repository.PostRepository;
 import com.example.networking.social.repository.UserRepository;
@@ -33,7 +33,7 @@ public class CommentService {
     public Comment createComment(CommentDTO commentDTO) {
         Post post = postRepository.findById(commentDTO.getPostId())
             .orElseThrow(() -> new RuntimeException("Post not found"));
-        Users user = userRepository.findByUserId(commentDTO.getUserId())
+        User user = userRepository.findByUserId(commentDTO.getUserId())
             .orElseThrow(() -> new RuntimeException("User not found"));
 
         Comment comment = new Comment();
