@@ -84,7 +84,7 @@ const NewChat = ({ isOpen, closeModal, fetchChatRooms }) => {
     const token = Cookies.get("accessToken");
 
     try {
-      const response = await fetch("http://118.67.143.230:8080/api/chat/rooms", {
+      const response = await fetch(`${process.env.REACT_APP_URL}/api/chat/rooms`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
