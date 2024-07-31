@@ -24,8 +24,8 @@ public class Comment {
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "no")     
-    private User user;
+    @JoinColumn(name = "user_id", referencedColumnName = "no")
+    private Users user;
 
     private String contentComment;
     private LocalDateTime createdAt;

@@ -39,19 +39,6 @@ const RightSideb = () => {
             <div className="banner">
                 <img src={bannerImage} alt="Banner" className="banner-image" />
             </div>
-            <div className="footer-social"> 
-                {/* footer-social로 클래스네임 변경 */}
-
-                <p style={{ fontWeight: 'bold' }}>
-                    <span style={{ color: 'black' }}>NET</span>
-                    <span style={{ color: '#12bdf3' }}>WORKING</span>
-                </p>
-                <div>
-                    <a href="#">🔗</a>
-                    <a href="#">🔗</a>
-                    <a href="#">🔗</a>
-                </div>
-            </div>
         </div>
     );
 };
